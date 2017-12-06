@@ -1,37 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atol.c                                          :+:      :+:    :+:   */
+/*   map_nm_file.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/11 22:47:28 by sclolus           #+#    #+#             */
-/*   Updated: 2017/12/01 22:29:24 by sclolus          ###   ########.fr       */
+/*   Created: 2017/12/05 02:17:00 by sclolus           #+#    #+#             */
+/*   Updated: 2017/12/06 17:17:07 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "nm.h"
 
-uint64_t		ft_atol(const char *str)
+inline void	*map_nm_file(int fd, size_t size)
 {
-	uint64_t		nbr;
-	int				is_neg;
+	void	*map;
 
-	nbr = 0;
-	is_neg = 0;
-	while (*str == ' ' || *str == '\t' || *str == '\n'
-			|| *str == '\v' || *str == '\r' || *str == '\f')
-		str++;
-	if (*str == '-')
+	if (MAP_FAILED == (map = mmap(NULL, size, PROT_READ, MAP_PRIVATE, fd, 0)))
 	{
-		is_neg = 1;
-		str++;
+		ft_error(1, (char*[]){"Failed to mmap() file"}, 0);
+		return (NULL);
 	}
-	else if (*str == '+')
-		str++;
-	while (*str && *str >= '0' && *str <= '9')
-		nbr = nbr * 10 + *str++ - '0';
-	if (is_neg)
-		return (-nbr);
-	return (nbr);
+	return (map);
 }

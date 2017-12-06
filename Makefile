@@ -1,21 +1,36 @@
-NAME= nm
-SRC= srcs/main.c \
+NAME= ft_nm
+NAME_2=ft_otool
+SRC= srcs/nm/main.c \
+	srcs/nm/ft_put_nm_usage.c \
+	srcs/nm/map_nm_file.c \
+	srcs/nm/nm.c \
+	srcs/nm/print_segment_info.c \
+	srcs/nm/print_section_info.c \
+	srcs/nm/parse_ofile.c \
+	srcs/nm/parse_ofile_64.c \
+	srcs/nm/parse_flags.c
+SRC_2=srcs/otool/main.c \
+	srcs/otool/map_otool_file.c \
+	srcs/otool/ft_otool.c
 
-HDRS= includes/nm.h
+HDRS= includes/nm.h includes/otool.h
 OBJ= $(SRC:.c=.o)
+OBJ_2= $(SRC_2:.c=.o)
 HDR_PATH= ./libft/includes/
 CC= gcc
-CC_FLAGS= -v -Ofast -Weverything -Wall -Werror -Wextra -g3 -fsanitize=address -fsanitize-blacklist=my_ignores.txt
+CC_FLAGS= -v -Ofast -Weverything -Wall -Werror -Wextra -g3  -fsanitize=address -fsanitize-blacklist=my_ignores.txt
 LIBFT_PATH=./libft
 FLAGS= -L$(LIBFT_PATH) -lft -I$(HDR_PATH) -I./includes
 
-all: submodule $(NAME)
+all: submodule $(NAME) $(NAME_2)
 
 submodule:
 	@make -C libft/
 
 $(NAME): $(OBJ)
 	$(CC) $(CC_FLAGS) $^ $(FLAGS) -o $(NAME)
+$(NAME_2): $(OBJ_2)
+	$(CC) $(CC_FLAGS) $^ $(FLAGS) -o $(NAME_2)
 %.o : %.c $(HDRS)
 	$(CC) $(CC_FLAGS) $< -c -I$(HDR_PATH) -I./includes -o $@
 

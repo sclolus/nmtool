@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/04 11:35:25 by sclolus           #+#    #+#             */
-/*   Updated: 2017/09/18 18:30:58 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/12/01 22:29:32 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # include <stdint.h>
 # include <stdlib.h>
 # include <unistd.h>
+
+# define GETOPT_ON
+# include "ft_getopt.h"
 
 # define PHASZERO(x) ((((x + (0x7f7f7f7f7f7f7f7f)) ^ ~x) & 0x818080808080808080)
 # define PHASN(x, n) (Phaszero(x ^ ((~0UL / 255L) * n)))
@@ -84,7 +87,7 @@ int				ft_strcmp(const char *s1, const char *s2);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 char			*ft_implode_strings(char **strings);
 int				ft_atoi(const char *str);
-int				ft_atol(const char *str);
+uint64_t		ft_atol(const char *str);
 int				ft_toupper(int c);
 int				ft_isalpha(int c);
 int				ft_isdigit(int c);
@@ -104,7 +107,9 @@ void			ft_striter(char *s, void (*f)(char *));
 void			ft_striteri(char *s, void (*f)(unsigned int, char *));
 char			*ft_itoa(int n);
 char			*ft_ulltoa(uint64_t nbr);
+char			*ft_static_lltoa(int64_t nbr);
 char			*ft_static_ulltoa(uint64_t nbr);
+char			*ft_static_ulltoa_base(uint64_t nbr, char *base);
 char			*ft_strmap(char const *s, char (*f)(char));
 char			*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 int				ft_strequ(char const *s1, char const *s2);
@@ -136,6 +141,8 @@ unsigned long	ft_pow(int nbr, unsigned int exponent);
 
 void			ft_print_page(void *addr);
 uint32_t		ft_static_put(char *str, uint32_t len, uint32_t flags);
+uint32_t		ft_static_put_fd(char *str, uint32_t len, uint32_t flags
+								, int fd);
 unsigned int	ft_strchr_index(char *str, char c);
 
 unsigned int	ft_log2(unsigned long long nbr);

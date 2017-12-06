@@ -1,0 +1,70 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   nm.h                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/09/20 17:01:52 by sclolus           #+#    #+#             */
+/*   Updated: 2017/12/05 09:29:34 by sclolus          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef NM_H
+# define NM_H
+
+# include "libft.h"
+# include <fcntl.h>
+# include <sys/stat.h>
+# include <sys/mman.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <mach-o/loader.h>
+# include <mach-o/nlist.h>
+
+
+
+/*
+** Error handling
+*/
+
+# define NM_USAGE "nm: usage: " // todo
+
+NORETURN	ft_put_nm_usage(void);
+
+/*
+** File mapping
+*/
+
+void	*map_nm_file(int fd, size_t size);
+
+/*
+** nm
+*/
+
+typedef struct	s_sym_char
+{
+	uint8_t	mask;
+	uint8_t	c;
+}				t_sym_char;
+
+typedef struct	s_sections_info
+{
+	uint8_t	bss_sect;
+	uint8_t	text_sect;
+	uint8_t	data_sect;
+	uint8_t	common_sect;
+}				t_sections_info;
+
+extern t_sections_info	sections_info;
+
+void	nm(void	*file_map, size_t file_size);
+
+/*
+** Debug
+*/
+#include <stdio.h> //
+
+void	print_segment_info(struct segment_command_64 *segc);
+void	print_section_info(struct section_64 *sec);
+#endif

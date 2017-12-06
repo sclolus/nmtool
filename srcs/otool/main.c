@@ -1,37 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atol.c                                          :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/11 22:47:28 by sclolus           #+#    #+#             */
-/*   Updated: 2017/12/01 22:29:24 by sclolus          ###   ########.fr       */
+/*   Created: 2017/12/05 10:23:36 by sclolus           #+#    #+#             */
+/*   Updated: 2017/12/05 10:28:44 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "otool.h"
 
-uint64_t		ft_atol(const char *str)
+int	main(int argc, char **argv)
 {
-	uint64_t		nbr;
-	int				is_neg;
+	int32_t	i;
 
-	nbr = 0;
-	is_neg = 0;
-	while (*str == ' ' || *str == '\t' || *str == '\n'
-			|| *str == '\v' || *str == '\r' || *str == '\f')
-		str++;
-	if (*str == '-')
+	if (argc == 1)
+		; // put usage
+	else
 	{
-		is_neg = 1;
-		str++;
+		i = 1;
+		while (i < argc)
+		{
+			ft_otool(argv[i]);
+			i++;
+		}
 	}
-	else if (*str == '+')
-		str++;
-	while (*str && *str >= '0' && *str <= '9')
-		nbr = nbr * 10 + *str++ - '0';
-	if (is_neg)
-		return (-nbr);
-	return (nbr);
+	return (0);
 }

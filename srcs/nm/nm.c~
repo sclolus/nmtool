@@ -1,0 +1,156 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   nm.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/12/05 03:31:30 by sclolus           #+#    #+#             */
+/*   Updated: 2017/12/05 10:51:07 by sclolus          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "nm.h"
+
+static inline int32_t	check_hdr_macho_64(void *file_map, size_t file_size)
+{
+	struct mach_header_64	*hdr;
+
+	if (file_size < sizeof(struct mach_header_64))
+		return (-1);
+	hdr = (struct mach_header_64*)file_map;
+	if (*(uint32_t*)hdr == MH_MAGIC_64)
+		return (0);
+	else
+		return (-1);
+}
+
+#include <stdio.h> //
+
+static inline void	print_sym_entry(void *file_map, struct symtab_command *sc, struct nlist_64 *nlist)
+{
+	const t_sym_char	sym_chars[] =
+	{
+		{N_UNDF, 'U'},
+		{N_ABS, 'A'},
+		{N_SECT, 'S'},
+		{N_INDR, 'I'},
+	};
+	uint32_t			i;
+
+	i = 0;
+//	printf("n_sect: %2u ", nlist->n_sect);
+	while (i < sizeof(sym_chars) / sizeof(*sym_chars))
+	{
+		if (((nlist->n_type & N_TYPE)) == sym_chars[i].mask)
+		{
+			printf(nlist->n_value ? "%016llx " : "                 ", nlist->n_value);
+			fflush(NULL);
+			if ('S' == sym_chars[i].c)
+			{
+				if (nlist->n_sect == sections_info.bss_sect)
+					ft_putchar(nlist->n_type & N_EXT ? 'B' : 'b');
+				else if (nlist->n_sect == sections_info.text_sect)
+					ft_putchar(nlist->n_type & N_EXT ? 'T' : 't');
+				else if (nlist->n_sect == sections_info.data_sect)
+					ft_putchar(nlist->n_type & N_EXT ? 'D' : 'd');
+				else if (nlist->n_sect == sections_info.common_sect && nlist->n_sect)
+					ft_putchar(nlist->n_type & N_EXT ? 'C' : 'c');
+				else
+					ft_putchar(nlist->n_type & N_EXT ? sym_chars[i].c : (uint8_t)ft_tolower(sym_chars[i].c));
+			}
+			else
+				ft_putchar(nlist->n_type & N_EXT ? sym_chars[i].c : (uint8_t)ft_tolower(sym_chars[i].c));
+			ft_putchar(' ');
+			ft_putstr((const char*)file_map + sc->stroff + nlist->n_un.n_strx);
+			printf("\n");
+			return ;
+		}
+		i++;
+	}
+}
+
+static inline void	print_64_string_table(void *file_map, struct symtab_command *sc)
+{
+	struct nlist_64	*nlist;
+	uint32_t		i;
+
+	i = 0;
+	nlist = (struct nlist_64*)(void*)((uint8_t*)file_map + ((struct symtab_command*)sc)->symoff);
+	while (i < sc->nsyms)
+	{
+		if (nlist->n_un.n_strx == 0 || !*((const char*)file_map + sc->stroff + nlist->n_un.n_strx))
+			/* ft_putendl("NULL") */;
+		else
+			print_sym_entry(file_map, sc, nlist);
+//			ft_putendl((const char*)file_map + sc->stroff + nlist->n_un.n_strx);
+		nlist = nlist + 1;
+		i++;
+	}
+}
+
+t_sections_info	sections_info;
+
+static void	get_segments_info(struct segment_command_64 *segc)
+{
+	static uint8_t		section_nbr = 1;
+	struct section_64	*section;
+	uint32_t			i;
+
+	i = 0;
+	section = (struct section_64*)(void*)(segc + 1);
+	while (i < segc->nsects)
+	{
+		if (ft_strequ(section->sectname, SECT_TEXT))
+			sections_info.text_sect = section_nbr;
+		else if (ft_strequ(section->sectname, SECT_BSS))
+			sections_info.bss_sect = section_nbr;
+		else if (ft_strequ(section->sectname, SECT_DATA))
+			sections_info.data_sect = section_nbr;
+		else if (ft_strequ(section->sectname, SECT_COMMON))
+		{
+			sections_info.common_sect = section_nbr;
+			printf("this is common_sect_nbr: %hhu\n", section_nbr);
+		}
+		section_nbr++;
+		section++;
+		i++;
+	}
+}
+
+static void	parse_ofile(struct mach_header_64 *hdr, struct load_command *lc)
+{
+	uint32_t	i;
+
+	i = 0;
+	while (i < hdr->ncmds)
+	{
+		if (lc->cmd == LC_SEGMENT_64)
+			get_segments_info((struct segment_command_64*)(void*)lc);
+		lc = (struct load_command*)(void*)((uint8_t*)lc + lc->cmdsize);
+		i++;
+	}
+}
+
+void	nm(void	*file_map, size_t file_size)
+{
+	struct load_command		*lc;
+	struct mach_header_64	*hdr;
+	uint32_t				ncmds;
+
+	if (check_hdr_macho_64(file_map, file_size))
+		ft_error_exit(1, (char*[]){"File format not supported"}, EXIT_FAILURE);
+	hdr = (struct mach_header_64*)file_map;
+	lc = (struct load_command*)(void*)((uint8_t*)hdr + sizeof(struct mach_header_64));
+	ncmds = 0;
+	parse_ofile(hdr, lc);
+	while (ncmds < hdr->ncmds)
+	{
+		if (lc->cmd == LC_SYMTAB)
+			print_64_string_table(file_map, (struct symtab_command*)lc);
+		if (lc->cmd == LC_SEGMENT_64)
+			print_segment_info(((struct segment_command_64*)(void*)lc));
+		lc = (struct load_command*)(void*)((uint8_t*)lc + lc->cmdsize);
+		ncmds++;
+	}
+}

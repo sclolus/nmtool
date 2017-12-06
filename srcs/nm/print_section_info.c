@@ -1,27 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   print_section_info.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/12 02:04:34 by sclolus           #+#    #+#             */
-/*   Updated: 2017/12/01 17:55:29 by sclolus          ###   ########.fr       */
+/*   Created: 2017/12/05 07:02:55 by sclolus           #+#    #+#             */
+/*   Updated: 2017/12/05 07:18:15 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# define BUFF_SIZE 4096
+#include "nm.h"
 
-# include <stdlib.h>
-# include <unistd.h>
-
-typedef struct	s_fd_data
+void	print_section_info(struct section_64 *sec)
 {
-	int		fd;
-	char	buf[BUFF_SIZE + 1];
-	char	*current;
-}				t_fd_data;
-
-#endif
+	printf("	Section_name: %s, size: %llu, offset: %u\n", sec->sectname, sec->size, sec->offset);
+}

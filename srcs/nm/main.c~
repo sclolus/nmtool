@@ -1,0 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/09/20 17:02:35 by sclolus           #+#    #+#             */
+/*   Updated: 2017/12/05 04:14:05 by sclolus          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "nm.h"
+
+int	main(int argc, char **argv)
+{
+	void		*file_map;
+	int			fd;
+	struct stat	file_stat;
+
+	if (argc == 1)
+		ft_put_nm_usage();
+	{
+		if (-1 == (fd = open(argv[1], O_RDONLY)))
+			ft_error_exit(2, (char*[]){"Failed to open(): ", argv[1]}, EXIT_FAILURE);
+		if (-1 == (fstat(fd, &file_stat)))
+			ft_error_exit(2, (char*[]){"Failed to fstat(): ", argv[1]}, EXIT_FAILURE);
+		file_map = map_nm_file(fd, (uint64_t)file_stat.st_size);
+		nm(file_map, (uint64_t)file_stat.st_size);
+//		write(STDIN_FILENO, file_map, (uint64_t)file_stat.st_size);
+	}
+	return (0);
+}
