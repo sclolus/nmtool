@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/05 03:31:30 by sclolus           #+#    #+#             */
-/*   Updated: 2018/01/05 02:36:56 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/01/05 03:08:46 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	nm(void	*file_map, size_t file_size, t_nm_info *nm_info)
 	ncmds = 0;
 	if (!(g_ofile = parse_ofile(file_map, file_size)))
 	{
-		ft_error(1, (char*[]){"File not recognized as a valid object file"}, 0);
+		ft_error(1, (char*[]){ERR_UNKNOWN_FILE_FORMAT}, 0);
 		return ;
 	}
 	while (ncmds < hdr->ncmds)

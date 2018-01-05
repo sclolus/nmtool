@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/20 17:01:52 by sclolus           #+#    #+#             */
-/*   Updated: 2018/01/05 03:00:11 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/01/05 03:09:26 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct	s_ofile
 
 # define NM_FLAGS "agopruUmj"
 # define NM_USAGE "usage: ./ft_nm ["NM_FLAGS"] <input files> " // todo
+# define ERR_UNKNOWN_FILE_FORMAT "The file not recognized as a valid object file"
 
 void	ft_put_nm_usage(void);
 
