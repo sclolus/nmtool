@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/05 01:00:16 by sclolus           #+#    #+#             */
-/*   Updated: 2018/01/05 01:45:44 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/01/05 03:28:40 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,13 @@ static inline void	print_symbol(t_symbol *sym, t_nm_info *nm_info)
 
 	(void)nm_info;
 	printed_char = get_char_symbol(sym);
-	printf(printed_char != 'U' ? "%016llx " : "                 ", sym->nl.n_value);
-	printf("%c %s\n", printed_char, sym->name);
+	if (nm_info->flags.bits.u)
+		printf("%s\n", sym->name);
+	else
+	{
+		printf(printed_char != 'U' ? "%016llx " : "                 ", sym->nl.n_value);
+		printf("%c %s\n", printed_char, sym->name);
+	}
 }
 
 void	print_symbols(t_symbol *symbols, uint64_t sym_nbr, t_nm_info *nm_info)
