@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 16:30:26 by sclolus           #+#    #+#             */
-/*   Updated: 2017/12/06 17:13:48 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/01/05 03:00:30 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_nm_info	*parse_flags(int argc, char **argv)
 			ft_put_nm_usage();
 			return (NULL);
 		}
-		nm_info.flags.flags |= 1 << (int)(ft_strchr(NM_FLAGS, parsed_opt)
+		nm_info.flags.flags |= 1U << (int)(ft_strchr(NM_FLAGS, parsed_opt)
 										- NM_FLAGS);
 	}
 	if (g_optind < argc)

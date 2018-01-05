@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/05 01:17:45 by sclolus           #+#    #+#             */
-/*   Updated: 2018/01/05 02:33:42 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/01/05 02:45:22 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,17 @@
 
 int		reverse_compare_syms(const void *a, const void *b)
 {
-	return (-ft_strcmp(((const t_symbol*)a)->name, ((const t_symbol*)b)->name));
+	int	ret;
+
+	ret = -ft_strcmp(((const t_symbol*)a)->name, ((const t_symbol*)b)->name);
+	if (ret)
+		return (ret);
+	if (((const t_symbol*)a)->nl.n_value < ((const t_symbol*)b)->nl.n_value)
+		return (1);
+	else if ((((const t_symbol*)a)->nl.n_value > ((const t_symbol*)b)->nl.n_value))
+		return (-1);
+	else
+		return (0);
 }
 
 int		compare_syms(const void *a, const void *b)

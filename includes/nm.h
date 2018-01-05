@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/20 17:01:52 by sclolus           #+#    #+#             */
-/*   Updated: 2018/01/05 02:00:55 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/01/05 03:00:11 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,23 +76,23 @@ void	ft_put_nm_usage(void);
 
 typedef struct	s_flags16
 {
-	uint16_t	a; // Print all symbol table entries, debuggers' symbols included
-	uint16_t	g; // Display only global (external) symbols.
-	uint16_t	o; // Prepend file or archive element name to each output line, rather than only once.
-	uint16_t	p; // Don't sort; display in symbol-table order.
-	uint16_t	r; // Sort in reverse order.
-	uint16_t	u; // Display only undefined symbols.
-	uint16_t	U; // Don't display undefined symbols
-	uint16_t	m; //Display  the  N_SECT  type  symbols  (Mach-O symbols) as (segment_name, section_name) followed by either external or non-external and then the symbol name.
+	uint16_t	a : 1; // Print all symbol table entries, debuggers' symbols included
+	uint16_t	g : 1; // Display only global (external) symbols.
+	uint16_t	o : 1; // Prepend file or archive element name to each output line, rather than only once.
+	uint16_t	p : 1; // Don't sort : 1; display in symbol-table order.
+	uint16_t	r : 1; // Sort in reverse order.
+	uint16_t	u : 1; // Display only undefined symbols.
+	uint16_t	U : 1; // Don't display undefined symbols
+	uint16_t	m : 1; //Display  the  N_SECT  type  symbols  (Mach-O symbols) as (segment_name, section_name) followed by either external or non-external and then the symbol name.
 				   // Undefined, common, absolute and indirect symbols get displayed as (undefined), (common), (absolute), and (indirect), respectively.
-	uint16_t	j; // Only display symbol names
-	uint16_t	bits9;
-	uint16_t	bits10;
-	uint16_t	bits11;
-	uint16_t	bits12;
-	uint16_t	bits13;
-	uint16_t	bits14;
-	uint16_t	bits15;
+	uint16_t	j : 1; // Only display symbol names
+	uint16_t	bits9 : 1;
+	uint16_t	bits10 : 1;
+	uint16_t	bits11 : 1;
+	uint16_t	bits12 : 1;
+	uint16_t	bits13 : 1;
+	uint16_t	bits14 : 1;
+	uint16_t	bits15 : 1;
 }				t_flags16;
 
 typedef union	s_flags
@@ -106,7 +106,7 @@ typedef struct	s_nm_info
 	char		**files;
 	uint32_t	nbr_files;
 	t_flags		flags;
-	uint8_t		pad[4];
+	uint8_t		pad[2];
 }				t_nm_info;
 
 t_nm_info	*parse_flags(int argc, char **argv);

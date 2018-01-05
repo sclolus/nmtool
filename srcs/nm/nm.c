@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/05 03:31:30 by sclolus           #+#    #+#             */
-/*   Updated: 2018/01/05 01:17:42 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/01/05 02:36:56 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static void	print_64_string_table(struct symtab_command *st, t_nm_info *nm_info)
 	uint32_t		i;
 
 	i = 0;
-	if (((struct symtab_command*)st)->symoff + sizeof(struct mach_header_64) >= g_ofile->obj_size)
+		if (((struct symtab_command*)st)->symoff + sizeof(struct mach_header_64) >= g_ofile->obj_size)
 		return ; // error
 	if (!(symbols = select_symbols(nm_info, st, &symbol_nbr)))
 		return ; // error
