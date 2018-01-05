@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/05 03:31:30 by sclolus           #+#    #+#             */
-/*   Updated: 2018/01/05 03:08:46 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/01/05 03:50:52 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,18 +98,26 @@ t_ofile	*g_ofile = NULL;
 
 void	nm(void	*file_map, size_t file_size, t_nm_info *nm_info)
 {
-	struct load_command		*lc;
 	struct mach_header_64	*hdr;
+	struct load_command		*lc;
 	uint32_t				ncmds;
 
 	(void)nm_info;
-	hdr = (struct mach_header_64*)file_map;
-	lc = (struct load_command*)(void*)((uint8_t*)hdr + sizeof(struct mach_header_64));
 	ncmds = 0;
 	if (!(g_ofile = parse_ofile(file_map, file_size)))
 	{
 		ft_error(1, (char*[]){ERR_UNKNOWN_FILE_FORMAT}, 0);
 		return ;
+	}
+	if (g_ofile->hdr)
+	{
+		hdr = (struct mach_header_64*)g_ofile->hdr;
+		lc = (struct load_command*)(void*)((uint8_t*)g_ofile->hdr + sizeof(struct mach_header));
+	}
+	else
+	{
+		hdr = g_ofile->hdr64;
+		lc = (struct load_command*)(void*)((uint8_t*)g_ofile->hdr64 + sizeof(struct mach_header_64));
 	}
 	while (ncmds < hdr->ncmds)
 	{

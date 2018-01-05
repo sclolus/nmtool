@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 14:02:31 by sclolus           #+#    #+#             */
-/*   Updated: 2018/01/04 22:06:21 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/01/05 03:53:52 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ t_ofile	*parse_ofile(void *file_map, size_t file_size)
 	ret = 0;//
 	if (ofile->is_64)
 		ret = parse_ofile_64(file_map, file_size, ofile);
-	/* else */
-	/* 	ret = parse_ofile_32(file_map, file_size, ofile); */
+	else
+		ret = parse_ofile_32(file_map, file_size, ofile);
 	// needs to be implemented
 	if (ret == -1)
 	{

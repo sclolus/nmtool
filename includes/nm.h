@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/20 17:01:52 by sclolus           #+#    #+#             */
-/*   Updated: 2018/01/05 03:09:26 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/01/05 03:54:47 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ void	*map_nm_file(int fd, size_t size);
 */
 
 int32_t	parse_ofile_64(void *file_map, size_t file_size, t_ofile *ofile);
+int32_t	parse_ofile_32(void *file_map, size_t file_size, t_ofile *ofile);
 t_ofile	*parse_ofile(void *file_map, size_t file_size);
 void	get_special_section_nsects(t_ofile *ofile, struct section *section
 								, uint32_t nsect);
