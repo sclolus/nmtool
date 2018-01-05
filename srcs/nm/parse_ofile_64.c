@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 14:16:22 by sclolus           #+#    #+#             */
-/*   Updated: 2017/12/06 15:05:18 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/12/06 20:24:23 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ static inline void	get_sects64(struct segment_command_64 *sc, t_ofile *ofile
 	while (i < sc->nsects)
 	{
 		ofile->sects64[section_offset + i] = section;
+		get_special_section_nsects(ofile, (struct section*)section, section_offset + i);
 		section++;
 		i++;
 	}

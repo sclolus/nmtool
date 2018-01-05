@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_otool_file.c                                   :+:      :+:    :+:   */
+/*   nm_32.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/05 10:24:57 by sclolus           #+#    #+#             */
-/*   Updated: 2018/01/04 20:33:54 by sclolus          ###   ########.fr       */
+/*   Created: 2017/12/06 22:07:24 by sclolus           #+#    #+#             */
+/*   Updated: 2017/12/06 22:10:15 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "otool.h"
+#include "nm.h"
 
-inline void	*map_otool_file(int fd, size_t size)
+void	nm_32(void *file_map, size_t file_size, t_nm_info *nm_info)
 {
-	void	*map;
+	/* struct load_command	*lc; */
+	/* uint32_t			i; */
 
-	if (MAP_FAILED == (map = mmap(NULL, size, PROT_READ, MAP_PRIVATE, fd, 0)))
-		ft_error_exit(1, (char*[]){"Failed to mmap() file"}, EXIT_FAILURE);
-	return (map);
+	/* i = 0; */
+	/* while (i < g_ofile->hdr->ncmds) */
+	/* { */
+	/* 	if (lc->cmd == LC_SYMTAB) */
+	/* 		print_32_string_table((struct symtab_command*)lc, nm_info); */
+	/* 	i++; */
+	/* } */
+	return ;
 }

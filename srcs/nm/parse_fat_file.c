@@ -1,22 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_otool_file.c                                   :+:      :+:    :+:   */
+/*   parse_fat_file.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/05 10:24:57 by sclolus           #+#    #+#             */
-/*   Updated: 2018/01/04 20:33:54 by sclolus          ###   ########.fr       */
+/*   Created: 2017/12/06 21:43:50 by sclolus           #+#    #+#             */
+/*   Updated: 2017/12/06 21:56:07 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "otool.h"
+#include "nm.h"
 
-inline void	*map_otool_file(int fd, size_t size)
+int32_t			parse_fat_file(void *file_map
+						, size_t file_size
+						, t_ofile *ofile)
 {
-	void	*map;
+	/* if (FAT_MAGIC == *(uint32_t*)file_map) */
+	/* { */
+	/* 	ofile->is_64 = 0; */
 
-	if (MAP_FAILED == (map = mmap(NULL, size, PROT_READ, MAP_PRIVATE, fd, 0)))
-		ft_error_exit(1, (char*[]){"Failed to mmap() file"}, EXIT_FAILURE);
-	return (map);
+	/* } */
+	/* else if (FAT_MAGIC == *(uint32_t*)file_map) */
+	/* { */
+	/* 	ofile->is_64 = 1; */
+	/* } */
+	/* else */
+	/* 	return (-1); */
+	(void)file_map;
+	(void)file_size;
+	(void)ofile;
+	return (-1);
 }

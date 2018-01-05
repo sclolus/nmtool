@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/04 11:35:25 by sclolus           #+#    #+#             */
-/*   Updated: 2017/12/01 22:29:32 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/12/19 10:33:44 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ char			*ft_itoa(int n);
 char			*ft_ulltoa(uint64_t nbr);
 char			*ft_static_lltoa(int64_t nbr);
 char			*ft_static_ulltoa(uint64_t nbr);
-char			*ft_static_ulltoa_base(uint64_t nbr, char *base);
+char			*ft_static_ulltoa_base(uint64_t nbr, const char *base);
 char			*ft_strmap(char const *s, char (*f)(char));
 char			*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 int				ft_strequ(char const *s1, char const *s2);
@@ -152,7 +152,9 @@ unsigned int	ft_is_power_of_two(unsigned long long nbr);
 unsigned int	ft_is_little_endian(void);
 
 uint64_t		ft_random(void);
-void			ft_sort(int64_t	*tab, uint32_t len);
+//void			ft_sort(int64_t	*tab, uint32_t len);
+void			ft_sort(void *tab, size_t elem_nbr, size_t type_size
+						, int (*compar)(const void *, const void *));
 void			ft_sort_strings(char **strings, uint32_t n);
 
 int				get_next_line(const int fd, char **line);

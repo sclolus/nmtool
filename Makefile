@@ -8,7 +8,14 @@ SRC= srcs/nm/main.c \
 	srcs/nm/print_section_info.c \
 	srcs/nm/parse_ofile.c \
 	srcs/nm/parse_ofile_64.c \
-	srcs/nm/parse_flags.c
+	srcs/nm/parse_flags.c \
+	srcs/nm/get_special_section_nsects.c \
+	srcs/nm/parse_fat_file.c \
+	srcs/nm/select_symbol.c \
+	srcs/nm/select_symbols.c \
+	srcs/nm/set_symbols_names.c \
+	srcs/nm/print_symbols.c \
+	srcs/nm/sort_symbols.c
 SRC_2=srcs/otool/main.c \
 	srcs/otool/map_otool_file.c \
 	srcs/otool/ft_otool.c

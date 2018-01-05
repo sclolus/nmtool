@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 14:02:31 by sclolus           #+#    #+#             */
-/*   Updated: 2017/12/06 15:02:20 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/01/04 22:06:21 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static int32_t	parse_macho_header(void *file_map
 {
 	if (sizeof(struct mach_header_64) >= file_size)
 		return (-1);
+	ofile->obj_size = file_size;
 	if (MH_MAGIC == *(uint32_t*)file_map)
 	{
 		ofile->is_64 = 0;
@@ -33,7 +34,7 @@ static int32_t	parse_macho_header(void *file_map
 			return (-1);
 	}
 	else
-		return (-1);
+		return (parse_fat_file(file_map, file_size, ofile));
 	return (0);
 }
 
@@ -44,6 +45,7 @@ t_ofile	*parse_ofile(void *file_map, size_t file_size)
 
 	if (!(ofile = (t_ofile*)ft_memalloc(sizeof(t_ofile))))
 		return (NULL);
+	ofile->file_map = file_map;
 	if (-1 == parse_macho_header(file_map, file_size, ofile))
 	{
 		free(ofile);
