@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/05 03:31:30 by sclolus           #+#    #+#             */
-/*   Updated: 2018/01/05 03:50:52 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/01/05 04:17:50 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ static void	print_64_string_table(struct symtab_command *st, t_nm_info *nm_info)
 
 t_ofile	*g_ofile = NULL;
 
-void	nm(void	*file_map, size_t file_size, t_nm_info *nm_info)
+void	nm(void	*file_map, size_t file_size, t_nm_info *nm_info, char *file_name)
 {
 	struct mach_header_64	*hdr;
 	struct load_command		*lc;
@@ -109,6 +109,7 @@ void	nm(void	*file_map, size_t file_size, t_nm_info *nm_info)
 		ft_error(1, (char*[]){ERR_UNKNOWN_FILE_FORMAT}, 0);
 		return ;
 	}
+	g_ofile->file_name = file_name;
 	if (g_ofile->hdr)
 	{
 		hdr = (struct mach_header_64*)g_ofile->hdr;

@@ -1,26 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_nm_file.c                                      :+:      :+:    :+:   */
+/*   swap_version_min_command.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/05 02:17:00 by sclolus           #+#    #+#             */
-/*   Updated: 2018/01/11 06:00:14 by sclolus          ###   ########.fr       */
+/*   Created: 2018/01/11 08:57:20 by sclolus           #+#    #+#             */
+/*   Updated: 2018/01/11 08:58:08 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "nm.h"
 
-inline void	*map_nm_file(int fd, size_t size)
+inline void	swap_version_min_command(struct version_min_command *vmc)
 {
-	void	*map;
-
-	if (MAP_FAILED == (map = mmap(NULL, size, PROT_WRITE | PROT_READ
-								, MAP_PRIVATE, fd, 0)))
-	{
-		ft_error(1, (char*[]){"Failed to mmap() file"}, 0);
-		return (NULL);
-	}
-	return (map);
+	vmc->version = swap_int32(vmc->version);
+	vmc->sdk = swap_int32(vmc->sdk);
 }

@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_nm_file.c                                      :+:      :+:    :+:   */
+/*   swap_ofile_endiannes.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/05 02:17:00 by sclolus           #+#    #+#             */
-/*   Updated: 2018/01/11 06:00:14 by sclolus          ###   ########.fr       */
+/*   Created: 2018/01/11 06:01:30 by sclolus           #+#    #+#             */
+/*   Updated: 2018/01/11 06:27:38 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "nm.h"
 
-inline void	*map_nm_file(int fd, size_t size)
+inline void	swap_ofile_endianness(t_ofile *ofile, void *file_map
+								  , const size_t file_size)
 {
-	void	*map;
+	if (ofile->hdr)
+		swap_mach_header_32(ofile->hdr);
+	else if (ofile->hdr64)
+		swap_mach_header_64(ofile->hdr64);
 
-	if (MAP_FAILED == (map = mmap(NULL, size, PROT_WRITE | PROT_READ
-								, MAP_PRIVATE, fd, 0)))
-	{
-		ft_error(1, (char*[]){"Failed to mmap() file"}, 0);
-		return (NULL);
-	}
-	return (map);
 }

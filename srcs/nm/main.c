@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/20 17:02:35 by sclolus           #+#    #+#             */
-/*   Updated: 2017/12/06 21:36:07 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/01/05 04:18:09 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	main(int argc, char **argv)
 			return (EXIT_FAILURE);
 		if (nm_info->nbr_files > 1)
 			printf("%s:\n", nm_info->files[i]);
-		nm(file_map, (size_t)file_stat.st_size, nm_info);
+		nm(file_map, (size_t)file_stat.st_size, nm_info, nm_info->files[i]);
 		munmap(file_map, (size_t)file_stat.st_size);
 		close(fd);
 		i++;

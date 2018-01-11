@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_nm_file.c                                      :+:      :+:    :+:   */
+/*   parse_fat_file_64.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/05 02:17:00 by sclolus           #+#    #+#             */
-/*   Updated: 2018/01/11 06:00:14 by sclolus          ###   ########.fr       */
+/*   Created: 2018/01/05 22:23:14 by sclolus           #+#    #+#             */
+/*   Updated: 2018/01/05 22:27:19 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "nm.h"
 
-inline void	*map_nm_file(int fd, size_t size)
+int32_t					parse_fat_file_64(void *file_map
+										, size_t file_size
+										, t_ofile *ofile)
 {
-	void	*map;
+	struct fat_arch_64	*archs;
 
-	if (MAP_FAILED == (map = mmap(NULL, size, PROT_WRITE | PROT_READ
-								, MAP_PRIVATE, fd, 0)))
-	{
-		ft_error(1, (char*[]){"Failed to mmap() file"}, 0);
-		return (NULL);
-	}
-	return (map);
+	archs = (struct fat_arch_64*)(void*)(ofile->fat_hdr + 1);
+	if (archs->offset + archs->size >= file_size)
+		return (-1);
+	ofile->hdr64 = (struct mach_header_64*)(void*)((uint8_t*)file_map + archs->offset);
+	return (1);
 }

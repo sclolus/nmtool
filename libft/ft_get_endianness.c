@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_nm_file.c                                      :+:      :+:    :+:   */
+/*   ft_is_little_endian.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/05 02:17:00 by sclolus           #+#    #+#             */
-/*   Updated: 2018/01/11 06:00:14 by sclolus          ###   ########.fr       */
+/*   Created: 2016/12/09 04:20:02 by sclolus           #+#    #+#             */
+/*   Updated: 2018/01/09 04:24:05 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "nm.h"
+#include "libft.h"
 
-inline void	*map_nm_file(int fd, size_t size)
+int32_t	ft_get_endianness(void)
 {
-	void	*map;
+	short	tester;
 
-	if (MAP_FAILED == (map = mmap(NULL, size, PROT_WRITE | PROT_READ
-								, MAP_PRIVATE, fd, 0)))
-	{
-		ft_error(1, (char*[]){"Failed to mmap() file"}, 0);
-		return (NULL);
-	}
-	return (map);
+	tester = 0x0001;
+	return (*(char*)&tester == 0x01);
 }

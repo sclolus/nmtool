@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_nm_file.c                                      :+:      :+:    :+:   */
+/*   swap_int32.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/05 02:17:00 by sclolus           #+#    #+#             */
-/*   Updated: 2018/01/11 06:00:14 by sclolus          ###   ########.fr       */
+/*   Created: 2018/01/09 04:46:21 by sclolus           #+#    #+#             */
+/*   Updated: 2018/01/09 04:53:23 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "nm.h"
+#include "libft.h"
 
-inline void	*map_nm_file(int fd, size_t size)
+inline uint32_t	swap_int32(const uint32_t data)
 {
-	void	*map;
-
-	if (MAP_FAILED == (map = mmap(NULL, size, PROT_WRITE | PROT_READ
-								, MAP_PRIVATE, fd, 0)))
-	{
-		ft_error(1, (char*[]){"Failed to mmap() file"}, 0);
-		return (NULL);
-	}
-	return (map);
+	return (((data & 0xff000000) >> 24) |
+			((data & 0x00ff0000) >> 8) |
+			((data & 0x0000ff00) << 8) |
+			((data & 0x000000ff) << 24));
 }

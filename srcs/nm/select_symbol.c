@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/04 21:02:49 by sclolus           #+#    #+#             */
-/*   Updated: 2018/01/05 03:31:55 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/01/05 04:12:41 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ inline bool	select_symbol(t_symbol *sym, t_nm_info *nm_info)
 {
 	if (nm_info->flags.bits.u)
 	{
+		if (nm_info->flags.bits.U)
+			return (false);
 		if ((sym->nl.n_type == (N_UNDF | N_EXT) && sym->nl.n_value == 0) ||
 			sym->nl.n_type == (N_PBUD | N_EXT))
 			return (true);

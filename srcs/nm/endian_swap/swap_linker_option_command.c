@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_is_little_endian.c                              :+:      :+:    :+:   */
+/*   swap_linker_option_command.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/09 04:20:02 by sclolus           #+#    #+#             */
-/*   Updated: 2016/12/09 04:24:03 by sclolus          ###   ########.fr       */
+/*   Created: 2018/01/11 09:13:05 by sclolus           #+#    #+#             */
+/*   Updated: 2018/01/11 09:13:42 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "nm.h"
 
-unsigned int	ft_is_little_endian(void)
+inline void	swap_linker_option_command(struct linker_option_command *loc)
 {
-	short	tester;
-
-	tester = 0x0001;
-	return (*(char*)&tester == 0x01);
+	loc->count = swap_int32(loc->count);
 }

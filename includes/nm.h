@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/20 17:01:52 by sclolus           #+#    #+#             */
-/*   Updated: 2018/01/05 03:54:47 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/01/11 09:17:22 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdlib.h>
 # include <mach-o/loader.h>
 # include <mach-o/nlist.h>
+# include <mach-o/fat.h>
 # include <stdbool.h>
 
 typedef struct	s_special_sections
@@ -42,6 +43,8 @@ typedef struct	s_ofile
 {
 	uint64_t					obj_size;
 	void						*file_map;
+	char						*file_name;
+	struct fat_header			*fat_hdr;
 	struct mach_header			*hdr;
 	struct mach_header_64		*hdr64;
 	struct section				**sects;
@@ -130,7 +133,52 @@ void	get_special_section_nsects(t_ofile *ofile, struct section *section
 int32_t	parse_fat_file(void *file_map
 						, size_t file_size
 						, t_ofile *ofile);
+int32_t	parse_fat_file_32(void *file_map
+						, size_t file_size
+						, t_ofile *ofile);
+int32_t	parse_fat_file_64(void *file_map
+						, size_t file_size
+						, t_ofile *ofile);
 
+/*
+** Endianness handling
+*/
+
+void	swap_ofile_endianness(t_ofile *ofile, void *file_map
+							, const size_t file_size);
+void	swap_mach_header(struct mach_header *hdr);
+void	swap_mach_header_64(struct mach_header_64 *hdr);
+void	swap_segment_command(struct segment_command *seg);
+void	swap_segment_command_64(struct segment_command_64 *seg);
+void	swap_fvmlib_command(struct fvmlib_command *fvmlib);
+void	swap_dylib_command(struct dylib_command *dc);
+void	swap_dylib(struct dylib	*dylib);
+void	swap_sub_framework_command(struct sub_framework_command *sfc);
+void	swap_sub_client_command(struct sub_client_command *scc);
+void	swap_sub_umbrella_command(struct sub_umbrella_command *suc);
+void	swap_sub_library_command(struct sub_library_command *slc);
+void	swap_prebound_dylib_command(struct prebound_dylib_command *pdc);
+void	swap_dylinker_command(struct dylinker_command *dc);
+void	swap_thread_command(struct thread_command *tc);
+void	swap_routines_command(struct routines_command *rc);
+void	swap_routines_command_64(struct routines_command_64 *rc);
+void	swap_symtab_command(struct symtab_command *sc);
+void	swap_dysymtab_command(struct dysymtab_command *dc);
+//void	swap_dylib_table_of_contents(struct dylib_table_of_contents *dtoc); to be implemented
+//all load_commands are too be supported, but I'm too lazy to do every data structure
+void	swap_prebind_cksum_command(struct prebind_cksum_command *pcc);
+void	swap_uuid_command(struct uuid_command *uc);
+void	swap_rpath_command(struct rpath_command *rc);
+void	swap_linkedit_data_command(struct linkedit_data_command *ldc);
+void	swap_encryption_info_command(struct encryption_info_command *eic);
+void	swap_encryption_info_command_64(
+				struct encryption_info_command_64 *eic);
+void	swap_version_min_command(struct version_min_command *vmc);
+void	swap_dyld_info_command(struct dyld_info_command *dic);
+void	swap_linker_option_command(struct linker_option_command *loc);
+void	swap_fvmfile_command(struct fvmfile_command *fc);
+void	swap_entry_point_command(struct entry_point_command *epc);
+void	swap_source_version_command(struct source_version_command *svc);
 
 /*
 ** nm
@@ -144,7 +192,7 @@ typedef struct	s_sym_char
 
 extern t_ofile	*g_ofile;
 
-void		nm(void	*file_map, size_t file_size, t_nm_info *nm_info);
+void		nm(void	*file_map, size_t file_size, t_nm_info *nm_info, char *file_name);
 t_symbol	*select_symbols(t_nm_info *nm_info, struct symtab_command *st
 							, uint64_t *symbol_nbr);
 bool		select_symbol(t_symbol *nl, t_nm_info *nm_info);
