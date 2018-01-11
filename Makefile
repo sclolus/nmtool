@@ -19,8 +19,39 @@ SRC= srcs/nm/main.c \
 	srcs/nm/parse_ofile_32.c \
 	srcs/nm/parse_fat_file_32.c \
 	srcs/nm/parse_fat_file_64.c \
+	srcs/nm/endian_swap/swap_dyld_info_command.c \
+	srcs/nm/endian_swap/swap_dylib.c \
+	srcs/nm/endian_swap/swap_dylinker_command.c \
+	srcs/nm/endian_swap/swap_dysymtab_command.c \
+	srcs/nm/endian_swap/swap_encryption_info_command.c \
+	srcs/nm/endian_swap/swap_entry_point_command.c \
+	srcs/nm/endian_swap/swap_fvmfile_command.c \
+	srcs/nm/endian_swap/swap_fvmlib_command.c \
+	srcs/nm/endian_swap/swap_linkedit_data_command.c \
+	srcs/nm/endian_swap/swap_linker_option_command.c \
 	srcs/nm/endian_swap/swap_mach_header.c \
-	srcs/nm/endian_swap/swap_ofile_endiannes.c
+	srcs/nm/endian_swap/swap_nlist.c \
+	srcs/nm/endian_swap/swap_ofile_endiannes.c \
+	srcs/nm/endian_swap/swap_prebind_cksum_command.c \
+	srcs/nm/endian_swap/swap_prebound_dylib_command.c \
+	srcs/nm/endian_swap/swap_routines_command.c \
+	srcs/nm/endian_swap/swap_rpath_command.c \
+	srcs/nm/endian_swap/swap_segment_command.c \
+	srcs/nm/endian_swap/swap_source_version_command.c \
+	srcs/nm/endian_swap/swap_sub_client_command.c \
+	srcs/nm/endian_swap/swap_sub_framework_command.c \
+	srcs/nm/endian_swap/swap_sub_library_command.c \
+	srcs/nm/endian_swap/swap_sub_umbrella_command.c \
+	srcs/nm/endian_swap/swap_symtab.c \
+	srcs/nm/endian_swap/swap_symtab_command.c \
+	srcs/nm/endian_swap/swap_thread_command.c \
+	srcs/nm/endian_swap/swap_uuid_command.c \
+	srcs/nm/endian_swap/swap_version_min_command.c \
+	srcs/nm/endian_swap/swap_load_command.c \
+	srcs/nm/endian_swap/swap_fat_header.c \
+	srcs/nm/endian_swap/swap_fat_archs.c \
+	srcs/nm/endian_swap/swap_fat.c
+
 SRC_2=srcs/otool/main.c \
 	srcs/otool/map_otool_file.c \
 	srcs/otool/ft_otool.c

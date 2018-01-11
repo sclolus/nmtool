@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/20 17:01:52 by sclolus           #+#    #+#             */
-/*   Updated: 2018/01/11 09:17:22 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/01/11 15:00:51 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,10 +144,22 @@ int32_t	parse_fat_file_64(void *file_map
 ** Endianness handling
 */
 
-void	swap_ofile_endianness(t_ofile *ofile, void *file_map
-							, const size_t file_size);
+struct s_swap_func
+{
+	void		(*swap)(void*);
+	uint32_t	cmd;
+	uint8_t		pad[4];
+};
+
+void	swap_ofile_endianness(t_ofile *ofile);
 void	swap_mach_header(struct mach_header *hdr);
 void	swap_mach_header_64(struct mach_header_64 *hdr);
+void	swap_fat(struct fat_header *fat_hdr);
+void	swap_fat_arch(struct fat_arch *fat_arch);
+void	swap_fat_arch_64(struct fat_arch_64 *fat_arch);
+void	swap_fat_archs(struct fat_header *fat_hdr);
+void	swap_fat_header(struct fat_header *hdr);
+void	swap_load_command(struct load_command *lc);
 void	swap_segment_command(struct segment_command *seg);
 void	swap_segment_command_64(struct segment_command_64 *seg);
 void	swap_fvmlib_command(struct fvmlib_command *fvmlib);
@@ -179,6 +191,9 @@ void	swap_linker_option_command(struct linker_option_command *loc);
 void	swap_fvmfile_command(struct fvmfile_command *fc);
 void	swap_entry_point_command(struct entry_point_command *epc);
 void	swap_source_version_command(struct source_version_command *svc);
+void	swap_nlist_64(struct nlist_64 *nl);
+void	swap_nlist(struct nlist *nl);
+void	swap_symtab(t_ofile *ofile, struct load_command *lc);
 
 /*
 ** nm

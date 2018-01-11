@@ -6,9 +6,11 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/11 09:13:59 by sclolus           #+#    #+#             */
-/*   Updated: 2018/01/11 09:16:32 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/01/11 10:42:33 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "nm.h"
 
 inline void	swap_fvmfile_command(struct fvmfile_command *fc)
 {

@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   swap_sub_library_command.c                         :+:      :+:    :+:   */
+/*   swap_fat.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/11 08:24:59 by sclolus           #+#    #+#             */
-/*   Updated: 2018/01/11 10:47:15 by sclolus          ###   ########.fr       */
+/*   Created: 2018/01/11 14:57:57 by sclolus           #+#    #+#             */
+/*   Updated: 2018/01/11 15:00:47 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "nm.h"
 
-inline void	swap_sub_library_command(struct sub_library_command *slc)
+inline void	swap_fat(struct fat_header *fat_hdr)
 {
-	slc->sub_library.offset = swap_int32(slc->sub_library.offset);
+	swap_fat_header(fat_hdr);
+	swap_fat_archs(fat_hdr);
 }
