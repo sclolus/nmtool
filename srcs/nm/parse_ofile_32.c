@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/05 03:53:57 by sclolus           #+#    #+#             */
-/*   Updated: 2018/01/11 15:11:05 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/01/11 17:39:44 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static inline void	get_segs32(t_ofile *ofile)
 	}
 }
 
-int32_t	parse_ofile_32(void *file_map, size_t file_size, t_ofile *ofile)
+int32_t	parse_ofile_32(t_ofile *ofile)
 {
 	struct load_command	*lc;
 

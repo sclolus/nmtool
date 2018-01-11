@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/11 06:01:30 by sclolus           #+#    #+#             */
-/*   Updated: 2018/01/11 13:11:10 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/01/11 18:13:05 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ static inline void	swap_load_commands(struct load_command *lc, const uint32_t nc
 	uint32_t			u;
 
 	i = 0;
-	printf("ncmds: %u\n", ncmds);
 	while (i < ncmds)
 	{
 		swap_load_command(lc);
@@ -73,7 +72,7 @@ void				swap_ofile_endianness(t_ofile *ofile)
 
 	if (ofile->hdr)
 	{
-//		swap_mach_header(ofile->hdr);
+		swap_mach_header(ofile->hdr);
 		lc = (struct load_command *)((uint64_t)ofile->hdr + sizeof(ofile->hdr));
 		ncmds = ofile->hdr->ncmds;
 	}

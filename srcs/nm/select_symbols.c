@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/04 23:03:56 by sclolus           #+#    #+#             */
-/*   Updated: 2018/01/05 01:26:47 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/01/11 18:08:03 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ t_symbol	*select_symbols(t_nm_info *nm_info, struct symtab_command *st, uint64_t
 	nlist_64 = NULL;
 	*symbol_nbr = 0;
 	if (g_ofile->hdr)
-		nlist = (struct nlist*)(void*)((uint8_t*)g_ofile->file_map + ((struct symtab_command*)st)->symoff);
+		nlist = (struct nlist*)(void*)((uint8_t*)g_ofile->hdr + ((struct symtab_command*)st)->symoff);
 	else
-		nlist_64 = (struct nlist_64*)(void*)((uint8_t*)g_ofile->file_map + ((struct symtab_command*)st)->symoff);
+		nlist_64 = (struct nlist_64*)(void*)((uint8_t*)g_ofile->hdr64 + ((struct symtab_command*)st)->symoff);
 	if (!(symbols = (t_symbol*)malloc(sizeof(t_symbol) * st->nsyms)))
 		return (NULL);
 	while (i < st->nsyms)

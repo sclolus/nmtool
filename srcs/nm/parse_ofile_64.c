@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 14:16:22 by sclolus           #+#    #+#             */
-/*   Updated: 2017/12/06 20:24:23 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/01/11 17:07:40 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,10 @@ static inline void	get_segs64(t_ofile *ofile)
 	}
 }
 
-int32_t	parse_ofile_64(void *file_map, size_t file_size, t_ofile *ofile)
+int32_t	parse_ofile_64(t_ofile *ofile)
 {
 	struct load_command	*lc;
 
-	(void)file_map;
-	(void)file_size;
 	lc = (struct load_command*)(void*)(ofile->hdr64 + 1);
 	get_seg64_nbr(ofile);
 	get_sect64_nbr(ofile);

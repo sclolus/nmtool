@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/20 17:01:52 by sclolus           #+#    #+#             */
-/*   Updated: 2018/01/11 15:00:51 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/01/11 19:32:19 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,20 +125,24 @@ void	*map_nm_file(int fd, size_t size);
 ** Ofile parsing
 */
 
-int32_t	parse_ofile_64(void *file_map, size_t file_size, t_ofile *ofile);
-int32_t	parse_ofile_32(void *file_map, size_t file_size, t_ofile *ofile);
+int32_t	parse_ofile_64(t_ofile *ofile);
+int32_t	parse_ofile_32(t_ofile *ofile);
 t_ofile	*parse_ofile(void *file_map, size_t file_size);
+int32_t	parse_macho_header(void *file_map
+								, size_t file_size
+								, t_ofile *ofile);
 void	get_special_section_nsects(t_ofile *ofile, struct section *section
 								, uint32_t nsect);
 int32_t	parse_fat_file(void *file_map
 						, size_t file_size
 						, t_ofile *ofile);
-int32_t	parse_fat_file_32(void *file_map
-						, size_t file_size
+int32_t	parse_fat_file_32(size_t file_size
 						, t_ofile *ofile);
-int32_t	parse_fat_file_64(void *file_map
-						, size_t file_size
+int32_t	parse_fat_file_64(size_t file_size
 						, t_ofile *ofile);
+
+struct fat_arch	*get_fat_host_arch(t_ofile *ofile);
+struct fat_arch_64	*get_fat_host_arch_64(t_ofile *ofile);
 
 /*
 ** Endianness handling
@@ -212,7 +216,7 @@ t_symbol	*select_symbols(t_nm_info *nm_info, struct symtab_command *st
 							, uint64_t *symbol_nbr);
 bool		select_symbol(t_symbol *nl, t_nm_info *nm_info);
 void		set_symbols_names(t_symbol *symbols, const uint64_t symbol_nbr
-						, const t_nm_info *nm_info, const struct symtab_command *st);
+						, const struct symtab_command *st);
 
 void		print_symbols(t_symbol *symbols, uint64_t sym_nbr, t_nm_info *nm_info);
 void		sort_symbols(t_symbol *symbols, const uint64_t symbol_nbr

@@ -50,7 +50,9 @@ SRC= srcs/nm/main.c \
 	srcs/nm/endian_swap/swap_load_command.c \
 	srcs/nm/endian_swap/swap_fat_header.c \
 	srcs/nm/endian_swap/swap_fat_archs.c \
-	srcs/nm/endian_swap/swap_fat.c
+	srcs/nm/endian_swap/swap_fat.c \
+	srcs/nm/parse_macho_header.c \
+	srcs/nm/get_fat_host_arch.c
 
 SRC_2=srcs/otool/main.c \
 	srcs/otool/map_otool_file.c \

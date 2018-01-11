@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/05 03:31:30 by sclolus           #+#    #+#             */
-/*   Updated: 2018/01/11 13:07:17 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/01/11 18:05:42 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	print_64_string_table(struct symtab_command *st, t_nm_info *nm_info)
 		return ; // error
 	if (!(symbols = select_symbols(nm_info, st, &symbol_nbr)))
 		return ; // error
-	set_symbols_names(symbols, symbol_nbr, nm_info, st);
+	set_symbols_names(symbols, symbol_nbr, st);
 	sort_symbols(symbols, symbol_nbr, nm_info);
 	print_symbols(symbols, symbol_nbr, nm_info);
 }
