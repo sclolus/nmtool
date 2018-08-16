@@ -2,6 +2,8 @@ NAME= ft_nm
 NAME_2=ft_otool
 SRC=srcs/nm/main.c \
 	srcs/nm/nm.c \
+	srcs/nm/init_nm_process_info.c \
+	srcs/nm/nm_find_section.c \
 	srcs/nm/ofile/get_ofile_type.c \
 	srcs/nm/ofile/get_ofile.c \
 	srcs/nm/ofile/map_file.c \
