@@ -23,8 +23,12 @@ SRC=srcs/nm/main.c \
 	srcs/nm/ofile/macho_swappers/swap_section_64.c \
 	srcs/nm/ofile/get_nsects.c \
 	srcs/nm/ofile/get_nsects_64.c \
+	srcs/nm/ofile/ofile_get_nsegs.c \
+	srcs/nm/ofile/ofile_get_nsegs_64.c \
 	srcs/nm/ofile/ofile_get_sections.c \
-	srcs/nm/ofile/ofile_get_sections_64.c
+	srcs/nm/ofile/ofile_get_sections_64.c \
+	srcs/nm/ofile/ofile_get_segments.c \
+	srcs/nm/ofile/ofile_get_segments_64.c
 
 SRC_2=srcs/otool/main.c \
 	srcs/otool/map_otool_file.c \

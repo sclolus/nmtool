@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:10:54 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/16 02:56:52 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/16 04:01:47 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,14 @@ t_ofile				*get_ofile(char *filename);
 t_ofile_type		get_ofile_type(t_ofile *ofile);
 const char			*get_ofile_type_name(t_ofile_type type);
 
-uint32_t			get_nsects(t_ofile *ofile);
-uint32_t			get_nsects_64(t_ofile *ofile);
-struct section		**ofile_get_sections(t_ofile *ofile, uint32_t *return_nsects);
-struct section_64	**ofile_get_sections_64(t_ofile *ofile, uint32_t *return_nsects);
+uint32_t					get_nsects(t_ofile *ofile);
+uint32_t					get_nsects_64(t_ofile *ofile);
+uint32_t					ofile_get_nsegs(t_ofile *ofile);
+uint32_t					ofile_get_nsegs_64(t_ofile *ofile);
+struct section				**ofile_get_sections(t_ofile *ofile, uint32_t *return_nsects);
+struct section_64			**ofile_get_sections_64(t_ofile *ofile, uint32_t *return_nsects);
+struct segment_command		**ofile_get_segments(t_ofile *ofile, uint32_t *return_nsegs);
+struct segment_command_64	**ofile_get_segments_64(t_ofile *ofile, uint32_t *return_nsegs);
 
 
 /*
