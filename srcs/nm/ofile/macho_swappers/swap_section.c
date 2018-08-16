@@ -1,30 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   swap_section.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/15 19:39:07 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/16 02:10:23 by sclolus          ###   ########.fr       */
+/*   Created: 2018/08/16 02:00:55 by sclolus           #+#    #+#             */
+/*   Updated: 2018/08/16 02:03:40 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_nm.h"
+#include "ft_ofile.h"
 
-
-int	main(int argc, char **argv)
+void	swap_section(struct section *section)
 {
-	t_ofile	*ofile;
-
-	if (argc != 2)
-		return (EXIT_FAILURE);
-	if (!(ofile = get_ofile(argv[1])))
-	{
-		perror(NULL);
-		return (EXIT_FAILURE);
-	}
-	if (-1 == nm(ofile))
-		return (EXIT_FAILURE);
-	return (0);
+	section->addr = swap_int32(section->addr);
+	section->size = swap_int32(section->size);
+	section->offset = swap_int32(section->offset);
+	section->align = swap_int32(section->align);
+	section->reloff = swap_int32(section->reloff);
+	section->nreloc = swap_int32(section->nreloc);
+	section->flags = swap_int32(section->flags);
 }

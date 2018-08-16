@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 22:01:33 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/16 00:11:45 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/16 01:49:48 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,9 @@ void	load_macho_ofile(t_ofile *ofile, void *object_addr) // change the return ty
 		ofile->must_be_swapped = false;
 	assert(set_ofile_mh(ofile));
 	assert(set_ofile_load_commands(ofile));
+	if (ofile->must_be_swapped)
+	{
+		ofile_swap_macho_hdr(ofile);
+		ofile_swap_macho_load_commands(ofile);
+	}
 }

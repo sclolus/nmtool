@@ -1,30 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   swap_lc_symseg.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/15 19:39:07 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/16 02:10:23 by sclolus          ###   ########.fr       */
+/*   Created: 2018/08/16 01:44:28 by sclolus           #+#    #+#             */
+/*   Updated: 2018/08/16 01:45:48 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_nm.h"
+#include "ft_ofile.h"
 
-
-int	main(int argc, char **argv)
+void		swap_lc_symseg(struct load_command *lc)
 {
-	t_ofile	*ofile;
+	struct symseg_command	*sc;
 
-	if (argc != 2)
-		return (EXIT_FAILURE);
-	if (!(ofile = get_ofile(argv[1])))
-	{
-		perror(NULL);
-		return (EXIT_FAILURE);
-	}
-	if (-1 == nm(ofile))
-		return (EXIT_FAILURE);
-	return (0);
+	sc = (struct symseg_command*)lc;
+	sc->offset = swap_int32(sc->offset);
+	sc->size = swap_int32(sc->size);
 }

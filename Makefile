@@ -1,6 +1,7 @@
 NAME= ft_nm
 NAME_2=ft_otool
 SRC=srcs/nm/main.c \
+	srcs/nm/nm.c \
 	srcs/nm/ofile/get_ofile_type.c \
 	srcs/nm/ofile/get_ofile.c \
 	srcs/nm/ofile/map_file.c \
@@ -11,7 +12,19 @@ SRC=srcs/nm/main.c \
 	srcs/nm/ofile/set_ofile_load_commands.c \
 	srcs/nm/ofile/load_fat_ofile.c \
 	srcs/nm/ofile/ofile_swap_fat_hdrs.c \
-	srcs/nm/ofile/get_cputype_name.c
+	srcs/nm/ofile/get_cputype_name.c \
+	srcs/nm/ofile/ofile_swap_macho_load_commands.c \
+	srcs/nm/ofile/ofile_swap_macho_hdr.c \
+	srcs/nm/ofile/macho_swappers/swap_lc_segment.c \
+	srcs/nm/ofile/macho_swappers/swap_lc_segment_64.c \
+	srcs/nm/ofile/macho_swappers/swap_lc_symtab.c \
+	srcs/nm/ofile/macho_swappers/swap_lc_symseg.c \
+	srcs/nm/ofile/macho_swappers/swap_section.c \
+	srcs/nm/ofile/macho_swappers/swap_section_64.c \
+	srcs/nm/ofile/get_nsects.c \
+	srcs/nm/ofile/get_nsects_64.c \
+	srcs/nm/ofile/ofile_get_sections.c \
+	srcs/nm/ofile/ofile_get_sections_64.c
 
 SRC_2=srcs/otool/main.c \
 	srcs/otool/map_otool_file.c \

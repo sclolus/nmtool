@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 22:55:30 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/16 00:11:50 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/16 00:19:57 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	load_fat_ofile(t_ofile *ofile)
 	ofile->fat_header = ofile->vm_addr;
 	ofile->fat_archs = NULL;
 	ofile->fat_archs_64 = NULL;
-	ofile->narch = 0;
+	ofile->narch = ~0U;
 	ofile->arch_ofile_type = OFILE_UNKNOWN;
 	if (ofile->fat_header->magic == FAT_MAGIC
 		|| ofile->fat_header->magic == FAT_CIGAM)

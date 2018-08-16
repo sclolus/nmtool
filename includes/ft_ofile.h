@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:10:54 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/16 00:04:31 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/16 02:56:52 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ typedef struct s_ofile
 	t_ofile_type		arch_ofile_type;
 	// put the arch flag later
 
-
 	/// if this structure referencing an ofile
 	void					*object_addr;
 	uint64_t				object_size;
@@ -81,6 +80,11 @@ t_ofile				*get_ofile(char *filename);
 t_ofile_type		get_ofile_type(t_ofile *ofile);
 const char			*get_ofile_type_name(t_ofile_type type);
 
+uint32_t			get_nsects(t_ofile *ofile);
+uint32_t			get_nsects_64(t_ofile *ofile);
+struct section		**ofile_get_sections(t_ofile *ofile, uint32_t *return_nsects);
+struct section_64	**ofile_get_sections_64(t_ofile *ofile, uint32_t *return_nsects);
+
 
 /*
 ** Loading functions of macho obj in the ofile structure
@@ -89,6 +93,20 @@ const char			*get_ofile_type_name(t_ofile_type type);
 void				load_macho_ofile(t_ofile *ofile, void *object_addr);
 void				*set_ofile_mh(t_ofile *ofile);
 struct load_command	*set_ofile_load_commands(t_ofile *ofile);
+void				ofile_swap_macho_load_commands(t_ofile *ofile);
+void				ofile_swap_macho_hdr(t_ofile *ofile);
+
+/*
+** ** Mach-o load command swapper functions
+*/
+
+void				swap_lc_segment(struct load_command *lc);
+void				swap_lc_segment_64(struct load_command *lc);
+void				swap_lc_symtab(struct load_command *lc);
+void				swap_lc_symseg(struct load_command *lc);
+
+void				swap_section(struct section *section);
+void				swap_section_64(struct section_64 *section);
 
 /*
 ** Loading functions of the fat data structures in the ofile structure
