@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:10:54 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/16 04:01:47 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/16 09:04:16 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,11 +94,14 @@ struct segment_command_64	**ofile_get_segments_64(t_ofile *ofile, uint32_t *retu
 ** Loading functions of macho obj in the ofile structure
 */
 
-void				load_macho_ofile(t_ofile *ofile, void *object_addr);
-void				*set_ofile_mh(t_ofile *ofile);
-struct load_command	*set_ofile_load_commands(t_ofile *ofile);
-void				ofile_swap_macho_load_commands(t_ofile *ofile);
-void				ofile_swap_macho_hdr(t_ofile *ofile);
+void					load_macho_ofile(t_ofile *ofile, void *object_addr);
+void					*set_ofile_mh(t_ofile *ofile);
+struct load_command		*set_ofile_load_commands(t_ofile *ofile);
+void					ofile_swap_macho_load_commands(t_ofile *ofile);
+void					ofile_swap_macho_hdr(t_ofile *ofile);
+struct load_command		*ofile_find_lc(t_ofile *ofile, uint32_t cmd);
+struct symtab_command	*ofile_get_symbol_table_lc(t_ofile *ofile);
+struct dysymtab_command	*ofile_get_dynamic_symbol_table_lc(t_ofile *ofile);
 
 /*
 ** ** Mach-o load command swapper functions

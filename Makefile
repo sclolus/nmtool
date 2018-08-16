@@ -1,9 +1,12 @@
+
 NAME= ft_nm
 NAME_2=ft_otool
 SRC=srcs/nm/main.c \
 	srcs/nm/nm.c \
 	srcs/nm/init_nm_process_info.c \
 	srcs/nm/nm_find_section.c \
+	srcs/nm/nm_get_string_table_entry.c \
+	srcs/nm/nm_get_symbols.c \
 	srcs/nm/ofile/get_ofile_type.c \
 	srcs/nm/ofile/get_ofile.c \
 	srcs/nm/ofile/map_file.c \
@@ -25,6 +28,9 @@ SRC=srcs/nm/main.c \
 	srcs/nm/ofile/macho_swappers/swap_section_64.c \
 	srcs/nm/ofile/get_nsects.c \
 	srcs/nm/ofile/get_nsects_64.c \
+	srcs/nm/ofile/ofile_find_lc.c \
+	srcs/nm/ofile/ofile_get_symbol_table_lc.c \
+	srcs/nm/ofile/ofile_get_dynamic_symbol_table_lc.c \
 	srcs/nm/ofile/ofile_get_nsegs.c \
 	srcs/nm/ofile/ofile_get_nsegs_64.c \
 	srcs/nm/ofile/ofile_get_sections.c \
