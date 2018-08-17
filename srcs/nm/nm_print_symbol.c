@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/17 01:15:19 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/17 04:27:55 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/17 06:47:46 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,12 +247,21 @@ void nm_print_symbol(t_symbol *sym, t_nm_process_info *nm_info, t_nm_flags *flag
 		printf("%s\n", (char *)sym->string);
 	else if (c == 'u' || c == 'U')
 	{
-		printf("                 %c %s\n", c
-			   , (char *)sym->string);
+		if (nm_info->symtab)
+			printf("         %c %s\n", c
+				   , (char *)sym->string);
+
+			else
+				printf("                 %c %s\n", c
+					   , (char *)sym->string);
 	}
 	else
 	{
-		printf("%016llx %c %s\n", sym->sym_entry.n_value, c
-		   , (char *)sym->string);
+		if (nm_info->symtab)
+			printf("%08llx %c %s\n", sym->sym_entry.n_value, c
+				   , (char *)sym->string);
+			else
+				printf("%016llx %c %s\n", sym->sym_entry.n_value, c
+					   , (char *)sym->string);
 	}
 }
