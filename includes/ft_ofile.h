@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:10:54 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/16 09:04:16 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/17 03:22:10 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef struct s_ofile
 
 
 void				*map_file(char *filename, uint64_t *file_size);
+int					munmap_file(t_ofile *ofile);
 
 t_ofile				*get_ofile(char *filename);
 

@@ -3,13 +3,17 @@ NAME= ft_nm
 NAME_2=ft_otool
 SRC=srcs/nm/main.c \
 	srcs/nm/nm.c \
+	srcs/nm/parse_flags.c \
+	srcs/nm/ft_put_usage_nm.c \
 	srcs/nm/init_nm_process_info.c \
 	srcs/nm/nm_find_section.c \
 	srcs/nm/nm_get_string_table_entry.c \
 	srcs/nm/nm_get_symbols.c \
+	srcs/nm/nm_print_symbol.c \
 	srcs/nm/ofile/get_ofile_type.c \
 	srcs/nm/ofile/get_ofile.c \
 	srcs/nm/ofile/map_file.c \
+	srcs/nm/ofile/munmap_file.c \
 	srcs/nm/ofile/get_macho_host_byte_sex.c \
 	srcs/nm/ofile/load_macho_ofile.c \
 	srcs/nm/ofile/get_host_byte_sex.c \
