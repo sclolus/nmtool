@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 19:38:34 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/17 04:30:58 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/17 05:00:02 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@
 ** Argument line parsing
 */
 
-# define NM_FLAGS "agopruUmj"
-# define NM_GETOPT_FLAGS "agopruUmj"
+# define NM_FLAGS "agopruUmjxn"
+# define NM_GETOPT_FLAGS "agopruUmjxn"
 # define DEFAULT_NM_FILE "a.out"
 
 typedef struct	s_flags16
@@ -47,8 +47,9 @@ typedef struct	s_flags16
 	uint16_t	m : 1; //Display  the  N_SECT  type  symbols  (Mach-O symbols) as (segment_name, section_name) followed by either external or non-external and then the symbol name.
 				   // Undefined, common, absolute and indirect symbols get displayed as (undefined), (common), (absolute), and (indirect), respectively.
 	uint16_t	j : 1; // Only display symbol names
-	uint16_t	bits9 : 1;
-	uint16_t	bits10 : 1;
+
+	uint16_t	x : 1; // field in hexa
+	uint16_t	n : 1; // sort numerically
 	uint16_t	bits11 : 1;
 	uint16_t	bits12 : 1;
 	uint16_t	bits13 : 1;
