@@ -5,6 +5,7 @@ SRC=srcs/nm/main.c \
 	srcs/nm/nm.c \
 	srcs/nm/parse_flags.c \
 	srcs/nm/ft_put_usage_nm.c \
+	srcs/nm/nm_sort_symbols.c \
 	srcs/nm/init_nm_process_info.c \
 	srcs/nm/nm_find_section.c \
 	srcs/nm/nm_get_string_table_entry.c \

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 21:50:03 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/16 00:10:53 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/17 04:12:20 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_ofile	*get_ofile(char *filename)
 	ofile->file_name = ft_strdup(filename);
 	ofile->vm_addr = map;
 	ofile->ofile_type = get_ofile_type(ofile);
-	printf("This is a %s\n", get_ofile_type_name(ofile->ofile_type));
+//	printf("This is a %s\n", get_ofile_type_name(ofile->ofile_type));
 	if (ofile->ofile_type == OFILE_FAT)
 		load_fat_ofile(ofile);
 	else if (ofile->ofile_type == OFILE_ARCHIVE)
@@ -36,7 +36,7 @@ t_ofile	*get_ofile(char *filename)
 	else if (ofile->ofile_type == OFILE_MACHO)
 	{
 		load_macho_ofile(ofile, ofile->vm_addr);
-		printf("Cpu: %s\n", get_cputype_name(ofile->mh_64->cputype));
+//		printf("Cpu: %s\n", get_cputype_name(ofile->mh_64->cputype));
 	}
 	return (ofile);
 }

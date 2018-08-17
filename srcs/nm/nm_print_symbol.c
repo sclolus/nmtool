@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/17 01:15:19 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/17 03:08:35 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/17 04:11:37 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,9 +221,38 @@ static inline char	nm_get_symbol_char(t_symbol *sym, t_nm_process_info *nm_info)
 	return ((char)-1);
 }
 
-void nm_print_symbol(t_symbol *sym, t_nm_process_info *nm_info)
+static inline bool	should_print_symbol(t_symbol *sym, t_nm_process_info *nm_info, t_nm_flags *flags, char c)
 {
+	if (c == '-' && !flags->flags.bits.a)
+		return (false);
+	if (flags->flags.bits.g && !is_symbol_extern(sym, nm_info))
+		return (false);
+	if (flags->flags.bits.u && !(c == 'u' || c == 'U'))
+		return (false);
+	if (flags->flags.bits.U && (c == 'u' || c == 'U'))
+		return (false);
+	return (true);
+}
+
+void nm_print_symbol(t_symbol *sym, t_nm_process_info *nm_info, t_nm_flags *flags)
+{
+	char	c;
+
 	assert(nm_info->symtab || nm_info->symtab_64);
-	printf("%016llx %c %s\n", sym->sym_entry.n_value, nm_get_symbol_char(sym, nm_info)
+	c = nm_get_symbol_char(sym, nm_info);
+	assert((char)-1 != c);
+	if (!should_print_symbol(sym, nm_info, flags, c))
+		return ;
+	if (flags->flags.bits.j || flags->flags.bits.u)
+		printf("%s\n", (char *)sym->string);
+	else if (c == 'u' || c == 'U')
+	{
+		printf("                 %c %s\n", c
+			   , (char *)sym->string);
+	}
+	else
+	{
+		printf("%016llx %c %s\n", sym->sym_entry.n_value, c
 		   , (char *)sym->string);
+	}
 }

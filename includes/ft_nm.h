@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 19:38:34 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/17 03:24:00 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/17 04:06:36 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,9 @@ uint32_t	nm_find_section(t_nm_process_info *nm_info,
 uint8_t		*nm_get_string_table_entry(uint8_t *string_table, uint32_t index, uint32_t *returned_len);
 t_symbol	*nm_get_symbols(t_nm_process_info *nm_info);
 
-void		nm_print_symbol(t_symbol *sym, t_nm_process_info *nm_info);
+void		nm_sort_symbols(t_symbol *symbols, const uint64_t symbol_nbr
+						 , const t_nm_flags *nm_info);
+void		nm_print_symbol(t_symbol *sym, t_nm_process_info *nm_info, t_nm_flags *flags);
 
 
 /*
