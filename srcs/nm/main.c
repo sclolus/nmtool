@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 19:39:07 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/17 03:26:01 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/17 04:34:49 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,6 @@ int	main(int argc, char **argv)
 	t_nm_flags	*nm_flags;
 	uint32_t	i;
 
-	if (argc == 1)
-	{
-		ft_put_nm_usage();
-		return (EXIT_FAILURE);
-	}
 	if (!(nm_flags = parse_flags(argc, argv)))
 		return (EXIT_FAILURE);
 	i = 0;
@@ -34,8 +29,13 @@ int	main(int argc, char **argv)
 			perror(NULL);
 			return (EXIT_FAILURE);
 		}
-		if (-1 == nm(ofile, nm_flags))
-			return (EXIT_FAILURE);
+		if (ofile->ofile_type == OFILE_UNKNOWN)
+			ft_error(5, (char *[]){argv[0], ": ",
+						nm_flags->files[i], " ",
+						ERR_UNKNOWN_FILE_FORMAT}, 0);
+		else
+			if (-1 == nm(ofile, nm_flags))
+				return (EXIT_FAILURE);
 		if (munmap_file(ofile))
 		{
 			perror(NULL);

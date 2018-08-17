@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/17 01:15:19 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/17 04:11:37 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/17 04:27:55 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,7 @@ bool is_symbol_extern_absolute(t_symbol *sym, t_nm_process_info *nm_info)
 {
 	if (!is_symbol_extern(sym, nm_info))
 		return (false);
-	return (((sym->sym_entry.n_type & N_TYPE) == N_ABS)
-			&& sym->sym_entry.n_sect == NO_SECT
-			&& sym->sym_entry.n_value != 0);
+	return (((sym->sym_entry.n_type & N_TYPE) == N_ABS));
 }
 
 bool is_symbol_absolute(t_symbol *sym, t_nm_process_info *nm_info);
@@ -74,9 +72,7 @@ bool is_symbol_absolute(t_symbol *sym, t_nm_process_info *nm_info)
 {
 	if (is_symbol_extern(sym, nm_info))
 		return (false);
-	return (((sym->sym_entry.n_type & N_TYPE) == N_ABS)
-			&& sym->sym_entry.n_sect == NO_SECT
-			&& sym->sym_entry.n_value != 0);
+	return (((sym->sym_entry.n_type & N_TYPE) == N_ABS));
 }
 
 bool is_symbol_extern_text(t_symbol *sym, t_nm_process_info *nm_info);
@@ -240,7 +236,11 @@ void nm_print_symbol(t_symbol *sym, t_nm_process_info *nm_info, t_nm_flags *flag
 
 	assert(nm_info->symtab || nm_info->symtab_64);
 	c = nm_get_symbol_char(sym, nm_info);
-	assert((char)-1 != c);
+	if (!((char)-1 != c))
+	{
+		printf("Symbol name : %s\n", sym->string);
+		assert((char)-1 != c);
+	}
 	if (!should_print_symbol(sym, nm_info, flags, c))
 		return ;
 	if (flags->flags.bits.j || flags->flags.bits.u)

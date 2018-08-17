@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 19:38:34 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/17 04:06:36 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/17 04:30:58 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ void		nm_print_symbol(t_symbol *sym, t_nm_process_info *nm_info, t_nm_flags *fla
 */
 
 # define NM_USAGE "usage: ./ft_nm ["NM_FLAGS"] <input files> " // todo
-# define ERR_UNKNOWN_FILE_FORMAT "The file not recognized as a valid object file"
+# define ERR_UNKNOWN_FILE_FORMAT "The file was not recognized as a valid object file"
 
 void	ft_put_nm_usage(void);
 

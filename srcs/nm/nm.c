@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 02:10:05 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/17 04:08:00 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/17 04:20:44 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,6 @@ int32_t	nm(t_ofile *ofile, t_nm_flags *flags)
 			nm_print_symbol(symbols + i, &nm_info, flags);
 		i++;
 	}
+	bzero(ofile->vm_addr, ofile->file_size);
 	return (0);
 }
