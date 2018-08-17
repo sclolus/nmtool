@@ -21,6 +21,8 @@ SRC=srcs/nm/main.c \
 	srcs/nm/ofile/set_ofile_mh.c \
 	srcs/nm/ofile/set_ofile_load_commands.c \
 	srcs/nm/ofile/load_fat_ofile.c \
+	srcs/nm/ofile/ofile_load_narch.c \
+	srcs/nm/ofile/ofile_fat_find_arch.c \
 	srcs/nm/ofile/ofile_swap_fat_hdrs.c \
 	srcs/nm/ofile/get_cputype_name.c \
 	srcs/nm/ofile/ofile_swap_macho_load_commands.c \

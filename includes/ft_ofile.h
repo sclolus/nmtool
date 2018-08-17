@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:10:54 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/17 03:22:10 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/17 05:44:29 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,10 @@ struct load_command		*set_ofile_load_commands(t_ofile *ofile);
 void					ofile_swap_macho_load_commands(t_ofile *ofile);
 void					ofile_swap_macho_hdr(t_ofile *ofile);
 struct load_command		*ofile_find_lc(t_ofile *ofile, uint32_t cmd);
+int32_t					ofile_fat_find_arch(t_ofile *ofile,
+							cpu_type_t cputype,
+							cpu_subtype_t subtype);
+
 struct symtab_command	*ofile_get_symbol_table_lc(t_ofile *ofile);
 struct dysymtab_command	*ofile_get_dynamic_symbol_table_lc(t_ofile *ofile);
 
@@ -122,6 +126,7 @@ void				swap_section_64(struct section_64 *section);
 
 void				load_fat_ofile(t_ofile *ofile);
 void				ofile_swap_fat_hdrs(t_ofile *ofile);
+int32_t				ofile_load_narch(t_ofile *ofile, uint32_t narch);
 
 /*
 ** Byte Sex functions

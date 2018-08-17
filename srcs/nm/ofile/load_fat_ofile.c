@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 22:55:30 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/16 00:19:57 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/17 05:54:50 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ static void	print_archs_names(t_ofile *ofile)
 	while (i < ofile->fat_header->nfat_arch)
 	{
 		if (ofile->fat_archs)
-			printf("Arch %i: %s\n", i, get_cputype_name(ofile->fat_archs[i].cputype));
+			printf("Arch %i: %s:%d\n", i, get_cputype_name(ofile->fat_archs[i].cputype), ofile->fat_archs[i].cpusubtype);
 		else
-			printf("Arch %i: %s\n", i, get_cputype_name(ofile->fat_archs_64[i].cputype));
+			printf("Arch %i: %s:%d\n", i, get_cputype_name(ofile->fat_archs_64[i].cputype), ofile->fat_archs_64[i].cpusubtype);
 		i++;
 	}
 }
@@ -46,5 +46,6 @@ void	load_fat_ofile(t_ofile *ofile)
 		ofile->fat_archs_64 = (struct fat_arch_64*)(void *)(ofile->fat_header + 1);
 	if (get_host_byte_sex() != BIG_ENDIAN_BYTE_SEX)
 		ofile_swap_fat_hdrs(ofile);
-	print_archs_names(ofile);
+	(void)print_archs_names;
+//	print_archs_names(ofile);
 }
