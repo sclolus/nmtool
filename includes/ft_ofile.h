@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:10:54 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/17 05:44:29 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/18 02:53:05 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <stdio.h> // rem ove this
 
 # define STATIC_LIB_MAGIC "!<arch>\x0a"
+# define LONG_ARCHIVE_NAME_MAGIC "#1/"
 
 typedef uint32_t t_file_type;
 
@@ -45,6 +46,18 @@ typedef enum	e_ofile_type
 	SUPPORTED_OFILE_TYPES,
 }				t_ofile_type;
 
+typedef struct	s_archive_member_header
+{
+	uint8_t		*member_name;
+	int64_t		name_length;
+	uint8_t		*st_time;
+	off_t		st_size;
+	uid_t		st_uid;
+	gid_t		st_gid;
+	mode_t		st_mode;
+	uint8_t		pad[6];
+}				t_member_header;
+
 typedef struct s_ofile
 {
 	char			*file_name;
@@ -58,8 +71,12 @@ typedef struct s_ofile
 	struct fat_arch_64	*fat_archs_64;
 
 	uint32_t			narch;
-	t_ofile_type		arch_ofile_type;
+	t_ofile_type		arch_ofile_type; // don't forget to use this
 	// put the arch flag later
+	void					*archive_start_addr;
+	void					*archive_member_header_addr;
+	t_member_header			archive_member_header;
+
 
 	/// if this structure referencing an ofile
 	void					*object_addr;
@@ -127,6 +144,12 @@ void				swap_section_64(struct section_64 *section);
 void				load_fat_ofile(t_ofile *ofile);
 void				ofile_swap_fat_hdrs(t_ofile *ofile);
 int32_t				ofile_load_narch(t_ofile *ofile, uint32_t narch);
+
+/*
+** Loading functions of the static archive data structures in the ofile structure
+*/
+
+void				load_archive_file(t_ofile *ofile);
 
 /*
 ** Byte Sex functions

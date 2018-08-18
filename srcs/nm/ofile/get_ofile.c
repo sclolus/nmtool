@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 21:50:03 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/17 04:12:20 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/18 02:11:35 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_ofile	*get_ofile(char *filename)
 		load_fat_ofile(ofile);
 	else if (ofile->ofile_type == OFILE_ARCHIVE)
 	{
+		load_archive_file(ofile);
 		dprintf(2, "Archive handling not implemented\n");
 		exit(EXIT_FAILURE);
 	}
