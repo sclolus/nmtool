@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 04:15:25 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/19 10:35:06 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/19 17:10:47 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ inline static void find_common_sections_indexes(t_nm_process_info *nm_info)
 	nm_info->bss_nsect = nm_find_section(nm_info, SEG_DATA, SECT_BSS);
 }
 
-inline static void find_symbol_table(t_nm_process_info *nm_info, t_ofile *ofile)
+inline static int32_t find_symbol_table(t_nm_process_info *nm_info, t_ofile *ofile)
 {
-	if (!(nm_info->st_lc = ofile_get_symbol_table_lc(ofile)))
-		exit(EXIT_SUCCESS); // should correct this
+	if (NULL == (nm_info->st_lc = ofile_get_symbol_table_lc(ofile)))
+		return (-1);
 	nm_info->dysym_lc = ofile_get_dynamic_symbol_table_lc(ofile);
 	if (ofile->mh)
 	{
@@ -34,6 +34,7 @@ inline static void find_symbol_table(t_nm_process_info *nm_info, t_ofile *ofile)
 		nm_info->symtab_64 = (struct nlist_64 *)(void *)((uint8_t*)ofile->object_addr + nm_info->st_lc->symoff);
 		nm_info->string_table = (uint8_t*)((uint8_t*)ofile->object_addr + nm_info->st_lc->stroff);
 	}
+	return (0);
 }
 
 int32_t	init_nm_process_info(t_ofile *ofile, t_nm_process_info *nm_info)
@@ -55,6 +56,5 @@ int32_t	init_nm_process_info(t_ofile *ofile, t_nm_process_info *nm_info)
 			return (-1); // put error message
 	}
 	find_common_sections_indexes(nm_info);
-	find_symbol_table(nm_info, ofile);
-	return (0);
+	return (find_symbol_table(nm_info, ofile));
 }

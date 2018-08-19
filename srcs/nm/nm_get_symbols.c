@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 09:25:05 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/17 02:33:43 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/19 17:51:57 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,19 @@ t_symbol	*nm_get_symbols(t_nm_process_info *nm_info)
 	t_symbol	*symbols;
 	uint32_t	i;
 
+	if (nm_info->st_lc == NULL || (nm_info->symtab == NULL && nm_info->symtab_64 == NULL))
+		return (NULL);
 	if (NULL == (symbols = malloc(nm_info->st_lc->nsyms * sizeof(t_symbol))))
 		return (NULL);
 	i = 0;
-	while (i < nm_info->st_lc->nsyms)
+	while (i < nm_info->st_lc->nsyms) // should ensure addrs are checked
 	{
+
 		if (nm_info->symtab)
 			make_symbol_32(symbols + i, nm_info->symtab + i);
 		else
 			make_symbol_64(symbols + i, nm_info->symtab_64 + i);
-		symbols[i].string = nm_get_string_table_entry(nm_info->string_table
+		symbols[i].string = nm_get_string_table_entry(nm_info
 							, symbols[i].sym_entry.n_un.n_strx, &symbols[i].len);
 		i++;
 	}

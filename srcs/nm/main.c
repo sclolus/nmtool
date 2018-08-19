@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 19:39:07 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/17 04:34:49 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/19 17:22:32 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,7 @@ int	main(int argc, char **argv)
 			ft_error(5, (char *[]){argv[0], ": ",
 						nm_flags->files[i], " ",
 						ERR_UNKNOWN_FILE_FORMAT}, 0);
-		else
-			if (-1 == nm(ofile, nm_flags))
-				return (EXIT_FAILURE);
+		nm(ofile, nm_flags);
 		if (munmap_file(ofile))
 		{
 			perror(NULL);

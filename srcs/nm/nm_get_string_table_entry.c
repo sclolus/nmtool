@@ -6,22 +6,31 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 09:29:09 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/16 09:51:44 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/19 17:45:48 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_nm.h"
 
-uint8_t	*nm_get_string_table_entry(uint8_t *string_table, uint32_t index, uint32_t *returned_len)
+# define NM_BAD_STRING_INDEX "bad string index"
+
+uint8_t	*nm_get_string_table_entry(t_nm_process_info *nm_info,
+								   uint32_t index,
+								   uint32_t *returned_len)
 {
 	uint32_t	i;
 
 	i = 1;
+	*returned_len = 1;
+	if (nm_info->st_lc == NULL || nm_info->string_table == NULL)
+		return (NULL);
 	if (index == 0)
+		return ((uint8_t*)" ");
+	if (nm_info->st_lc->strsize <= index)
 	{
-		*returned_len = 0;
-		return ((uint8_t*)"");
+		*returned_len = sizeof(NM_BAD_STRING_INDEX) - 1;
+		return ((uint8_t *)NM_BAD_STRING_INDEX);
 	}
-	*returned_len = (uint32_t)ft_strlen((char*)(string_table + index));
-	return (string_table + index);
+	*returned_len = (uint32_t)ft_strlen((char*)(nm_info->string_table + index));
+	return (nm_info->string_table + index);
 }

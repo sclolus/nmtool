@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 19:38:34 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/17 05:00:02 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/19 17:27:45 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int32_t		init_nm_process_info(t_ofile *ofile, t_nm_process_info *nm_info);
 uint32_t	nm_find_section(t_nm_process_info *nm_info,
 							char *seg_name,
 							char *sec_name);
-uint8_t		*nm_get_string_table_entry(uint8_t *string_table, uint32_t index, uint32_t *returned_len);
+uint8_t		*nm_get_string_table_entry(t_nm_process_info *nm_info, uint32_t index, uint32_t *returned_len);
 t_symbol	*nm_get_symbols(t_nm_process_info *nm_info);
 
 void		nm_sort_symbols(t_symbol *symbols, const uint64_t symbol_nbr

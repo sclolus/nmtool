@@ -60,7 +60,7 @@ OBJ= $(SRC:.c=.o)
 OBJ_2= $(SRC_2:.c=.o)
 HDR_PATH= ./libft/includes/
 CC= gcc
-CC_FLAGS= -v -Weverything -Wall -Werror -Wextra -g3 -Og  -fsanitize=address -fsanitize-blacklist=my_ignores.txt
+CC_FLAGS= -v -Weverything -Wall -Werror -Wextra -g3 -Og   -fsanitize=address -fsanitize-blacklist=my_ignores.txt
 LIBFT_PATH=./libft
 FLAGS= -L$(LIBFT_PATH) -lft -I$(HDR_PATH) -I./includes
 
