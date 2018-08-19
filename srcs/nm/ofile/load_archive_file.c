@@ -6,57 +6,62 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 02:11:25 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/18 04:14:41 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/18 07:32:29 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ofile.h"
 
-static inline int32_t	parse_archive_member_name(t_ofile *ofile)
+static inline bool		is_symdef_32(const t_ofile *ofile)
 {
-	if (!ft_memcmp(ofile->archive_member_header_addr, LONG_ARCHIVE_NAME_MAGIC, sizeof(LONG_ARCHIVE_NAME_MAGIC) - 1))
+	return (ft_strncmp((const char *)ofile->archive_member_header.member_name, SYMDEF, sizeof(SYMDEF))
+			|| ft_strncmp((const char *)ofile->archive_member_header.member_name, SYMDEF_SORTED, sizeof(SYMDEF_SORTED)));
+}
+
+static inline bool		is_symdef_64(const t_ofile *ofile)
+{
+	return (ft_strncmp((const char *)ofile->archive_member_header.member_name, SYMDEF_64, sizeof(SYMDEF_64))
+			|| ft_strncmp((const char *)ofile->archive_member_header.member_name, SYMDEF_64_SORTED, sizeof(SYMDEF_64_SORTED)));
+}
+
+static inline int32_t	set_archive_symdef(t_ofile *ofile)
+{
+	ofile->symdef_addr = ofile->archive_member_header_addr;
+	if (is_symdef_32(ofile))
 	{
-		ofile->archive_member_header.name_length = ft_atou((char *)ofile->archive_member_header_addr + sizeof(LONG_ARCHIVE_NAME_MAGIC) - 1);
-		if (ofile->archive_member_header.name_length < 0)
-		{
-			dprintf(2, "Invalid member_name size\n");
-			return (-1);
-		}
-		ofile->archive_member_header.member_name = (uint8_t*)ofile->archive_member_header_addr + 60;
+		ofile->ranlibs = ofile_archive_get_member_starting_addr(ofile);
+		ofile->nran = *(uint32_t*)(void *)ofile->ranlibs / sizeof(struct ranlib);
+		ofile->ranlibs = (void *)((uint8_t*)ofile->ranlibs + 4);
+		ofile->string_table_size = (uint64_t)*(uint32_t *)(void *)((uint8_t *)ofile->ranlibs + ofile->nran * sizeof(struct ranlib));
+		ofile->string_table = (char *)((uint8_t *)ofile->ranlibs + ofile->nran * sizeof(struct ranlib) + sizeof(uint32_t));
+	}
+	else if (is_symdef_64(ofile))
+	{
+		ofile->ranlibs_64 = ofile_archive_get_member_starting_addr(ofile);
+		ofile->nran = *(uint64_t*)(void *)ofile->ranlibs_64 / sizeof(struct ranlib_64);
+		ofile->ranlibs_64 = (void *)((uint8_t*)ofile->ranlibs + 8);
+		ofile->string_table_size = *(uint64_t *)(void *)((uint8_t *)ofile->ranlibs_64 + ofile->nran * sizeof(struct ranlib_64));
+		ofile->string_table = (char *)((uint8_t *)ofile->ranlibs_64 + ofile->nran * sizeof(struct ranlib_64) + sizeof(uint64_t));
 	}
 	else
 	{
-		ofile->archive_member_header.member_name = (uint8_t*)ofile->archive_member_header_addr;
-		ofile->archive_member_header.name_length = 16;
-	}
-	return (0);
-}
-
-static inline int32_t	archive_parse_member_header(t_ofile *ofile)
-{
-	uint8_t			*member_hdr_addr = (uint8_t *)ofile->archive_member_header_addr;
-
-	if (-1 == parse_archive_member_name(ofile))
-		return (-1);
-	ofile->archive_member_header.st_time = (uint8_t*)(member_hdr_addr + 16);
-	ofile->archive_member_header.st_uid = ft_atou((const char *)member_hdr_addr + 28);
-	ofile->archive_member_header.st_gid = ft_atou((const char *)member_hdr_addr + 34);
-	ofile->archive_member_header.st_mode = ft_atohu_base((const char *)member_hdr_addr + 40, "01234567");
-	ofile->archive_member_header.st_size = ft_atoll((const char *)member_hdr_addr + 48);
-	if (ofile->archive_member_header.st_size < 0)
-	{
-		dprintf(2, "Invalid st_size in archive member\n");
-		return (-1);
+		dprintf(2, "First member of archive file is not SYMDEF or SYMDEF_SORTED\n");
+		exit(EXIT_FAILURE);
 	}
 	return (0);
 }
 
 void	load_archive_file(t_ofile *ofile)
 {
-
 	ofile->archive_start_addr = ofile->vm_addr;
 	ofile->archive_member_header_addr = (void *)((uint8_t*)ofile->archive_start_addr + sizeof(STATIC_LIB_MAGIC) - 1);
-	write(1, ofile->archive_member_header_addr, 60);
+	ofile->symdef_addr = NULL;
+	ofile->members = NULL;
+	ofile->ranlibs = NULL;
+	ofile->ranlibs_64 = NULL;
 	if (-1 == archive_parse_member_header(ofile))
-		assert(0);
+		assert(0); //handle this latter
+	ofile->members = ofile->archive_member_header_addr;
+	if (-1 == set_archive_symdef(ofile))
+		assert(0); //handle this latter
 }

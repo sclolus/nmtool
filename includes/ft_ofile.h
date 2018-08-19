@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:10:54 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/18 02:53:05 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/19 11:14:19 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <mach-o/fat.h>
 # include <mach-o/nlist.h>
 # include <mach-o/stab.h>
+# include <mach-o/ranlib.h>
 # include <sys/stat.h>
 # include <sys/mman.h>
 # include <fcntl.h>
@@ -55,7 +56,8 @@ typedef struct	s_archive_member_header
 	uid_t		st_uid;
 	gid_t		st_gid;
 	mode_t		st_mode;
-	uint8_t		pad[6];
+	bool		long_name;
+	uint8_t		pad[5];
 }				t_member_header;
 
 typedef struct s_ofile
@@ -73,10 +75,17 @@ typedef struct s_ofile
 	uint32_t			narch;
 	t_ofile_type		arch_ofile_type; // don't forget to use this
 	// put the arch flag later
+
 	void					*archive_start_addr;
 	void					*archive_member_header_addr;
 	t_member_header			archive_member_header;
-
+	void					*symdef_addr;
+	void					*members;
+	struct ranlib			*ranlibs;
+	struct ranlib_64		*ranlibs_64;
+	uint64_t				nran;
+	char					*string_table;
+	uint64_t				string_table_size;
 
 	/// if this structure referencing an ofile
 	void					*object_addr;
@@ -112,7 +121,7 @@ struct segment_command_64	**ofile_get_segments_64(t_ofile *ofile, uint32_t *retu
 ** Loading functions of macho obj in the ofile structure
 */
 
-void					load_macho_ofile(t_ofile *ofile, void *object_addr);
+void					load_macho_ofile(t_ofile *ofile, void *object_addr, uint64_t size);
 void					*set_ofile_mh(t_ofile *ofile);
 struct load_command		*set_ofile_load_commands(t_ofile *ofile);
 void					ofile_swap_macho_load_commands(t_ofile *ofile);
@@ -124,6 +133,9 @@ int32_t					ofile_fat_find_arch(t_ofile *ofile,
 
 struct symtab_command	*ofile_get_symbol_table_lc(t_ofile *ofile);
 struct dysymtab_command	*ofile_get_dynamic_symbol_table_lc(t_ofile *ofile);
+
+int32_t					ofile_object_check_addr(t_ofile *ofile, void *addr);
+int32_t					ofile_object_check_addr_size(t_ofile *ofile, void *addr, uint64_t size);
 
 /*
 ** ** Mach-o load command swapper functions
@@ -144,12 +156,17 @@ void				swap_section_64(struct section_64 *section);
 void				load_fat_ofile(t_ofile *ofile);
 void				ofile_swap_fat_hdrs(t_ofile *ofile);
 int32_t				ofile_load_narch(t_ofile *ofile, uint32_t narch);
+int32_t				ofile_file_check_addr(t_ofile *ofile, void *addr);
+int32_t				ofile_file_check_addr_size(t_ofile *ofile, void *addr, uint64_t size);
 
 /*
 ** Loading functions of the static archive data structures in the ofile structure
 */
 
 void				load_archive_file(t_ofile *ofile);
+void				*ofile_archive_get_member_starting_addr(t_ofile *ofile);
+int32_t				archive_parse_member_header(t_ofile *ofile);
+int32_t				ofile_load_narchive_member(t_ofile *ofile, uint64_t n_member);
 
 /*
 ** Byte Sex functions

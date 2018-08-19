@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 02:10:05 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/17 06:40:55 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/18 09:20:13 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static int32_t	nm_process_obj(t_ofile *ofile, t_nm_flags *flags)
 	uint32_t			i;
 	t_symbol			*symbols;
 
-//	assert(ofile->ofile_type == OFILE_MACHO);
 	if (-1 == init_nm_process_info(ofile, &nm_info))
 		exit(EXIT_FAILURE);
 	symbols = nm_get_symbols(&nm_info);
@@ -31,7 +30,7 @@ static int32_t	nm_process_obj(t_ofile *ofile, t_nm_flags *flags)
 			nm_print_symbol(symbols + i, &nm_info, flags);
 		i++;
 	}
-	bzero(ofile->vm_addr, ofile->file_size);
+//	bzero(ofile->vm_addr, ofile->file_size); wtf
 	return (0);
 }
 
@@ -65,15 +64,30 @@ static int32_t nm_handle_fat(t_ofile *ofile, t_nm_flags *flags)
 	return (0);
 }
 
+static int32_t	nm_handle_archive(t_ofile *ofile, t_nm_flags *flags)
+{
+	uint64_t		i;
+
+	i = 0;
+	while (i < ofile->nran)
+	{
+		assert(ofile_load_narchive_member(ofile, i) == 0);
+		printf("\n%s(%s):\n", ofile->file_name
+			   , ofile->archive_member_header.member_name);
+		if (-1 == nm_process_obj(ofile, flags))
+			return (-1);
+		i++;
+	}
+	return (0);
+}
+
 int32_t	nm(t_ofile *ofile, t_nm_flags *flags)
 {
 	if (ofile->ofile_type == OFILE_MACHO)
 		return (nm_process_obj(ofile, flags));
 	else if (ofile->ofile_type == OFILE_FAT)
 		return (nm_handle_fat(ofile, flags));
-	else
-	{
-		assert(0);
-	}
-	return (0);
+	else if (ofile->ofile_type == OFILE_ARCHIVE)
+		return (nm_handle_archive(ofile, flags));
+	return (-1);
 }

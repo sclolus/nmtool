@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_host_byte_sex.c                                :+:      :+:    :+:   */
+/*   ofile_file_check_addr.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/15 22:20:37 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/18 06:30:05 by sclolus          ###   ########.fr       */
+/*   Created: 2018/08/19 11:04:05 by sclolus           #+#    #+#             */
+/*   Updated: 2018/08/19 11:15:12 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ofile.h"
 
-t_byte_sex	get_host_byte_sex(void)
+inline int32_t	ofile_file_check_addr(t_ofile *ofile, void *addr)
 {
-	int32_t	endian;
+	if (ofile->vm_addr >= addr
+		&& (uint8_t*)ofile->vm_addr + ofile->file_size > (uint8_t*)addr)
+		return (0);
+	return (-1);
+}
 
-	endian = ft_get_endianness();
-	if (endian == 1)
-		return (LITTLE_ENDIAN_BYTE_SEX);
-	else if (endian == 0)
-		return (BIG_ENDIAN_BYTE_SEX);
-	return (UNKNOWN_BYTE_SEX);
+inline int32_t	ofile_file_check_addr_size(t_ofile *ofile, void *addr, uint64_t size)
+{
+	if (ofile_file_check_addr(ofile, addr) == 0
+		&& ofile_file_check_addr(ofile, (uint8_t*)addr + size) == 0)
+		return (0);
+	return (-1);
 }

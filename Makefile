@@ -17,11 +17,16 @@ SRC=srcs/nm/main.c \
 	srcs/nm/ofile/munmap_file.c \
 	srcs/nm/ofile/get_macho_host_byte_sex.c \
 	srcs/nm/ofile/load_macho_ofile.c \
+	srcs/nm/ofile/ofile_object_check_addr.c \
 	srcs/nm/ofile/get_host_byte_sex.c \
 	srcs/nm/ofile/set_ofile_mh.c \
 	srcs/nm/ofile/set_ofile_load_commands.c \
 	srcs/nm/ofile/load_fat_ofile.c \
+	srcs/nm/ofile/ofile_file_check_addr.c \
 	srcs/nm/ofile/load_archive_file.c \
+	srcs/nm/ofile/ofile_archive_get_member_starting_addr.c \
+	srcs/nm/ofile/archive_parse_member_header.c \
+	srcs/nm/ofile/ofile_load_narchive_member.c \
 	srcs/nm/ofile/ofile_load_narch.c \
 	srcs/nm/ofile/ofile_fat_find_arch.c \
 	srcs/nm/ofile/ofile_swap_fat_hdrs.c \

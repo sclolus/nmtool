@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 04:15:25 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/16 09:45:43 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/19 10:35:06 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ inline static void find_common_sections_indexes(t_nm_process_info *nm_info)
 
 inline static void find_symbol_table(t_nm_process_info *nm_info, t_ofile *ofile)
 {
-	nm_info->st_lc = ofile_get_symbol_table_lc(ofile);
+	if (!(nm_info->st_lc = ofile_get_symbol_table_lc(ofile)))
+		exit(EXIT_SUCCESS); // should correct this
 	nm_info->dysym_lc = ofile_get_dynamic_symbol_table_lc(ofile);
 	if (ofile->mh)
 	{

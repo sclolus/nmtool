@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_host_byte_sex.c                                :+:      :+:    :+:   */
+/*   ofile_archive_get_member_starting_addr.c           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/15 22:20:37 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/18 06:30:05 by sclolus          ###   ########.fr       */
+/*   Created: 2018/08/18 05:26:43 by sclolus           #+#    #+#             */
+/*   Updated: 2018/08/18 09:20:39 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ofile.h"
 
-t_byte_sex	get_host_byte_sex(void)
+void		*ofile_archive_get_member_starting_addr(t_ofile *ofile)
 {
-	int32_t	endian;
+	uint8_t		*addr;
 
-	endian = ft_get_endianness();
-	if (endian == 1)
-		return (LITTLE_ENDIAN_BYTE_SEX);
-	else if (endian == 0)
-		return (BIG_ENDIAN_BYTE_SEX);
-	return (UNKNOWN_BYTE_SEX);
+	assert(ofile->archive_start_addr && ofile->archive_member_header_addr);
+	addr = ((uint8_t *)ofile->archive_member_header_addr + 60
+			+ (ofile->archive_member_header.long_name
+			   ? ((uint64_t)ofile->archive_member_header.name_length | 0x4)
+			   : 0));
+	return (addr);
 }

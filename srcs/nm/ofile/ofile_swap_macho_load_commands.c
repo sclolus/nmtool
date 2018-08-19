@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 00:46:07 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/16 02:26:59 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/19 11:12:32 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,12 @@ void	ofile_swap_macho_load_commands(t_ofile *ofile)
 	cur_lc = ofile->load_commands;
 	while (i < hdr->ncmds)
 	{
+		if (-1 == ofile_object_check_addr_size(ofile, cur_lc, sizeof(struct load_command))
+			|| -1 == ofile_object_check_addr_size(ofile, (uint8_t*)cur_lc, cur_lc->cmdsize))
+		{
+			dprintf(2, "Object file is malformed, the load commands would go beyond the end of the file\n");
+			exit(EXIT_FAILURE);
+		}
 		swap_load_command(cur_lc);
 		cur_lc = (struct load_command *)(void *)((uint8_t*)cur_lc + cur_lc->cmdsize);
 		i++;
