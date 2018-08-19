@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/17 05:34:06 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/19 10:20:26 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/19 11:23:34 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,10 @@ int32_t	ofile_load_narch(t_ofile *ofile, uint32_t narch)
 	ofile->load_commands = NULL;
 	ofile->narch = narch;
 	if (ofile->fat_archs)
-		load_macho_ofile(ofile,  (void *)((uint8_t *)ofile->vm_addr + ofile->fat_archs[narch].offset), ofile->fat_archs[narch].size);
+		load_macho_ofile(ofile,
+		(void *)((uint8_t *)ofile->vm_addr + ofile->fat_archs[narch].offset), ofile->fat_archs[narch].size);
 	else
-		load_macho_ofile(ofile,  (void *)((uint8_t *)ofile->vm_addr + ofile->fat_archs_64[narch].offset), ofile->fat_archs[narch].size);
+		load_macho_ofile(ofile,
+		(void *)((uint8_t *)ofile->vm_addr + ofile->fat_archs_64[narch].offset), ofile->fat_archs[narch].size);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 22:01:33 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/19 10:59:17 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/19 11:27:08 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	load_macho_ofile(t_ofile *ofile, void *object_addr, uint64_t object_size) /
 {
 	ofile->object_addr = object_addr;
 	ofile->object_size = object_size;
-	if ((uint8_t*)object_addr + object_size > (uint8_t *)ofile->vm_addr + ofile->file_size)
+	if (-1 == ofile_file_check_addr_size(ofile, ofile->object_addr, ofile->object_size))
 	{
 		dprintf(2, "Object file is malformed\n"); // change all of this
 		abort();

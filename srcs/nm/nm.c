@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 02:10:05 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/18 09:20:13 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/19 11:22:51 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ static int32_t	nm_process_obj(t_ofile *ofile, t_nm_flags *flags)
 			nm_print_symbol(symbols + i, &nm_info, flags);
 		i++;
 	}
-//	bzero(ofile->vm_addr, ofile->file_size); wtf
 	return (0);
 }
 
@@ -42,7 +41,8 @@ static int32_t nm_handle_fat(t_ofile *ofile, t_nm_flags *flags)
 
 
 	assert((host_arch = NXGetLocalArchInfo()));
-	if (-1 == (narch_for_arch = ofile_fat_find_arch(ofile, host_arch->cputype | CPU_ARCH_ABI64, host_arch->cpusubtype)))
+	if (-1 == (narch_for_arch = ofile_fat_find_arch(ofile,
+		host_arch->cputype | CPU_ARCH_ABI64, host_arch->cpusubtype)))
 	{
 		i = 0;
 		while (i < ofile->fat_header->nfat_arch)
