@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 03:10:22 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/20 06:03:27 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/20 07:31:19 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ static void		allocate_data_instances(uint32_t **instances_count)
 
 static uint32_t		**count_data_instances(t_ofile *ofile, uint32_t **instances_count)
 {
-//	instances_count
 	uint32_t	i;
 
 	i = 0;
@@ -108,5 +107,8 @@ t_poison_list	*generate_poison_list(t_ofile *ofile, uint32_t pnbr)
 		plist->poison_commands[i] = generate_poison_command((rand() % 2) == 0 ? LC_POISON : MACHO_LEVEL_POISON, instances_count);
 		i++;
 	}
+	i = 0;
+	while (i < SUPPORTED_POISONS_TYPES)
+		free(instances_count[i++]);
 	return (plist);
 }
