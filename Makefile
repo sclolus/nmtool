@@ -61,6 +61,9 @@ SRC_POISONER=srcs/poisoner/main.c \
 			srcs/poisoner/poisoner.c \
 			srcs/poisoner/poison_lc_segment.c \
 			srcs/poisoner/poison_lc_symtab.c \
+			srcs/poisoner/generate_poison_list.c \
+			srcs/poisoner/generate_poison_command.c \
+			srcs/poisoner/exec_lc_poisoner.c
 
 HDRS= ./includes/ft_nm.h ./includes/ft_ofile.h ./includes/poisoner.h #includes/nm.h includes/otool.h
 OBJ= $(SRC:.c=.o)
