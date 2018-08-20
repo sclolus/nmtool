@@ -19,9 +19,9 @@ int	main(int argc, char **argv)
 		}
 		allocate_poisoned_zone(ofile);
 		if (ofile->ofile_type == OFILE_UNKNOWN)
-			ft_error(5, (char *[]){argv[0], ": ",
+			ft_error(3, (char *[]){argv[0], ": ",
 						ERR_UNKNOWN_FILE_FORMAT}, 0);
-		if (NULL == (plist = generate_poison_list(ofile, 2)))
+		if (NULL == (plist = generate_poison_list(ofile, 27)))
 		{
 			perror("Mach-o poisoner");
 			exit(EXIT_FAILURE);
