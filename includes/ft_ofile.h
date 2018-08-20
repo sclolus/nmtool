@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:10:54 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/19 22:58:09 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/20 04:58:11 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,8 @@ struct load_command		*set_ofile_load_commands(t_ofile *ofile);
 void					ofile_swap_macho_load_commands(t_ofile *ofile);
 void					ofile_swap_macho_hdr(t_ofile *ofile);
 struct load_command		*ofile_find_lc(t_ofile *ofile, uint32_t cmd);
+struct load_command		*ofile_find_n_lc(t_ofile *ofile, uint32_t cmd, uint32_t n);
+uint32_t				ofile_object_count_lc(t_ofile *ofile, uint32_t cmd);
 int32_t					ofile_fat_find_arch(t_ofile *ofile,
 							cpu_type_t cputype,
 							cpu_subtype_t subtype);

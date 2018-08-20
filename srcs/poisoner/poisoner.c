@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 19:18:39 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/20 04:39:20 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/20 05:47:58 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ DEFINE_SETTER(ranlib, struct ranlib, ran_off)
 DEFINE_SETTER(ranlib_64, struct ranlib_64, ran_un)
 DEFINE_SETTER(ranlib_64, struct ranlib_64, ran_off)
 
-const static t_poisoner			*poisoners[SUPPORTED_POISONS_TYPES] = {
+const t_poisoner			*poisoners[SUPPORTED_POISONS_TYPES] = {
 (const t_poisoner []){
 	INIT_POISONER(segment_command, struct segment_command, nsects, LC_SEGMENT, exec_lc_poisoner),
 	INIT_POISONER(segment_command, struct segment_command, segname, LC_SEGMENT, exec_lc_poisoner),
@@ -176,10 +176,10 @@ const static t_poisoner			*poisoners[SUPPORTED_POISONS_TYPES] = {
 	INIT_POISONER(nlist_64, struct nlist_64, n_value, 0, NULL),
 },
 (const t_poisoner []){
-	INIT_POISONER(mach_header, struct mach_header, ncmds, 0, NULL),
-	INIT_POISONER(mach_header, struct mach_header, sizeofcmds, 0, NULL),
-	INIT_POISONER(mach_header_64, struct mach_header_64, ncmds, 0, NULL),
-	INIT_POISONER(mach_header_64, struct mach_header_64, sizeofcmds, 0, NULL),
+	INIT_POISONER(mach_header, struct mach_header, ncmds, 0, exec_macho_level_poisoner),
+	INIT_POISONER(mach_header, struct mach_header, sizeofcmds, 0, exec_macho_level_poisoner),
+	INIT_POISONER(mach_header_64, struct mach_header_64, ncmds, 0, exec_macho_level_poisoner),
+	INIT_POISONER(mach_header_64, struct mach_header_64, sizeofcmds, 0, exec_macho_level_poisoner),
 },
 };
 
@@ -207,7 +207,7 @@ static void	exec_poisoners(t_ofile *ofile, t_poison_list *plist)
 	{
 		executor = poisoners[plist->poison_commands[i].type][plist->poison_commands[i].pindex].executor;
 		if (executor)
-			executor(ofile, poisoners[plist->poison_commands[i].type] + plist->poison_commands[i].pindex);
+			executor(ofile, poisoners[plist->poison_commands[i].type] + plist->poison_commands[i].pindex, plist->poison_commands + i);
 		else
 			dprintf(2, "Executor not implemented for %s\n", poisoners[plist->poison_commands[i].type][plist->poison_commands[i].pindex].member_name);
 		i++;

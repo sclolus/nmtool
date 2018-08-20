@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_lc_poisoner.c                                 :+:      :+:    :+:   */
+/*   exec_macho_level_poisoner.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/20 03:18:53 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/20 06:08:43 by sclolus          ###   ########.fr       */
+/*   Created: 2018/08/20 04:41:27 by sclolus           #+#    #+#             */
+/*   Updated: 2018/08/20 05:48:51 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,26 @@ static inline void	fill_buf_with_random_data(uint8_t *buf, uint64_t size)
 		buf[i++] = (uint8_t)rand();
 }
 
-void	exec_lc_poisoner(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd)
+void	exec_macho_level_poisoner(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd)
 {
 	uint8_t				random_data[42];
-	struct load_command *lc;
-	void				 *addr;
+	struct mach_header	*mh;
+	void				*addr;
 
-	if (NULL == (lc = ofile_find_n_lc(ofile, poisoner->cmd, cmd->optional_index)))
+	(void)cmd;
+	if (ofile->mh)
+		mh = ofile->mh;
+	else if (ofile->mh_64)
+		mh = (struct mach_header *)ofile->mh_64;
+	else
 	{
 		dprintf(2, "There was no %s to poison\n", poisoner->member_name);
 		return ;
 	}
-	addr = poisoner->get(lc);
+	addr = poisoner->get(mh);
 	fill_buf_with_random_data(random_data, sizeof(random_data));
-	printf("Modified value of %uth member %s at offset %llu\n", cmd->optional_index,
+	printf("Modified value of member %s at offset %llu\n",
 		   poisoner->member_name,
 		   (uint64_t)((uint8_t *)poisoner->set(addr, random_data) - (uint8_t *)ofile->vm_addr));
+
 }

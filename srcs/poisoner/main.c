@@ -20,7 +20,7 @@ int	main(int argc, char **argv)
 		if (ofile->ofile_type == OFILE_UNKNOWN)
 			ft_error(5, (char *[]){argv[0], ": ",
 						ERR_UNKNOWN_FILE_FORMAT}, 0);
-		if (NULL == (plist = generate_poison_list(2)))
+		if (NULL == (plist = generate_poison_list(ofile, 2)))
 		{
 			perror("Mach-o poisoner");
 			exit(EXIT_FAILURE);

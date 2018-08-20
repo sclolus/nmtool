@@ -41,6 +41,8 @@ SRC_OFILE_LIB=srcs/ofile/get_ofile_type.c \
 	srcs/ofile/get_nsects.c \
 	srcs/ofile/get_nsects_64.c \
 	srcs/ofile/ofile_find_lc.c \
+	srcs/ofile/ofile_find_n_lc.c \
+	srcs/ofile/ofile_object_count_lc.c \
 	srcs/ofile/ofile_get_symbol_table_lc.c \
 	srcs/ofile/ofile_get_dynamic_symbol_table_lc.c \
 	srcs/ofile/ofile_get_nsegs.c \
@@ -63,7 +65,8 @@ SRC_POISONER=srcs/poisoner/main.c \
 			srcs/poisoner/poison_lc_symtab.c \
 			srcs/poisoner/generate_poison_list.c \
 			srcs/poisoner/generate_poison_command.c \
-			srcs/poisoner/exec_lc_poisoner.c
+			srcs/poisoner/exec_lc_poisoner.c \
+			srcs/poisoner/exec_macho_level_poisoner.c
 
 HDRS= ./includes/ft_nm.h ./includes/ft_ofile.h ./includes/poisoner.h #includes/nm.h includes/otool.h
 OBJ= $(SRC:.c=.o)
