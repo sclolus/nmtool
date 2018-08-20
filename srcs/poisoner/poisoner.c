@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 19:18:39 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/20 05:47:58 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/20 06:44:47 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,6 +196,8 @@ const uint64_t	poisoners_count_per_type[SUPPORTED_POISONS_TYPES] = {
 	18,
 	4,
 };
+
+void			*poisoned_zone_vm_addr = NULL;
 
 static void	exec_poisoners(t_ofile *ofile, t_poison_list *plist)
 {

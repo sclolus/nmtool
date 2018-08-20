@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 04:41:27 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/20 05:48:51 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/20 06:44:05 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,10 @@ void	exec_macho_level_poisoner(t_ofile *ofile, const t_poisoner *poisoner, const
 		return ;
 	}
 	addr = poisoner->get(mh);
+	addr = map_addr_to_poisoned_zone(ofile, addr);
 	fill_buf_with_random_data(random_data, sizeof(random_data));
 	printf("Modified value of member %s at offset %llu\n",
 		   poisoner->member_name,
-		   (uint64_t)((uint8_t *)poisoner->set(addr, random_data) - (uint8_t *)ofile->vm_addr));
+		   (uint64_t)((uint8_t *)poisoner->set(addr, random_data) - (uint8_t *)poisoned_zone_vm_addr));
 
 }

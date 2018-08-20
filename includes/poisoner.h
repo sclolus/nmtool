@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 19:18:58 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/20 05:55:42 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/20 06:46:31 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,11 @@ void	exec_macho_level_poisoner(t_ofile *ofile, const t_poisoner *poisoner, const
 
 extern const t_poisoner	*poisoners[SUPPORTED_POISONS_TYPES];
 extern const uint64_t	poisoners_count_per_type[SUPPORTED_POISONS_TYPES];
+extern void				*poisoned_zone_vm_addr;
+
+void	*allocate_poisoned_zone(const t_ofile *ofile);
+int		deallocate_poisoned_zone(const t_ofile *ofile);
+void	*map_addr_to_poisoned_zone(const t_ofile *ofile, void *addr);
 
 
 #endif

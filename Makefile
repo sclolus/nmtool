@@ -66,7 +66,10 @@ SRC_POISONER=srcs/poisoner/main.c \
 			srcs/poisoner/generate_poison_list.c \
 			srcs/poisoner/generate_poison_command.c \
 			srcs/poisoner/exec_lc_poisoner.c \
-			srcs/poisoner/exec_macho_level_poisoner.c
+			srcs/poisoner/exec_macho_level_poisoner.c \
+			srcs/poisoner/allocate_poisoned_zone.c \
+			srcs/poisoner/deallocate_poisoned_zone.c \
+			srcs/poisoner/map_addr_to_poisoned_zone.c
 
 HDRS= ./includes/ft_nm.h ./includes/ft_ofile.h ./includes/poisoner.h #includes/nm.h includes/otool.h
 OBJ= $(SRC:.c=.o)

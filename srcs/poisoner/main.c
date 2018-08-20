@@ -17,6 +17,7 @@ int	main(int argc, char **argv)
 			perror(NULL);
 			return (EXIT_FAILURE);
 		}
+		allocate_poisoned_zone(ofile);
 		if (ofile->ofile_type == OFILE_UNKNOWN)
 			ft_error(5, (char *[]){argv[0], ": ",
 						ERR_UNKNOWN_FILE_FORMAT}, 0);
@@ -27,11 +28,13 @@ int	main(int argc, char **argv)
 		}
 		poison(ofile, plist);
 		free(plist);
-		if (!(poisoned_filename = ft_strcat(argv[i], "_poisoned")))
+		if (!(poisoned_filename = ft_strjoin(argv[i], "_poisoned")))
 			return (EXIT_FAILURE);
 		if (-1 == (poisoned_file_fd = open(poisoned_filename, O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU)))
 			return (EXIT_FAILURE);
-		write(poisoned_file_fd, ofile->vm_addr, ofile->file_size);
+		write(poisoned_file_fd, poisoned_zone_vm_addr, ofile->file_size);
+		assert(deallocate_poisoned_zone(ofile) == 0);
+		free(poisoned_filename);
 		if (munmap_file(ofile))
 		{
 			perror(NULL);
