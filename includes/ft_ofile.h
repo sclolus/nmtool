@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:10:54 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/19 11:14:19 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/19 22:58:09 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ struct segment_command_64	**ofile_get_segments_64(t_ofile *ofile, uint32_t *retu
 ** Loading functions of macho obj in the ofile structure
 */
 
-void					load_macho_ofile(t_ofile *ofile, void *object_addr, uint64_t size);
+int32_t					load_macho_ofile(t_ofile *ofile, void *object_addr, uint64_t size);
 void					*set_ofile_mh(t_ofile *ofile);
 struct load_command		*set_ofile_load_commands(t_ofile *ofile);
 void					ofile_swap_macho_load_commands(t_ofile *ofile);
@@ -180,5 +180,17 @@ t_byte_sex			get_host_byte_sex(void);
 */
 
 const char	*get_cputype_name(cpu_type_t type);
+
+
+/*
+** Mach-o Integrity checks
+*/
+
+int32_t	ofile_check_object_integrity(t_ofile *ofile);
+int32_t	ofile_check_mach_header_integrity(t_ofile *ofile);
+int32_t	ofile_check_load_commands_integrity(t_ofile *ofile);
+int32_t	check_lc_segment_integrity(t_ofile *ofile, struct load_command *lc);
+int32_t	check_lc_segment_64_integrity(t_ofile *ofile, struct load_command *lc);
+int32_t	check_lc_symtab_integrity(t_ofile *ofile, struct load_command *lc);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 09:29:09 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/19 17:45:48 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/20 00:13:40 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,6 @@ uint8_t	*nm_get_string_table_entry(t_nm_process_info *nm_info,
 		*returned_len = sizeof(NM_BAD_STRING_INDEX) - 1;
 		return ((uint8_t *)NM_BAD_STRING_INDEX);
 	}
-	*returned_len = (uint32_t)ft_strlen((char*)(nm_info->string_table + index));
+	*returned_len = (uint32_t)ft_strlen((char*)(nm_info->string_table + index));// protect that
 	return (nm_info->string_table + index);
 }

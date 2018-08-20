@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 09:25:05 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/19 17:51:57 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/19 19:05:23 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ t_symbol	*nm_get_symbols(t_nm_process_info *nm_info)
 	i = 0;
 	while (i < nm_info->st_lc->nsyms) // should ensure addrs are checked
 	{
-
 		if (nm_info->symtab)
 			make_symbol_32(symbols + i, nm_info->symtab + i);
 		else

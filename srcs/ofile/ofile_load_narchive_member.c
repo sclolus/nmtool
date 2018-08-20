@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 06:05:14 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/19 10:19:30 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/19 23:02:22 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int32_t	ofile_load_narchive_member(t_ofile *ofile, uint64_t n_member)
 		if (-1 == archive_parse_member_header(ofile))
 			return (-1);
 		assert(ofile->archive_member_header.st_size > 0);
-		load_macho_ofile(ofile, ofile_archive_get_member_starting_addr(ofile), (uint64_t)ofile->archive_member_header.st_size);
+		return (load_macho_ofile(ofile, ofile_archive_get_member_starting_addr(ofile), (uint64_t)ofile->archive_member_header.st_size));
 	}
 	else
 	{
@@ -54,7 +54,6 @@ int32_t	ofile_load_narchive_member(t_ofile *ofile, uint64_t n_member)
 		if (-1 == archive_parse_member_header(ofile))
 			return (-1);
 		assert(ofile->archive_member_header.st_size > 0);
-		load_macho_ofile(ofile, ofile_archive_get_member_starting_addr(ofile), (uint64_t)ofile->archive_member_header.st_size);
+		return (load_macho_ofile(ofile, ofile_archive_get_member_starting_addr(ofile), (uint64_t)ofile->archive_member_header.st_size));
 	}
-	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 02:10:05 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/19 17:50:49 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/19 23:02:55 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,11 @@ static int32_t	nm_handle_archive(t_ofile *ofile, t_nm_flags *flags)
 	i = 0;
 	while (i < ofile->nran)
 	{
-		assert(ofile_load_narchive_member(ofile, i) == 0);
+		if (-1 == ofile_load_narchive_member(ofile, i))
+		{
+			i++;
+			continue ;
+		}
 		printf("\n%s(%s):\n", ofile->file_name
 			   , ofile->archive_member_header.member_name);
 		if (-1 == nm_process_obj(ofile, flags))
