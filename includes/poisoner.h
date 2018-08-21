@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 19:18:58 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/21 10:30:35 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/21 12:55:22 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@
 # include <stdint.h>
 # include <time.h>
 # include <mach-o/arch.h>
-
-
 
 typedef struct s_poison_command	t_poison_command;
 typedef struct s_poisoner	t_poisoner;
@@ -82,7 +80,7 @@ typedef struct	s_poison_generator_config
 	bool			actived_poisons[SUPPORTED_POISONS_TYPES];
 	bool			poison_every_archs;
 	uint8_t			__pad[6];
-} t_poison_generator_config;//yeah I'm lazy
+}				t_poison_generator_config;
 
 typedef t_poison_generator_config	t_gen_config;
 
@@ -91,46 +89,46 @@ void				poison_lc_symtab(struct load_command *lc, t_ofile *ofile);
 void				poison_lc_segment_64(struct load_command *lc, t_ofile *ofile);
 void				poison_lc_segment(struct load_command *lc, t_ofile *ofile);
 
-t_poison_list		*generate_poison_list(t_ofile *ofile, t_poison_generator_config *config);
 t_poison_command	generate_poison_command(t_poison_type type, uint32_t **instances_count);
-void				free_poison_list(t_poison_list *plist);
 char				*get_poisoned_file_name(char *original_filename, t_poison_list *plist);
+t_poison_list		*generate_poison_list(t_ofile *ofile, t_poison_generator_config *config);
+void				free_poison_list(t_poison_list *plist);
 
-void				exec_lc_poisoner(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
-void				exec_macho_level_poisoner(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
-void				exec_sub_level_lc_poisoner(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
-void				exec_fat_level_poisoner(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
 void				exec_archive_level_poisoner(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+void				exec_sub_level_lc_poisoner(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+void				exec_macho_level_poisoner(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+void				exec_fat_level_poisoner(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+void				exec_lc_poisoner(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
 
+void				*finder_mach_header_64(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+void				*finder_fat_arch_64(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+void				*finder_mach_header(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
 void				*finder_section_32(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
 void				*finder_section_64(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
-void				*finder_lc(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
-void				*finder_nlist_64(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
-void				*finder_nlist(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
-void				*finder_fat_arch_64(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
-void				*finder_fat_arch(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
 void				*finder_fat_header(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
-void				*finder_ranlib(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
 void				*finder_ranlib_64(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
-void				*finder_mach_header(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
-void				*finder_mach_header_64(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+void				*finder_nlist_64(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+void				*finder_fat_arch(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+void				*finder_ranlib(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+void				*finder_nlist(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+void				*finder_lc(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
 
-#define OFFSET_OF(type, member) (uint64_t)(&((type *)0)->member)
+# define OFFSET_OF(type, member) (uint64_t)(&((type *)0)->member)
 
-#define GET_GETTER_NAME(type_name, member) getter_ ## type_name ## _ ## member
-#define GET_SETTER_NAME(type_name, member) setter_ ## type_name ## _ ## member
-#define PROT_GETTER(type_name, member) void	*GET_GETTER_NAME(type_name, member)(void *data);
-#define PROT_SETTER(type_name, member) void	*GET_SETTER_NAME(type_name, member)(void *data, void *value);
+# define GET_GETTER_NAME(type_name, member) getter_ ## type_name ## _ ## member
+# define GET_SETTER_NAME(type_name, member) setter_ ## type_name ## _ ## member
+# define PROT_GETTER(type_name, member) void	*GET_GETTER_NAME(type_name, member)(void *data);
+# define PROT_SETTER(type_name, member) void	*GET_SETTER_NAME(type_name, member)(void *data, void *value);
 
 
-#define DEFINE_GETTER(type_name, type, member)							\
+# define DEFINE_GETTER(type_name, type, member)							\
 	PROT_GETTER(type_name, member)										\
 	void	*GET_GETTER_NAME(type_name, member)(void *data)				\
 	{																	\
 		return ((void *)((uint8_t *)data + OFFSET_OF(type, member)));	\
 	}
 
-#define DEFINE_SETTER(type_name, type, member)							\
+# define DEFINE_SETTER(type_name, type, member)							\
 	PROT_SETTER(type_name, member)										\
 	void	*GET_SETTER_NAME(type_name, member)(void *data, void *value) \
 	{																	\
@@ -138,7 +136,7 @@ void				*finder_mach_header_64(t_ofile *ofile, const t_poisoner *poisoner, const
 		return (memcpy(data, value, sizeof(((type *)0)->member))); \
 	}
 
-#define INIT_POISONER(type_name, type, member, cmd_id, executor, finder) {executor, GET_GETTER_NAME(type_name, member), GET_SETTER_NAME(type_name, member), finder, #type_name "->" #member, cmd_id, {0}}
+# define INIT_POISONER(type_name, type, member, cmd_id, executor, finder) {executor, GET_GETTER_NAME(type_name, member), GET_SETTER_NAME(type_name, member), finder, #type_name "->" #member, cmd_id, {0}}
 
 extern const t_poisoner	*poisoners[SUPPORTED_POISONS_TYPES];
 extern const uint64_t	poisoners_count_per_type[SUPPORTED_POISONS_TYPES];
