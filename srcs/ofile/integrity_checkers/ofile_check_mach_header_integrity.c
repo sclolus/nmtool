@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 22:47:29 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/19 22:54:28 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/21 06:28:12 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ int32_t	ofile_check_mach_header_integrity(t_ofile *ofile)
 {
 	if (ofile->mh)
 	{
-		if (ofile->mh->sizeofcmds + sizeof(struct mach_header) > ofile->object_size)
+		if (ofile->mh->sizeofcmds + sizeof(struct mach_header) > ofile->object_size
+			|| ofile->mh->ncmds * sizeof(struct load_command) + sizeof(struct mach_header) > ofile->object_size)
 		{
 			dprintf(2, "truncated or malformed object (load commands extend past the end of the file)\n");
 			return (-1);
@@ -25,7 +26,8 @@ int32_t	ofile_check_mach_header_integrity(t_ofile *ofile)
 	}
 	else if (ofile->mh_64)
 	{
-		if (ofile->mh_64->sizeofcmds + sizeof(struct mach_header_64) > ofile->object_size)
+		if (ofile->mh_64->sizeofcmds + sizeof(struct mach_header_64) > ofile->object_size
+			|| ofile->mh_64->ncmds * sizeof(struct load_command) + sizeof(struct mach_header_64) > ofile->object_size)
 		{
 			dprintf(2, "truncated or malformed object(load commands extend past the end of the file)\n");
 			return (-1);
