@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 03:10:22 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/20 07:31:19 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/21 02:34:52 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,12 @@ static uint32_t		**count_data_instances(t_ofile *ofile, uint32_t **instances_cou
 		printf("instances_count[LC_POISON][%u] = %u\n", i, instances_count[LC_POISON][i]);
 		i++;
 	}
+	if (ofile->mh)
+		instances_count[LC_POISON][14] = ofile->mh->ncmds;
+	else if (ofile->mh_64)
+		instances_count[LC_POISON][14] = ofile->mh_64->ncmds;
+	instances_count[LC_POISON][15] = instances_count[LC_POISON][14];
+
 	bzero(instances_count[FAT_LEVEL_POISON], sizeof(uint32_t) * poisoners_count_per_type[FAT_LEVEL_POISON]);
 	if (ofile->fat_archs)
 	{
@@ -86,8 +92,47 @@ static uint32_t		**count_data_instances(t_ofile *ofile, uint32_t **instances_cou
 	return (instances_count);
 }
 
+
+static inline int32_t			check_type_instances_to_poison(uint32_t **instances_count, t_poison_type type)
+{
+	uint32_t	i;
+
+	i = 0;
+	while (i < poisoners_count_per_type[type])
+	{
+		if (instances_count[type][i] != 0)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+static inline int32_t			check_type_instances(uint32_t **instances_count)
+{
+	uint32_t	i;
+
+	i = 0;
+	while (i < SUPPORTED_POISONS_TYPES)
+	{
+		if (check_type_instances_to_poison(instances_count, i))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+static inline void				free_instances_count(uint32_t **instances_count)
+{
+	uint32_t	i;
+
+	i = 0;
+	while (i < SUPPORTED_POISONS_TYPES)
+		free(instances_count[i++]);
+}
+
 t_poison_list	*generate_poison_list(t_ofile *ofile, uint32_t pnbr)
 {
+	t_poison_type	type;
 	t_poison_list	*plist;
 	uint32_t		*instances_count[SUPPORTED_POISONS_TYPES];
 	uint64_t		alloc_size;
@@ -101,14 +146,21 @@ t_poison_list	*generate_poison_list(t_ofile *ofile, uint32_t pnbr)
 	count_data_instances(ofile, instances_count);
 	plist->pnbr = pnbr;
 	plist->poison_commands = (t_poison_command *)(void *)(plist + 1);
+	if (check_type_instances(instances_count) == 0)
+	{
+		dprintf(2, "There is nothing to poison in this mach-o file\n");
+		free_instances_count(instances_count);
+		return (NULL);
+	}
 	i = 0;
 	while (i < pnbr)
 	{
-		plist->poison_commands[i] = generate_poison_command((rand() % 2) == 0 ? LC_POISON : MACHO_LEVEL_POISON, instances_count);
+		type = (rand() % SUPPORTED_POISONS_TYPES);
+		while (check_type_instances_to_poison(instances_count, type) == 0)
+			type = (rand() % SUPPORTED_POISONS_TYPES);
+		plist->poison_commands[i] = generate_poison_command(type, instances_count);
 		i++;
 	}
-	i = 0;
-	while (i < SUPPORTED_POISONS_TYPES)
-		free(instances_count[i++]);
+	free_instances_count(instances_count);
 	return (plist);
 }

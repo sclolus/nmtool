@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 19:18:58 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/20 06:46:31 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/21 02:59:06 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 
 typedef struct s_poison_command	t_poison_command;
 typedef struct s_poisoner	t_poisoner;
+typedef void *(*t_f_poison_finder)(t_ofile *, const t_poisoner *, const t_poison_command *);
 typedef void (*t_f_poison_executor)(t_ofile *, const t_poisoner *, const t_poison_command *);
 typedef void *(*t_f_poison_getter)(void *);
 typedef void *(*t_f_poison_setter)(void *, void *);
@@ -34,6 +35,7 @@ typedef struct s_poisoner
 	t_f_poison_executor	executor;
 	t_f_poison_getter	get;
 	t_f_poison_setter	set;
+	t_f_poison_finder	find;
 	char				*member_name;
 	uint32_t			cmd;
 	uint8_t				__pad[4];
@@ -71,9 +73,15 @@ void	poison_lc_segment(struct load_command *lc, t_ofile *ofile);
 
 t_poison_list			*generate_poison_list(t_ofile *ofile, uint32_t pnbr);
 t_poison_command		generate_poison_command(t_poison_type type, uint32_t **instances_count);
+char					*get_poisoned_file_name(char *original_filename, t_poison_list *plist);
 
 void	exec_lc_poisoner(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
 void	exec_macho_level_poisoner(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+void	exec_sub_level_lc_poisoner(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+
+void	*finder_section_32(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+void	*finder_section_64(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+void	*finder_lc(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
 
 #define OFFSET_OF(type, member) (uint64_t)(&((type *)0)->member)
 
@@ -92,12 +100,13 @@ void	exec_macho_level_poisoner(t_ofile *ofile, const t_poisoner *poisoner, const
 
 #define DEFINE_SETTER(type_name, type, member)							\
 	PROT_SETTER(type_name, member)										\
-	void	*GET_SETTER_NAME(type_name, member)(void *data, void *value)\
+	void	*GET_SETTER_NAME(type_name, member)(void *data, void *value) \
 	{																	\
+		/* printf("Modified %lu bytes\n", sizeof(((type *)data)->member)); \ */ \
 		return (memcpy(&((type *)data)->member, value, sizeof(((type *)data)->member))); \
 	}
 
-#define INIT_POISONER(type_name, type, member, cmd_id, executor) {executor, GET_GETTER_NAME(type_name, member), GET_SETTER_NAME(type_name, member), #type "->" #member, cmd_id, {0}}
+#define INIT_POISONER(type_name, type, member, cmd_id, executor, finder) {executor, GET_GETTER_NAME(type_name, member), GET_SETTER_NAME(type_name, member), finder, #type_name "->" #member, cmd_id, {0}}
 
 extern const t_poisoner	*poisoners[SUPPORTED_POISONS_TYPES];
 extern const uint64_t	poisoners_count_per_type[SUPPORTED_POISONS_TYPES];

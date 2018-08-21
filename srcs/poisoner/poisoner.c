@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 19:18:39 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/20 06:44:47 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/21 02:21:22 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,12 @@ DEFINE_GETTER(ranlib, struct ranlib, ran_off)
 DEFINE_GETTER(ranlib_64, struct ranlib_64, ran_un)
 DEFINE_GETTER(ranlib_64, struct ranlib_64, ran_off)
 
+DEFINE_GETTER(load_command, struct load_command, cmdsize)
+DEFINE_GETTER(load_command, struct load_command, cmd)
+
+
+DEFINE_SETTER(load_command, struct load_command, cmdsize)
+DEFINE_SETTER(load_command, struct load_command, cmd)
 DEFINE_SETTER(segment_command, struct segment_command, nsects)
 DEFINE_SETTER(segment_command, struct segment_command, segname)
 DEFINE_SETTER(segment_command, struct segment_command, fileoff)
@@ -128,69 +134,71 @@ DEFINE_SETTER(ranlib_64, struct ranlib_64, ran_off)
 
 const t_poisoner			*poisoners[SUPPORTED_POISONS_TYPES] = {
 (const t_poisoner []){
-	INIT_POISONER(segment_command, struct segment_command, nsects, LC_SEGMENT, exec_lc_poisoner),
-	INIT_POISONER(segment_command, struct segment_command, segname, LC_SEGMENT, exec_lc_poisoner),
-	INIT_POISONER(segment_command, struct segment_command, fileoff, LC_SEGMENT, exec_lc_poisoner),
-	INIT_POISONER(segment_command, struct segment_command, filesize, LC_SEGMENT, exec_lc_poisoner),
-	INIT_POISONER(segment_command, struct segment_command, cmdsize, LC_SEGMENT, exec_lc_poisoner),
-	INIT_POISONER(segment_command_64, struct segment_command_64, nsects, LC_SEGMENT_64, exec_lc_poisoner),
-	INIT_POISONER(segment_command_64, struct segment_command_64, segname, LC_SEGMENT_64, exec_lc_poisoner),
-	INIT_POISONER(segment_command_64, struct segment_command_64, fileoff, LC_SEGMENT_64, exec_lc_poisoner),
-	INIT_POISONER(segment_command_64, struct segment_command_64, filesize, LC_SEGMENT_64, exec_lc_poisoner),
-	INIT_POISONER(segment_command_64, struct segment_command_64, cmdsize, LC_SEGMENT_64, exec_lc_poisoner),
-	INIT_POISONER(symtab_command, struct symtab_command, symoff, LC_SYMTAB, exec_lc_poisoner),
-	INIT_POISONER(symtab_command, struct symtab_command, nsyms, LC_SYMTAB, exec_lc_poisoner),
-	INIT_POISONER(symtab_command, struct symtab_command, stroff, LC_SYMTAB, exec_lc_poisoner),
-	INIT_POISONER(symtab_command, struct symtab_command, strsize, LC_SYMTAB, exec_lc_poisoner),
+	INIT_POISONER(segment_command, struct segment_command, nsects, LC_SEGMENT, exec_lc_poisoner, finder_lc),
+	INIT_POISONER(segment_command, struct segment_command, segname, LC_SEGMENT, exec_lc_poisoner, finder_lc),
+	INIT_POISONER(segment_command, struct segment_command, fileoff, LC_SEGMENT, exec_lc_poisoner, finder_lc),
+	INIT_POISONER(segment_command, struct segment_command, filesize, LC_SEGMENT, exec_lc_poisoner, finder_lc),
+	INIT_POISONER(segment_command, struct segment_command, cmdsize, LC_SEGMENT, exec_lc_poisoner, finder_lc),
+	INIT_POISONER(segment_command_64, struct segment_command_64, nsects, LC_SEGMENT_64, exec_lc_poisoner, finder_lc),
+	INIT_POISONER(segment_command_64, struct segment_command_64, segname, LC_SEGMENT_64, exec_lc_poisoner, finder_lc),
+	INIT_POISONER(segment_command_64, struct segment_command_64, fileoff, LC_SEGMENT_64, exec_lc_poisoner, finder_lc),
+	INIT_POISONER(segment_command_64, struct segment_command_64, filesize, LC_SEGMENT_64, exec_lc_poisoner, finder_lc),
+	INIT_POISONER(segment_command_64, struct segment_command_64, cmdsize, LC_SEGMENT_64, exec_lc_poisoner, finder_lc),
+	INIT_POISONER(symtab_command, struct symtab_command, symoff, LC_SYMTAB, exec_lc_poisoner, finder_lc),
+	INIT_POISONER(symtab_command, struct symtab_command, nsyms, LC_SYMTAB, exec_lc_poisoner, finder_lc),
+	INIT_POISONER(symtab_command, struct symtab_command, stroff, LC_SYMTAB, exec_lc_poisoner, finder_lc),
+	INIT_POISONER(symtab_command, struct symtab_command, strsize, LC_SYMTAB, exec_lc_poisoner, finder_lc),
+	INIT_POISONER(load_command, struct load_command, cmdsize, 0, exec_lc_poisoner, finder_lc),
+	INIT_POISONER(load_command, struct load_command, cmd, 0, exec_lc_poisoner, finder_lc),
 },
 (const t_poisoner []){
-	INIT_POISONER(fat_arch, struct fat_arch, offset, 0, NULL),
-	INIT_POISONER(fat_arch, struct fat_arch, size, 0, NULL),
-	INIT_POISONER(fat_arch_64, struct fat_arch_64, offset, 0, NULL),
-	INIT_POISONER(fat_arch_64, struct fat_arch_64, size, 0, NULL),
+	INIT_POISONER(fat_arch, struct fat_arch, offset, 0, NULL, NULL),
+	INIT_POISONER(fat_arch, struct fat_arch, size, 0, NULL, NULL),
+	INIT_POISONER(fat_arch_64, struct fat_arch_64, offset, 0, NULL, NULL),
+	INIT_POISONER(fat_arch_64, struct fat_arch_64, size, 0, NULL, NULL),
 },
 (const t_poisoner []){
-	INIT_POISONER(ranlib, struct ranlib, ran_un, 0, NULL),
-	INIT_POISONER(ranlib, struct ranlib, ran_off, 0, NULL),
-	INIT_POISONER(ranlib_64, struct ranlib_64, ran_un, 0, NULL),
-	INIT_POISONER(ranlib_64, struct ranlib_64, ran_off, 0, NULL),
+	INIT_POISONER(ranlib, struct ranlib, ran_un, 0, NULL, NULL),
+	INIT_POISONER(ranlib, struct ranlib, ran_off, 0, NULL, NULL),
+	INIT_POISONER(ranlib_64, struct ranlib_64, ran_un, 0, NULL, NULL),
+	INIT_POISONER(ranlib_64, struct ranlib_64, ran_off, 0, NULL, NULL),
 },
 (const t_poisoner []){
-	INIT_POISONER(section, struct section, sectname, 0, NULL),
-	INIT_POISONER(section, struct section, segname, 0, NULL),
-	INIT_POISONER(section, struct section, size, 0, NULL),
-	INIT_POISONER(section, struct section, offset, 0, NULL),
-	INIT_POISONER(section_64, struct section_64, sectname, 0, NULL),
-	INIT_POISONER(section_64, struct section_64, segname, 0, NULL),
-	INIT_POISONER(section_64, struct section_64, size, 0, NULL),
-	INIT_POISONER(section_64, struct section_64, offset, 0, NULL),
-	INIT_POISONER(nlist, struct nlist, n_un, 0, NULL),
-	INIT_POISONER(nlist, struct nlist, n_type, 0, NULL),
-	INIT_POISONER(nlist, struct nlist, n_sect, 0, NULL),
-	INIT_POISONER(nlist, struct nlist, n_desc, 0, NULL),
-	INIT_POISONER(nlist, struct nlist, n_value, 0, NULL),
-	INIT_POISONER(nlist_64, struct nlist_64, n_un, 0, NULL),
-	INIT_POISONER(nlist_64, struct nlist_64, n_type, 0, NULL),
-	INIT_POISONER(nlist_64, struct nlist_64, n_sect, 0, NULL),
-	INIT_POISONER(nlist_64, struct nlist_64, n_desc, 0, NULL),
-	INIT_POISONER(nlist_64, struct nlist_64, n_value, 0, NULL),
+	INIT_POISONER(section, struct section, sectname, 0, exec_sub_level_lc_poisoner, finder_section_32),
+	INIT_POISONER(section, struct section, segname, 0, exec_sub_level_lc_poisoner, finder_section_32),
+	INIT_POISONER(section, struct section, size, 0, exec_sub_level_lc_poisoner, finder_section_32),
+	INIT_POISONER(section, struct section, offset, 0, exec_sub_level_lc_poisoner, finder_section_32),
+	INIT_POISONER(section_64, struct section_64, sectname, 0, exec_sub_level_lc_poisoner, finder_section_64),
+	INIT_POISONER(section_64, struct section_64, segname, 0, exec_sub_level_lc_poisoner, finder_section_64),
+	INIT_POISONER(section_64, struct section_64, size, 0, exec_sub_level_lc_poisoner, finder_section_64),
+	INIT_POISONER(section_64, struct section_64, offset, 0, exec_sub_level_lc_poisoner, finder_section_64),
+	INIT_POISONER(nlist, struct nlist, n_un, 0, exec_sub_level_lc_poisoner, NULL),
+	INIT_POISONER(nlist, struct nlist, n_type, 0, exec_sub_level_lc_poisoner, NULL),
+	INIT_POISONER(nlist, struct nlist, n_sect, 0, exec_sub_level_lc_poisoner, NULL),
+	INIT_POISONER(nlist, struct nlist, n_desc, 0, exec_sub_level_lc_poisoner, NULL),
+	INIT_POISONER(nlist, struct nlist, n_value, 0, exec_sub_level_lc_poisoner, NULL),
+	INIT_POISONER(nlist_64, struct nlist_64, n_un, 0, exec_sub_level_lc_poisoner, NULL),
+	INIT_POISONER(nlist_64, struct nlist_64, n_type, 0, exec_sub_level_lc_poisoner, NULL),
+	INIT_POISONER(nlist_64, struct nlist_64, n_sect, 0, exec_sub_level_lc_poisoner, NULL),
+	INIT_POISONER(nlist_64, struct nlist_64, n_desc, 0, exec_sub_level_lc_poisoner, NULL),
+	INIT_POISONER(nlist_64, struct nlist_64, n_value, 0, exec_sub_level_lc_poisoner, NULL),
 },
 (const t_poisoner []){
-	INIT_POISONER(mach_header, struct mach_header, ncmds, 0, exec_macho_level_poisoner),
-	INIT_POISONER(mach_header, struct mach_header, sizeofcmds, 0, exec_macho_level_poisoner),
-	INIT_POISONER(mach_header_64, struct mach_header_64, ncmds, 0, exec_macho_level_poisoner),
-	INIT_POISONER(mach_header_64, struct mach_header_64, sizeofcmds, 0, exec_macho_level_poisoner),
+	INIT_POISONER(mach_header, struct mach_header, ncmds, 0, exec_macho_level_poisoner, NULL),
+	INIT_POISONER(mach_header, struct mach_header, sizeofcmds, 0, exec_macho_level_poisoner, NULL),
+	INIT_POISONER(mach_header_64, struct mach_header_64, ncmds, 0, exec_macho_level_poisoner, NULL),
+	INIT_POISONER(mach_header_64, struct mach_header_64, sizeofcmds, 0, exec_macho_level_poisoner, NULL),
 },
 };
 
 /*
-** It is such a shame that type tab[some_value][] can't exists in c.
+** It xis such a shame that type tab[some_value][] can't exists in c.
 ** Because the following table could have been defined by sizeof(ptr) / sizeof(*ptr)
 ** If you know a work around, please let me know
 */
 
 const uint64_t	poisoners_count_per_type[SUPPORTED_POISONS_TYPES] = {
-	14,
+	16,
 	4,
 	4,
 	18,

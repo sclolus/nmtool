@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:10:54 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/20 04:58:11 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/21 01:42:12 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,9 @@ t_ofile				*get_ofile(char *filename);
 t_ofile_type		get_ofile_type(t_ofile *ofile);
 const char			*get_ofile_type_name(t_ofile_type type);
 
+struct section				*ofile_find_n_sect(t_ofile *ofile, uint32_t n);
+struct section_64			*ofile_find_n_sect_64(t_ofile *ofile, uint32_t n);
+
 uint32_t					get_nsects(t_ofile *ofile);
 uint32_t					get_nsects_64(t_ofile *ofile);
 uint32_t					ofile_get_nsegs(t_ofile *ofile);
@@ -126,6 +129,7 @@ void					*set_ofile_mh(t_ofile *ofile);
 struct load_command		*set_ofile_load_commands(t_ofile *ofile);
 void					ofile_swap_macho_load_commands(t_ofile *ofile);
 void					ofile_swap_macho_hdr(t_ofile *ofile);
+struct load_command		*ofile_get_n_lc(t_ofile *ofile, uint32_t n);
 struct load_command		*ofile_find_lc(t_ofile *ofile, uint32_t cmd);
 struct load_command		*ofile_find_n_lc(t_ofile *ofile, uint32_t cmd, uint32_t n);
 uint32_t				ofile_object_count_lc(t_ofile *ofile, uint32_t cmd);
