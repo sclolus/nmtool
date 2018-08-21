@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 03:10:22 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/21 03:51:34 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/21 07:28:43 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,20 @@ static uint32_t		**count_data_instances(t_ofile *ofile, uint32_t **instances_cou
 	instances_count[LC_POISON][15] = instances_count[LC_POISON][14];
 
 	bzero(instances_count[FAT_LEVEL_POISON], sizeof(uint32_t) * poisoners_count_per_type[FAT_LEVEL_POISON]);
-	if (ofile->fat_archs)
+	if (ofile->fat_header)
 	{
 		instances_count[FAT_LEVEL_POISON][0] = ofile->fat_header->nfat_arch;
 		instances_count[FAT_LEVEL_POISON][1] = ofile->fat_header->nfat_arch;
 	}
-	else if (ofile->fat_archs_64)
+	if (ofile->fat_archs)
 	{
 		instances_count[FAT_LEVEL_POISON][2] = ofile->fat_header->nfat_arch;
 		instances_count[FAT_LEVEL_POISON][3] = ofile->fat_header->nfat_arch;
+	}
+	else if (ofile->fat_archs_64)
+	{
+		instances_count[FAT_LEVEL_POISON][4] = ofile->fat_header->nfat_arch;
+		instances_count[FAT_LEVEL_POISON][5] = ofile->fat_header->nfat_arch;
 	}
 	bzero(instances_count[ARCHIVE_LEVEL_POISON], sizeof(uint32_t) * poisoners_count_per_type[ARCHIVE_LEVEL_POISON]);
 	if (ofile->ranlibs)

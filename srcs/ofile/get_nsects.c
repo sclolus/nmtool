@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 02:24:47 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/16 03:52:02 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/21 06:54:30 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ uint32_t	get_nsects(t_ofile *ofile)
 	uint32_t			nsects;
 	uint32_t			ncmds;
 
+	if (ofile->mh == NULL && ofile->mh_64 == NULL)
+		return (0);
 	cur_lc = ofile->load_commands;
 	i = 0;
 	nsects = 0;

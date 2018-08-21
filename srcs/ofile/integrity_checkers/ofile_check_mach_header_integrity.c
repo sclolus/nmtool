@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 22:47:29 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/21 06:28:12 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/21 06:29:30 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int32_t	ofile_check_mach_header_integrity(t_ofile *ofile)
 			dprintf(2, "truncated or malformed object (load commands extend past the end of the file)\n");
 			return (-1);
 		}
-
 	}
 	else if (ofile->mh_64)
 	{

@@ -28,6 +28,8 @@ SRC_OFILE_LIB=srcs/ofile/get_ofile_type.c \
 	srcs/ofile/ofile_load_narchive_member.c \
 	srcs/ofile/ofile_load_narch.c \
 	srcs/ofile/ofile_fat_find_arch.c \
+	srcs/ofile/ofile_find_n_fat_arch.c \
+	srcs/ofile/ofile_find_n_fat_arch_64.c \
 	srcs/ofile/ofile_swap_fat_hdrs.c \
 	srcs/ofile/get_cputype_name.c \
 	srcs/ofile/ofile_swap_macho_load_commands.c \
@@ -72,6 +74,7 @@ SRC_POISONER=srcs/poisoner/main.c \
 			srcs/poisoner/generate_poison_command.c \
 			srcs/poisoner/exec_lc_poisoner.c \
 			srcs/poisoner/exec_sub_level_lc_poisoner.c \
+			srcs/poisoner/exec_fat_level_poisoner.c \
 			srcs/poisoner/exec_macho_level_poisoner.c \
 			srcs/poisoner/finder.c \
 			srcs/poisoner/allocate_poisoned_zone.c \

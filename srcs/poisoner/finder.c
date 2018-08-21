@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/21 02:16:14 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/21 03:49:02 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/21 07:24:18 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,24 @@ void	*finder_lc(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_comma
 	else
 		lc = ofile_get_n_lc(ofile, cmd->optional_index);
 	return (lc);
+}
+
+void	*finder_fat_arch(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd)
+{
+	(void)poisoner;
+	return (ofile_find_n_fat_arch(ofile, cmd->optional_index));
+}
+
+void	*finder_fat_arch_64(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd)
+{
+	(void)poisoner;
+	(void)cmd;
+	return (ofile_find_n_fat_arch_64(ofile, cmd->optional_index));
+}
+
+void	*finder_fat_header(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd)
+{
+	(void)poisoner;
+	(void)cmd;
+	return (ofile->fat_header);
 }

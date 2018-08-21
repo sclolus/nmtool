@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 23:09:12 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/19 23:05:43 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/21 07:13:10 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ inline static void	swap_fat_archs_hdr(t_ofile *ofile, uint32_t narch)
 	}
 }
 
-void				ofile_swap_fat_hdrs(t_ofile *ofile)
+int32_t				ofile_swap_fat_hdrs(t_ofile *ofile)
 {
 	uint32_t	i;
 
@@ -52,7 +52,16 @@ void				ofile_swap_fat_hdrs(t_ofile *ofile)
 	i = 0;
 	while (i < ofile->fat_header->nfat_arch)
 	{
+		if ((ofile->fat_archs
+			&& -1 == ofile_file_check_addr_size(ofile, ofile->fat_archs + i, sizeof(struct fat_arch)))
+			|| (ofile->fat_archs_64
+			&& -1 == ofile_file_check_addr_size(ofile, ofile->fat_archs_64 + i, sizeof(struct fat_arch_64))))
+		{
+			dprintf(2, "The file was not recognized as a valid object file\n");
+			return (-1);
+		}
 		swap_fat_archs_hdr(ofile, i);
 		i++;
 	}
+	return (0);
 }

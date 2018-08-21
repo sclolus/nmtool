@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 08:50:10 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/19 17:10:33 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/21 06:55:47 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ struct load_command	*ofile_find_lc(t_ofile *ofile, uint32_t cmd)
 	uint32_t			ncmds;
 	struct load_command	*cur_lc;
 
-
-	assert(ofile->load_commands && (ofile->mh || ofile->mh_64));
+	if (ofile->load_commands == NULL || (ofile->mh == NULL && ofile->mh_64 == NULL))
+		return (NULL);
 	i = 0;
 	ncmds = ofile->mh ? ofile->mh->ncmds : ofile->mh_64->ncmds;
 	cur_lc = ofile->load_commands;

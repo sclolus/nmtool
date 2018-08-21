@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:10:54 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/21 03:44:30 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/21 07:06:22 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,11 +162,13 @@ void				swap_section_64(struct section_64 *section);
 ** Loading functions of the fat data structures in the ofile structure
 */
 
-void				load_fat_ofile(t_ofile *ofile);
-void				ofile_swap_fat_hdrs(t_ofile *ofile);
+int32_t				load_fat_ofile(t_ofile *ofile);
+int32_t				ofile_swap_fat_hdrs(t_ofile *ofile);
 int32_t				ofile_load_narch(t_ofile *ofile, uint32_t narch);
 int32_t				ofile_file_check_addr(t_ofile *ofile, void *addr);
 int32_t				ofile_file_check_addr_size(t_ofile *ofile, void *addr, uint64_t size);
+struct fat_arch		*ofile_find_n_fat_arch(t_ofile *ofile, uint32_t narch);
+struct fat_arch_64	*ofile_find_n_fat_arch_64(t_ofile *ofile, uint32_t narch);
 
 /*
 ** Loading functions of the static archive data structures in the ofile structure

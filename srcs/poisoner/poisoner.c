@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 19:18:39 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/21 03:38:50 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/21 07:24:58 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,12 @@ DEFINE_SETTER(ranlib, struct ranlib, ran_off)
 DEFINE_SETTER(ranlib_64, struct ranlib_64, ran_un)
 DEFINE_SETTER(ranlib_64, struct ranlib_64, ran_off)
 
+DEFINE_GETTER(fat_header, struct fat_header, magic)
+DEFINE_GETTER(fat_header, struct fat_header, nfat_arch)
+
+DEFINE_SETTER(fat_header, struct fat_header, magic)
+DEFINE_SETTER(fat_header, struct fat_header, nfat_arch)
+
 const t_poisoner			*poisoners[SUPPORTED_POISONS_TYPES] = {
 (const t_poisoner []){
 	INIT_POISONER(segment_command, struct segment_command, nsects, LC_SEGMENT, exec_lc_poisoner, finder_lc),
@@ -152,10 +158,12 @@ const t_poisoner			*poisoners[SUPPORTED_POISONS_TYPES] = {
 	INIT_POISONER(load_command, struct load_command, cmd, 0, exec_lc_poisoner, finder_lc),
 },
 (const t_poisoner []){
-	INIT_POISONER(fat_arch, struct fat_arch, offset, 0, NULL, NULL),
-	INIT_POISONER(fat_arch, struct fat_arch, size, 0, NULL, NULL),
-	INIT_POISONER(fat_arch_64, struct fat_arch_64, offset, 0, NULL, NULL),
-	INIT_POISONER(fat_arch_64, struct fat_arch_64, size, 0, NULL, NULL),
+	INIT_POISONER(fat_header, struct fat_header, magic, 0, exec_fat_level_poisoner, finder_fat_header),
+	INIT_POISONER(fat_header, struct fat_header, nfat_arch, 0, exec_fat_level_poisoner, finder_fat_header),
+	INIT_POISONER(fat_arch, struct fat_arch, offset, 0, exec_fat_level_poisoner, finder_fat_arch),
+	INIT_POISONER(fat_arch, struct fat_arch, size, 0, exec_fat_level_poisoner, finder_fat_arch),
+	INIT_POISONER(fat_arch_64, struct fat_arch_64, offset, 0, exec_fat_level_poisoner, finder_fat_arch_64),
+	INIT_POISONER(fat_arch_64, struct fat_arch_64, size, 0, exec_fat_level_poisoner, finder_fat_arch_64),
 },
 (const t_poisoner []){
 	INIT_POISONER(ranlib, struct ranlib, ran_un, 0, NULL, NULL),
@@ -199,7 +207,7 @@ const t_poisoner			*poisoners[SUPPORTED_POISONS_TYPES] = {
 
 const uint64_t	poisoners_count_per_type[SUPPORTED_POISONS_TYPES] = {
 	16,
-	4,
+	6,
 	4,
 	18,
 	4,
@@ -213,6 +221,7 @@ static void	exec_poisoners(t_ofile *ofile, t_poison_list *plist)
 	uint32_t			i;
 
 	i = 0;
+	assert((ofile->mh_64 || ofile->mh) && ofile->load_commands);
 	while (i < plist->pnbr)
 	{
 		executor = poisoners[plist->poison_commands[i].type][plist->poison_commands[i].pindex].executor;
@@ -224,14 +233,27 @@ static void	exec_poisoners(t_ofile *ofile, t_poison_list *plist)
 	}
 }
 
+static void	handle_fat_files(t_ofile *ofile, t_poison_list *plist)
+{
+	uint32_t	i;
+
+	i = 0;
+	assert(ofile->fat_archs || ofile->fat_archs_64);
+	if (-1 == ofile_load_narch(ofile, 0))
+	{
+		dprintf(2, "Failed to parse fat file, aborting the poisoning...\n");
+		return;
+	}
+	exec_poisoners(ofile, plist); // let's just do that for now
+}
+
 void	 poison(t_ofile *ofile, t_poison_list *plist)
 {
 	uint32_t			i;
-	struct load_command	*lc;
 
 	i = 0;
-	assert(ofile->mh_64 && ofile->load_commands);
-	lc = ofile->load_commands;
 	if (ofile->ofile_type == OFILE_MACHO)
 		exec_poisoners(ofile, plist);
+	else if (ofile->ofile_type == OFILE_FAT)
+		handle_fat_files(ofile, plist);
 }
