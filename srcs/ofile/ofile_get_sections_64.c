@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 02:54:05 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/16 02:58:10 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/21 04:08:35 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static uint32_t		fill_sections_from_seg(struct load_command *lc,
 										struct section_64 **secs,
 										uint32_t count)
 {
-	uint32_t				i;
+	uint32_t					i;
 	struct segment_command_64	*sc;
 
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 19:18:58 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/21 03:41:04 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/21 04:27:02 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,8 @@ void	*finder_nlist(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_co
 	PROT_SETTER(type_name, member)										\
 	void	*GET_SETTER_NAME(type_name, member)(void *data, void *value) \
 	{																	\
-		/* printf("Modified %lu bytes\n", sizeof(((type *)data)->member)); \ */ \
-		return (memcpy(&((type *)data)->member, value, sizeof(((type *)data)->member))); \
+		printf("Modified %lu bytes\n", sizeof(((type *)0)->member)); \
+		return (memcpy(data, value, sizeof(((type *)0)->member))); \
 	}
 
 #define INIT_POISONER(type_name, type, member, cmd_id, executor, finder) {executor, GET_GETTER_NAME(type_name, member), GET_SETTER_NAME(type_name, member), finder, #type_name "->" #member, cmd_id, {0}}
