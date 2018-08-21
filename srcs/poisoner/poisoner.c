@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 19:18:39 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/21 11:18:33 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/21 11:31:49 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -343,7 +343,6 @@ t_poison_list			*poison(t_ofile *ofile, t_gen_config *config)
 	else if (ofile->ofile_type == OFILE_FAT)
 		return (handle_fat_file(ofile, config));
 	else if (ofile->ofile_type == OFILE_ARCHIVE)
-		handle_archive_file(ofile, config);
-//		exec_poisoners(ofile, plist);
+		return (handle_archive_file(ofile, config));
 	return (plist);
 }

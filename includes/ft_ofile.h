@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:10:54 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/21 07:06:22 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/21 11:24:09 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ typedef struct	s_archive_member_header
 	gid_t		st_gid;
 	mode_t		st_mode;
 	bool		long_name;
-	uint8_t		pad[5];
+	uint8_t		__pad[5];
 }				t_member_header;
 
 typedef struct s_ofile
