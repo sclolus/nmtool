@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 19:18:39 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/21 08:39:26 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/21 10:49:46 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,7 +200,7 @@ const t_poisoner			*poisoners[SUPPORTED_POISONS_TYPES] = {
 };
 
 /*
-** It xis such a shame that type tab[some_value][] can't exists in c.
+** It is such a shame that types like tab[some_value][] can't exists in c.
 ** Because the following table could have been defined by sizeof(ptr) / sizeof(*ptr)
 ** If you know a work around, please let me know
 */
@@ -221,7 +221,6 @@ static void	exec_poisoners(t_ofile *ofile, t_poison_list *plist)
 	uint32_t			i;
 
 	i = 0;
-//	assert((ofile->mh_64 || ofile->mh) && ofile->load_commands);
 	while (i < plist->pnbr)
 	{
 		executor = poisoners[plist->poison_commands[i].type][plist->poison_commands[i].pindex].executor;
@@ -233,29 +232,83 @@ static void	exec_poisoners(t_ofile *ofile, t_poison_list *plist)
 	}
 }
 
-static void	handle_fat_files(t_ofile *ofile, t_poison_list *plist)
+static int32_t			find_current_host_narch(t_ofile *ofile)
 {
-	uint32_t	i;
+	const NXArchInfo	*host_arch;
 
-	i = 0;
-	assert(ofile->fat_archs || ofile->fat_archs_64);
-	if (-1 == ofile_load_narch(ofile, 0))
-	{
-		dprintf(2, "Failed to parse fat file, aborting the poisoning...\n");
-		return;
-	}
-	exec_poisoners(ofile, plist); // let's just do that for now
+	assert((host_arch = NXGetLocalArchInfo()));
+	return (ofile_fat_find_arch(ofile,
+				host_arch->cputype | CPU_ARCH_ABI64, host_arch->cpusubtype));
 }
 
-void	 poison(t_ofile *ofile, t_poison_list *plist)
+static t_poison_list	*handle_fat_files(t_ofile *ofile, t_poison_generator_config *config)
 {
-	uint32_t			i;
+	t_poison_list	*plist;
+	uint32_t		i;
+	int32_t			narch_for_arch;
+	uint32_t		pnbr_for_fat_level;
 
-	i = 0;
+
+	pnbr_for_fat_level = (uint32_t)rand() % (config->pnbr + 1);
+	assert(ofile->fat_header && (ofile->fat_archs || ofile->fat_archs_64));
+	assert(plist = generate_poison_list(ofile,
+										&(t_gen_config){NULL, pnbr_for_fat_level,
+											{false, true, false, false, false},
+											true, {0}}));
+	exec_poisoners(ofile, plist);
+	printf("\npoisoned fat_headers\n");
+	if (pnbr_for_fat_level == config->pnbr)
+		return (plist);
+	free_poison_list(plist);
+	config->pnbr -= pnbr_for_fat_level;
+	config->actived_poisons[FAT_LEVEL_POISON] = false;
+
+	plist = NULL;
+	if (-1 == (narch_for_arch = find_current_host_narch(ofile))
+		|| config->poison_every_archs)
+	{
+		i = 0;
+		while (i < ofile->fat_header->nfat_arch)
+		{
+			free_poison_list(plist);
+			if (-1 == ofile_load_narch(ofile, i))
+			{
+				dprintf(2, "Failed to parse fat file, aborting the poisoning...\n");
+				return (NULL);
+			}
+			assert(plist = generate_poison_list(ofile, config));
+			exec_poisoners(ofile, plist); // let's just do that for now
+			i++;
+		}
+	}
+
+	assert(plist = generate_poison_list(ofile, config));
+	if (-1 == ofile_load_narch(ofile, (uint32_t)narch_for_arch))
+	{
+		dprintf(2, "Failed to parse fat file, aborting the poisoning...\n");
+		free_poison_list(plist);
+		return (NULL);
+	}
+	exec_poisoners(ofile, plist); // let's just do that for now
+	return (plist);
+}
+
+t_poison_list	 *poison(t_ofile *ofile, t_poison_generator_config *config)
+{
+	t_poison_list		*plist;
+
+	if (config->pnbr == 0)
+		return (NULL);
+	plist = NULL;
 	if (ofile->ofile_type == OFILE_MACHO)
+	{
+		assert(plist = generate_poison_list(ofile, config));
 		exec_poisoners(ofile, plist);
+	}
 	else if (ofile->ofile_type == OFILE_FAT)
-		handle_fat_files(ofile, plist);
+		return (handle_fat_files(ofile, config));
 	else if (ofile->ofile_type == OFILE_ARCHIVE)
-		exec_poisoners(ofile, plist);
+		abort();
+//		exec_poisoners(ofile, plist);
+	return (plist);
 }

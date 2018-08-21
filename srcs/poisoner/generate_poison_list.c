@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 03:10:22 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/21 07:28:43 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/21 10:42:47 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,22 @@ static inline void				free_instances_count(uint32_t **instances_count)
 		free(instances_count[i++]);
 }
 
-t_poison_list	*generate_poison_list(t_ofile *ofile, uint32_t pnbr)
+static inline t_poison_type	get_random_poison_type(t_poison_generator_config *config, uint32_t **instances_count)
+{
+	t_poison_type	type;
+
+	type = (rand() % SUPPORTED_POISONS_TYPES);
+	while (42)
+	{
+		type = (rand() % SUPPORTED_POISONS_TYPES);
+		if (config->actived_poisons[type] == true
+			&& check_type_instances_to_poison(instances_count, type) == 1)
+			break ;
+	}
+	return (type);
+}
+
+t_poison_list	*generate_poison_list(t_ofile *ofile, t_poison_generator_config *config)
 {
 	t_poison_type	type;
 	t_poison_list	*plist;
@@ -170,13 +185,16 @@ t_poison_list	*generate_poison_list(t_ofile *ofile, uint32_t pnbr)
 	uint64_t		alloc_size;
 	uint32_t		i;
 
-	alloc_size = sizeof(*plist) + sizeof(t_poison_command) * pnbr;
+	if (!ofile || !config)
+		return (NULL);
+	alloc_size = sizeof(*plist) + sizeof(t_poison_command) * config->pnbr;
 	if (NULL == (plist = malloc(alloc_size)))
 		exit(EXIT_FAILURE);
+	assert(!config->specific_plist); // not supported right now
 	bzero(plist, alloc_size);
 	allocate_data_instances(instances_count);
 	count_data_instances(ofile, instances_count);
-	plist->pnbr = pnbr;
+	plist->pnbr = config->pnbr;
 	plist->poison_commands = (t_poison_command *)(void *)(plist + 1);
 	if (check_type_instances(instances_count) == 0)
 	{
@@ -185,11 +203,9 @@ t_poison_list	*generate_poison_list(t_ofile *ofile, uint32_t pnbr)
 		return (NULL);
 	}
 	i = 0;
-	while (i < pnbr)
+	while (i < config->pnbr)
 	{
-		type = (rand() % SUPPORTED_POISONS_TYPES);
-		while (check_type_instances_to_poison(instances_count, type) == 0)
-			type = (rand() % SUPPORTED_POISONS_TYPES);
+		type = get_random_poison_type(config, instances_count);
 		plist->poison_commands[i] = generate_poison_command(type, instances_count);
 		i++;
 	}

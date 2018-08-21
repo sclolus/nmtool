@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 19:18:58 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/21 08:38:12 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/21 10:30:35 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdlib.h>
 # include <stdint.h>
 # include <time.h>
+# include <mach-o/arch.h>
 
 
 
@@ -52,9 +53,17 @@ typedef enum   e_poison_type
 	SUPPORTED_POISONS_TYPES,
 }				t_poison_type;
 
+typedef enum	e_poison_action
+{
+	POISON_ACTION_RANDOMIZE = 0,
+	POISON_ACTION_TRUNCATE, // not implemented
+	POISON_ACTION_SPECIFIC_VALUE, // not implemented
+}				t_poison_action;
+
 typedef struct s_poison_command
 {
 	t_poison_type	type;
+	t_poison_action	action;
 	uint32_t		pindex;
 	uint32_t		optional_index;
 }			   t_poison_command;
@@ -66,34 +75,45 @@ typedef struct	s_poison_list
 	uint8_t				__pad[4];
 }				t_poison_list;
 
+typedef struct	s_poison_generator_config
+{
+	t_poison_list	*specific_plist; // not implemented
+	uint32_t		pnbr;
+	bool			actived_poisons[SUPPORTED_POISONS_TYPES];
+	bool			poison_every_archs;
+	uint8_t			__pad[6];
+} t_poison_generator_config;//yeah I'm lazy
 
-void	poison(t_ofile *ofile, t_poison_list *plist);
-void	poison_lc_symtab(struct load_command *lc, t_ofile *ofile);
-void	poison_lc_segment_64(struct load_command *lc, t_ofile *ofile);
-void	poison_lc_segment(struct load_command *lc, t_ofile *ofile);
+typedef t_poison_generator_config	t_gen_config;
 
-t_poison_list			*generate_poison_list(t_ofile *ofile, uint32_t pnbr);
-t_poison_command		generate_poison_command(t_poison_type type, uint32_t **instances_count);
-char					*get_poisoned_file_name(char *original_filename, t_poison_list *plist);
+t_poison_list		*poison(t_ofile *ofile, t_poison_generator_config *config);
+void				poison_lc_symtab(struct load_command *lc, t_ofile *ofile);
+void				poison_lc_segment_64(struct load_command *lc, t_ofile *ofile);
+void				poison_lc_segment(struct load_command *lc, t_ofile *ofile);
 
-void	exec_lc_poisoner(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
-void	exec_macho_level_poisoner(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
-void	exec_sub_level_lc_poisoner(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
-void	exec_fat_level_poisoner(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
-void	exec_archive_level_poisoner(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+t_poison_list		*generate_poison_list(t_ofile *ofile, t_poison_generator_config *config);
+t_poison_command	generate_poison_command(t_poison_type type, uint32_t **instances_count);
+void				free_poison_list(t_poison_list *plist);
+char				*get_poisoned_file_name(char *original_filename, t_poison_list *plist);
 
-void	*finder_section_32(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
-void	*finder_section_64(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
-void	*finder_lc(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
-void	*finder_nlist_64(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
-void	*finder_nlist(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
-void	*finder_fat_arch_64(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
-void	*finder_fat_arch(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
-void	*finder_fat_header(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
-void	*finder_ranlib(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
-void	*finder_ranlib_64(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
-void	*finder_mach_header(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
-void	*finder_mach_header_64(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+void				exec_lc_poisoner(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+void				exec_macho_level_poisoner(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+void				exec_sub_level_lc_poisoner(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+void				exec_fat_level_poisoner(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+void				exec_archive_level_poisoner(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+
+void				*finder_section_32(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+void				*finder_section_64(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+void				*finder_lc(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+void				*finder_nlist_64(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+void				*finder_nlist(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+void				*finder_fat_arch_64(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+void				*finder_fat_arch(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+void				*finder_fat_header(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+void				*finder_ranlib(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+void				*finder_ranlib_64(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+void				*finder_mach_header(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+void				*finder_mach_header_64(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
 
 #define OFFSET_OF(type, member) (uint64_t)(&((type *)0)->member)
 
@@ -124,9 +144,9 @@ extern const t_poisoner	*poisoners[SUPPORTED_POISONS_TYPES];
 extern const uint64_t	poisoners_count_per_type[SUPPORTED_POISONS_TYPES];
 extern void				*poisoned_zone_vm_addr;
 
-void	*allocate_poisoned_zone(const t_ofile *ofile);
-int		deallocate_poisoned_zone(const t_ofile *ofile);
-void	*map_addr_to_poisoned_zone(const t_ofile *ofile, void *addr);
+void				*allocate_poisoned_zone(const t_ofile *ofile);
+int					deallocate_poisoned_zone(const t_ofile *ofile);
+void				*map_addr_to_poisoned_zone(const t_ofile *ofile, void *addr);
 
 
 #endif

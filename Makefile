@@ -72,6 +72,7 @@ SRC_POISONER=srcs/poisoner/main.c \
 			srcs/poisoner/poison_lc_symtab.c \
 			srcs/poisoner/generate_poison_list.c \
 			srcs/poisoner/generate_poison_command.c \
+			srcs/poisoner/free_poison_list.c \
 			srcs/poisoner/exec_lc_poisoner.c \
 			srcs/poisoner/exec_sub_level_lc_poisoner.c \
 			srcs/poisoner/exec_fat_level_poisoner.c \

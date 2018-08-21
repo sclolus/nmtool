@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 03:08:53 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/21 02:34:34 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/21 09:45:05 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,5 @@ __attribute__((always_inline)) inline t_poison_command	generate_poison_command(t
 	while (!instances_count[type][p_index])
 		p_index = (uint32_t)rand() % ((uint32_t)poisoners_count_per_type[type]);
 	instance_index = (uint32_t)rand() % instances_count[type][p_index];
-	return ((t_poison_command){type, p_index, instance_index});
+	return ((t_poison_command){type, POISON_ACTION_RANDOMIZE, p_index, instance_index});
 }
