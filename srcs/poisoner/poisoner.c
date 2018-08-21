@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 19:18:39 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/21 07:24:58 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/21 08:28:42 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,10 +166,10 @@ const t_poisoner			*poisoners[SUPPORTED_POISONS_TYPES] = {
 	INIT_POISONER(fat_arch_64, struct fat_arch_64, size, 0, exec_fat_level_poisoner, finder_fat_arch_64),
 },
 (const t_poisoner []){
-	INIT_POISONER(ranlib, struct ranlib, ran_un, 0, NULL, NULL),
-	INIT_POISONER(ranlib, struct ranlib, ran_off, 0, NULL, NULL),
-	INIT_POISONER(ranlib_64, struct ranlib_64, ran_un, 0, NULL, NULL),
-	INIT_POISONER(ranlib_64, struct ranlib_64, ran_off, 0, NULL, NULL),
+	INIT_POISONER(ranlib, struct ranlib, ran_un, 0, exec_archive_level_poisoner, finder_ranlib),
+	INIT_POISONER(ranlib, struct ranlib, ran_off, 0, exec_archive_level_poisoner, finder_ranlib),
+	INIT_POISONER(ranlib_64, struct ranlib_64, ran_un, 0, exec_archive_level_poisoner, finder_ranlib_64),
+	INIT_POISONER(ranlib_64, struct ranlib_64, ran_off, 0, exec_archive_level_poisoner, finder_ranlib_64),
 },
 (const t_poisoner []){
 	INIT_POISONER(section, struct section, sectname, 0, exec_sub_level_lc_poisoner, finder_section_32),
@@ -221,7 +221,7 @@ static void	exec_poisoners(t_ofile *ofile, t_poison_list *plist)
 	uint32_t			i;
 
 	i = 0;
-	assert((ofile->mh_64 || ofile->mh) && ofile->load_commands);
+//	assert((ofile->mh_64 || ofile->mh) && ofile->load_commands);
 	while (i < plist->pnbr)
 	{
 		executor = poisoners[plist->poison_commands[i].type][plist->poison_commands[i].pindex].executor;
@@ -256,4 +256,6 @@ void	 poison(t_ofile *ofile, t_poison_list *plist)
 		exec_poisoners(ofile, plist);
 	else if (ofile->ofile_type == OFILE_FAT)
 		handle_fat_files(ofile, plist);
+	else if (ofile->ofile_type == OFILE_ARCHIVE)
+		exec_poisoners(ofile, plist);
 }

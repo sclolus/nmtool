@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 19:18:58 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/21 07:18:29 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/21 08:18:36 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	exec_lc_poisoner(t_ofile *ofile, const t_poisoner *poisoner, const t_poison
 void	exec_macho_level_poisoner(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
 void	exec_sub_level_lc_poisoner(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
 void	exec_fat_level_poisoner(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+void	exec_archive_level_poisoner(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
 
 void	*finder_section_32(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
 void	*finder_section_64(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
@@ -89,6 +90,8 @@ void	*finder_nlist(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_co
 void	*finder_fat_arch_64(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
 void	*finder_fat_arch(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
 void	*finder_fat_header(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+void	*finder_ranlib(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+void	*finder_ranlib_64(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
 
 #define OFFSET_OF(type, member) (uint64_t)(&((type *)0)->member)
 

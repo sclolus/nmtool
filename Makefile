@@ -76,6 +76,7 @@ SRC_POISONER=srcs/poisoner/main.c \
 			srcs/poisoner/exec_sub_level_lc_poisoner.c \
 			srcs/poisoner/exec_fat_level_poisoner.c \
 			srcs/poisoner/exec_macho_level_poisoner.c \
+			srcs/poisoner/exec_archive_level_poisoner.c \
 			srcs/poisoner/finder.c \
 			srcs/poisoner/allocate_poisoned_zone.c \
 			srcs/poisoner/deallocate_poisoned_zone.c \

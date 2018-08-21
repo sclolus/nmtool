@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/21 02:16:14 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/21 07:24:18 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/21 08:29:42 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,20 @@ void	*finder_fat_header(t_ofile *ofile, const t_poisoner *poisoner, const t_pois
 	(void)poisoner;
 	(void)cmd;
 	return (ofile->fat_header);
+}
+
+void	*finder_ranlib(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd)
+{
+	(void)poisoner;
+	if (!ofile->ranlibs || ofile->nran <= cmd->optional_index)
+		return (NULL);
+	return (ofile->ranlibs + cmd->optional_index);
+}
+
+void	*finder_ranlib_64(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd)
+{
+	(void)poisoner;
+	if (!ofile->ranlibs_64 || ofile->nran <= cmd->optional_index)
+		return (NULL);
+	return (ofile->ranlibs_64 + cmd->optional_index);
 }
