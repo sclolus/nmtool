@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 03:10:22 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/21 02:34:52 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/21 03:51:34 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static uint32_t		**count_data_instances(t_ofile *ofile, uint32_t **instances_cou
 	while (i < poisoners_count_per_type[LC_POISON])
 	{
 		instances_count[LC_POISON][i] = ofile_object_count_lc(ofile, poisoners[LC_POISON][i].cmd);
-		printf("instances_count[LC_POISON][%u] = %u\n", i, instances_count[LC_POISON][i]);
 		i++;
 	}
 	if (ofile->mh)
@@ -77,6 +76,34 @@ static uint32_t		**count_data_instances(t_ofile *ofile, uint32_t **instances_cou
 	instances_count[SUB_LC_LEVEL_POISON][5] = instances_count[SUB_LC_LEVEL_POISON][4];
 	instances_count[SUB_LC_LEVEL_POISON][6] = instances_count[SUB_LC_LEVEL_POISON][4];
 	instances_count[SUB_LC_LEVEL_POISON][7] = instances_count[SUB_LC_LEVEL_POISON][4];
+
+	struct symtab_command	*sc = ofile_get_symbol_table_lc(ofile);
+
+	if (sc == NULL || ofile->mh_64 || ofile->mh == NULL)
+		instances_count[SUB_LC_LEVEL_POISON][8] = 0;
+	else
+	{
+		instances_count[SUB_LC_LEVEL_POISON][8] = sc->nsyms;
+		instances_count[SUB_LC_LEVEL_POISON][13] = 0;
+	}
+
+	if (sc == NULL || ofile->mh || ofile->mh_64 == NULL)
+		instances_count[SUB_LC_LEVEL_POISON][13] = 0;
+	else
+	{
+		instances_count[SUB_LC_LEVEL_POISON][8] = 0;
+		instances_count[SUB_LC_LEVEL_POISON][13] = sc->nsyms;
+	}
+	instances_count[SUB_LC_LEVEL_POISON][9] = instances_count[SUB_LC_LEVEL_POISON][8];
+	instances_count[SUB_LC_LEVEL_POISON][10] = instances_count[SUB_LC_LEVEL_POISON][8];
+	instances_count[SUB_LC_LEVEL_POISON][11] = instances_count[SUB_LC_LEVEL_POISON][8];
+	instances_count[SUB_LC_LEVEL_POISON][12] = instances_count[SUB_LC_LEVEL_POISON][8];
+
+	instances_count[SUB_LC_LEVEL_POISON][14] = instances_count[SUB_LC_LEVEL_POISON][13];
+	instances_count[SUB_LC_LEVEL_POISON][15] = instances_count[SUB_LC_LEVEL_POISON][13];
+	instances_count[SUB_LC_LEVEL_POISON][16] = instances_count[SUB_LC_LEVEL_POISON][13];
+	instances_count[SUB_LC_LEVEL_POISON][17] = instances_count[SUB_LC_LEVEL_POISON][13];
+
 
 	bzero(instances_count[MACHO_LEVEL_POISON], sizeof(uint32_t) * poisoners_count_per_type[MACHO_LEVEL_POISON]);
 	if (ofile->mh)// well, doesn't mean shit in fat or archive context

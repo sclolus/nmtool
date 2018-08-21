@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 19:18:39 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/21 02:21:22 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/21 03:38:50 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,16 +172,16 @@ const t_poisoner			*poisoners[SUPPORTED_POISONS_TYPES] = {
 	INIT_POISONER(section_64, struct section_64, segname, 0, exec_sub_level_lc_poisoner, finder_section_64),
 	INIT_POISONER(section_64, struct section_64, size, 0, exec_sub_level_lc_poisoner, finder_section_64),
 	INIT_POISONER(section_64, struct section_64, offset, 0, exec_sub_level_lc_poisoner, finder_section_64),
-	INIT_POISONER(nlist, struct nlist, n_un, 0, exec_sub_level_lc_poisoner, NULL),
-	INIT_POISONER(nlist, struct nlist, n_type, 0, exec_sub_level_lc_poisoner, NULL),
-	INIT_POISONER(nlist, struct nlist, n_sect, 0, exec_sub_level_lc_poisoner, NULL),
-	INIT_POISONER(nlist, struct nlist, n_desc, 0, exec_sub_level_lc_poisoner, NULL),
-	INIT_POISONER(nlist, struct nlist, n_value, 0, exec_sub_level_lc_poisoner, NULL),
-	INIT_POISONER(nlist_64, struct nlist_64, n_un, 0, exec_sub_level_lc_poisoner, NULL),
-	INIT_POISONER(nlist_64, struct nlist_64, n_type, 0, exec_sub_level_lc_poisoner, NULL),
-	INIT_POISONER(nlist_64, struct nlist_64, n_sect, 0, exec_sub_level_lc_poisoner, NULL),
-	INIT_POISONER(nlist_64, struct nlist_64, n_desc, 0, exec_sub_level_lc_poisoner, NULL),
-	INIT_POISONER(nlist_64, struct nlist_64, n_value, 0, exec_sub_level_lc_poisoner, NULL),
+	INIT_POISONER(nlist, struct nlist, n_un, 0, exec_sub_level_lc_poisoner, finder_nlist),
+	INIT_POISONER(nlist, struct nlist, n_type, 0, exec_sub_level_lc_poisoner, finder_nlist),
+	INIT_POISONER(nlist, struct nlist, n_sect, 0, exec_sub_level_lc_poisoner, finder_nlist),
+	INIT_POISONER(nlist, struct nlist, n_desc, 0, exec_sub_level_lc_poisoner, finder_nlist),
+	INIT_POISONER(nlist, struct nlist, n_value, 0, exec_sub_level_lc_poisoner, finder_nlist),
+	INIT_POISONER(nlist_64, struct nlist_64, n_un, 0, exec_sub_level_lc_poisoner, finder_nlist_64),
+	INIT_POISONER(nlist_64, struct nlist_64, n_type, 0, exec_sub_level_lc_poisoner, finder_nlist_64),
+	INIT_POISONER(nlist_64, struct nlist_64, n_sect, 0, exec_sub_level_lc_poisoner, finder_nlist_64),
+	INIT_POISONER(nlist_64, struct nlist_64, n_desc, 0, exec_sub_level_lc_poisoner, finder_nlist_64),
+	INIT_POISONER(nlist_64, struct nlist_64, n_value, 0, exec_sub_level_lc_poisoner, finder_nlist_64),
 },
 (const t_poisoner []){
 	INIT_POISONER(mach_header, struct mach_header, ncmds, 0, exec_macho_level_poisoner, NULL),

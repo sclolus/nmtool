@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 19:18:58 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/21 02:59:06 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/21 03:41:04 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdint.h>
+# include <time.h>
 
 
 
@@ -82,6 +83,8 @@ void	exec_sub_level_lc_poisoner(t_ofile *ofile, const t_poisoner *poisoner, cons
 void	*finder_section_32(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
 void	*finder_section_64(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
 void	*finder_lc(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+void	*finder_nlist_64(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+void	*finder_nlist(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
 
 #define OFFSET_OF(type, member) (uint64_t)(&((type *)0)->member)
 

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:10:54 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/21 01:42:12 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/21 03:44:30 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ uint32_t					get_nsects(t_ofile *ofile);
 uint32_t					get_nsects_64(t_ofile *ofile);
 uint32_t					ofile_get_nsegs(t_ofile *ofile);
 uint32_t					ofile_get_nsegs_64(t_ofile *ofile);
+
 struct section				**ofile_get_sections(t_ofile *ofile, uint32_t *return_nsects);
 struct section_64			**ofile_get_sections_64(t_ofile *ofile, uint32_t *return_nsects);
 struct segment_command		**ofile_get_segments(t_ofile *ofile, uint32_t *return_nsegs);
@@ -139,6 +140,8 @@ int32_t					ofile_fat_find_arch(t_ofile *ofile,
 
 struct symtab_command	*ofile_get_symbol_table_lc(t_ofile *ofile);
 struct dysymtab_command	*ofile_get_dynamic_symbol_table_lc(t_ofile *ofile);
+struct nlist			*ofile_find_n_nlist(t_ofile *ofile, uint32_t n);
+struct nlist_64			*ofile_find_n_nlist_64(t_ofile *ofile, uint32_t n);
 
 int32_t					ofile_object_check_addr(t_ofile *ofile, void *addr);
 int32_t					ofile_object_check_addr_size(t_ofile *ofile, void *addr, uint64_t size);

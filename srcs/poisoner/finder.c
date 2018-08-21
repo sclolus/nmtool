@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/21 02:16:14 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/21 02:22:52 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/21 03:49:02 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,18 @@ void	*finder_section_64(t_ofile *ofile, const t_poisoner *poisoner, const t_pois
 {
 	(void)poisoner;
 	return (ofile_find_n_sect_64(ofile, cmd->optional_index));
+}
+
+void	*finder_nlist(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd)
+{
+	(void)poisoner;
+	return (ofile_find_n_nlist(ofile, cmd->optional_index));
+}
+
+void	*finder_nlist_64(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd)
+{
+	(void)poisoner;
+	return (ofile_find_n_nlist_64(ofile, cmd->optional_index));
 }
 
 void	*finder_lc(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd)

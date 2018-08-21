@@ -8,7 +8,7 @@ int	main(int argc, char **argv)
 	int				poisoned_file_fd;
 	uint32_t		i;
 
-	srand((unsigned int)time(NULL));
+	srand((unsigned int)clock());
 	i = 1;
 	while (i < (uint32_t)argc)
 	{
@@ -27,10 +27,10 @@ int	main(int argc, char **argv)
 			exit(EXIT_FAILURE);
 		}
 		poison(ofile, plist);
-		/* if (!(poisoned_filename = ft_strjoin(argv[i], "_poisoned"))) */
-		/* 	return (EXIT_FAILURE); */
-		if (NULL == (poisoned_filename = get_poisoned_file_name(argv[i], plist)))
+		if (!(poisoned_filename = ft_strjoin(argv[i], "_poisoned")))
 			return (EXIT_FAILURE);
+		/* if (NULL == (poisoned_filename = get_poisoned_file_name(argv[i], plist))) */
+		/* 	return (EXIT_FAILURE); */
 		if (-1 == (poisoned_file_fd = open(poisoned_filename, O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU)))
 			return (EXIT_FAILURE);
 		free(plist);
