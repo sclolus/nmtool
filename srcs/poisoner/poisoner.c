@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 19:18:39 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/21 10:49:46 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/21 11:18:33 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,7 +241,7 @@ static int32_t			find_current_host_narch(t_ofile *ofile)
 				host_arch->cputype | CPU_ARCH_ABI64, host_arch->cpusubtype));
 }
 
-static t_poison_list	*handle_fat_files(t_ofile *ofile, t_poison_generator_config *config)
+static t_poison_list	*handle_fat_file(t_ofile *ofile, t_poison_generator_config *config)
 {
 	t_poison_list	*plist;
 	uint32_t		i;
@@ -256,7 +256,6 @@ static t_poison_list	*handle_fat_files(t_ofile *ofile, t_poison_generator_config
 											{false, true, false, false, false},
 											true, {0}}));
 	exec_poisoners(ofile, plist);
-	printf("\npoisoned fat_headers\n");
 	if (pnbr_for_fat_level == config->pnbr)
 		return (plist);
 	free_poison_list(plist);
@@ -293,7 +292,43 @@ static t_poison_list	*handle_fat_files(t_ofile *ofile, t_poison_generator_config
 	return (plist);
 }
 
-t_poison_list	 *poison(t_ofile *ofile, t_poison_generator_config *config)
+static t_poison_list	*handle_archive_file(t_ofile *ofile, t_gen_config *config)
+{
+	t_poison_list	*plist;
+	uint64_t		i;
+	uint32_t		pnbr_for_fat_level;
+
+	pnbr_for_fat_level = (uint32_t)rand() % (config->pnbr + 1);
+	assert(ofile->archive_start_addr && ofile->symdef_addr);
+	assert(plist = generate_poison_list(ofile,
+										&(t_gen_config){NULL, pnbr_for_fat_level,
+											{false, false, true, false, false},
+											true, {0}}));
+	exec_poisoners(ofile, plist);
+	if (pnbr_for_fat_level == config->pnbr)
+		return (plist);
+	free_poison_list(plist);
+	config->pnbr -= pnbr_for_fat_level;
+	config->actived_poisons[FAT_LEVEL_POISON] = false;
+	config->actived_poisons[ARCHIVE_LEVEL_POISON] = false;
+	plist = NULL;
+	i = 0;
+	while (i < ofile->nran)
+	{
+		free_poison_list(plist);
+		if (-1 == ofile_load_narchive_member(ofile, i))
+		{
+			dprintf(2, "Failed to parse archive file, aborting the poisoning\n");
+			return (NULL);
+		}
+		assert(plist = generate_poison_list(ofile, config));
+		exec_poisoners(ofile, plist);
+		i++;
+	}
+	return (plist);
+}
+
+t_poison_list			*poison(t_ofile *ofile, t_gen_config *config)
 {
 	t_poison_list		*plist;
 
@@ -306,9 +341,9 @@ t_poison_list	 *poison(t_ofile *ofile, t_poison_generator_config *config)
 		exec_poisoners(ofile, plist);
 	}
 	else if (ofile->ofile_type == OFILE_FAT)
-		return (handle_fat_files(ofile, config));
+		return (handle_fat_file(ofile, config));
 	else if (ofile->ofile_type == OFILE_ARCHIVE)
-		abort();
+		handle_archive_file(ofile, config);
 //		exec_poisoners(ofile, plist);
 	return (plist);
 }
