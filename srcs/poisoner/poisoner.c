@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 19:18:39 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/21 08:28:42 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/21 08:39:26 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,10 +192,10 @@ const t_poisoner			*poisoners[SUPPORTED_POISONS_TYPES] = {
 	INIT_POISONER(nlist_64, struct nlist_64, n_value, 0, exec_sub_level_lc_poisoner, finder_nlist_64),
 },
 (const t_poisoner []){
-	INIT_POISONER(mach_header, struct mach_header, ncmds, 0, exec_macho_level_poisoner, NULL),
-	INIT_POISONER(mach_header, struct mach_header, sizeofcmds, 0, exec_macho_level_poisoner, NULL),
-	INIT_POISONER(mach_header_64, struct mach_header_64, ncmds, 0, exec_macho_level_poisoner, NULL),
-	INIT_POISONER(mach_header_64, struct mach_header_64, sizeofcmds, 0, exec_macho_level_poisoner, NULL),
+	INIT_POISONER(mach_header, struct mach_header, ncmds, 0, exec_macho_level_poisoner, finder_mach_header),
+	INIT_POISONER(mach_header, struct mach_header, sizeofcmds, 0, exec_macho_level_poisoner, finder_mach_header),
+	INIT_POISONER(mach_header_64, struct mach_header_64, ncmds, 0, exec_macho_level_poisoner, finder_mach_header_64),
+	INIT_POISONER(mach_header_64, struct mach_header_64, sizeofcmds, 0, exec_macho_level_poisoner, finder_mach_header_64),
 },
 };
 

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 19:18:58 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/21 08:18:36 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/21 08:38:12 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ void	*finder_fat_arch(t_ofile *ofile, const t_poisoner *poisoner, const t_poison
 void	*finder_fat_header(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
 void	*finder_ranlib(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
 void	*finder_ranlib_64(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+void	*finder_mach_header(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+void	*finder_mach_header_64(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
 
 #define OFFSET_OF(type, member) (uint64_t)(&((type *)0)->member)
 
