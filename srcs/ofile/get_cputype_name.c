@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 23:58:14 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/16 00:14:00 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/22 13:22:03 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ const char	*get_cputype_name(cpu_type_t type)
 		"MC88000",
 		"SPARC",
 		"i860",
-		"PowerPc",
-		"PowerPc46",
+		"ppc",
+		"ppc46",
 	};
 	static const cpu_type_t	types[15] = {
 		CPU_TYPE_ANY,

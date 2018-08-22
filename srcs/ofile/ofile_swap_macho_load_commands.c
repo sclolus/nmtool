@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 00:46:07 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/19 11:32:36 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/22 13:20:44 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ typedef struct	s_lc_swapper
 }				t_lc_swapper;
 
 # define NBR_SUPPORTED_LC 4 /* 48 */
-static void	swap_load_command(struct load_command *lc)
+static int32_t	swap_load_command(t_ofile *ofile, struct load_command *lc)
 {
 	static const t_lc_swapper	swappers[NBR_SUPPORTED_LC] = {
 		{swap_lc_segment, LC_SEGMENT, 0},
@@ -35,18 +35,25 @@ static void	swap_load_command(struct load_command *lc)
 	i = 0;
 	lc->cmd = swap_int32(lc->cmd);
 	lc->cmdsize = swap_int32(lc->cmdsize);
+	if (-1 == ofile_object_check_addr_size(ofile, lc, sizeof(struct load_command))
+		|| -1 == ofile_object_check_addr_size(ofile, lc, lc->cmdsize))
+	{
+		dprintf(2, "Object file is malformed, the load commands would go beyond the end of the file\n");
+		return (-1);
+	}
 	while (i < NBR_SUPPORTED_LC)
 	{
 		if (lc->cmd == swappers[i].cmd)
 		{
 			swappers[i].callback(lc);
-			return ;
+			return (0);
 		}
 		i++;
 	}
+	return (0);
 }
 
-void	ofile_swap_macho_load_commands(t_ofile *ofile)
+int32_t	ofile_swap_macho_load_commands(t_ofile *ofile)
 {
 	uint32_t					i;
 	struct mach_header			*hdr;
@@ -62,14 +69,10 @@ void	ofile_swap_macho_load_commands(t_ofile *ofile)
 	cur_lc = ofile->load_commands;
 	while (i < hdr->ncmds)
 	{
-		if (-1 == ofile_object_check_addr_size(ofile, cur_lc, sizeof(struct load_command))
-			|| -1 == ofile_object_check_addr_size(ofile, (uint8_t*)cur_lc, cur_lc->cmdsize))
-		{
-			dprintf(2, "Object file is malformed, the load commands would go beyond the end of the file\n");
-			exit(EXIT_FAILURE);
-		}
-		swap_load_command(cur_lc);
+		if (-1 == swap_load_command(ofile, cur_lc))
+			return (-1);
 		cur_lc = (struct load_command *)(void *)((uint8_t*)cur_lc + cur_lc->cmdsize);
 		i++;
 	}
+	return (0);
 }

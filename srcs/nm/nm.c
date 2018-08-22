@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 02:10:05 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/22 11:40:55 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/22 13:30:24 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,12 @@ static int32_t nm_handle_fat(t_ofile *ofile, t_nm_flags *flags)
 				i++; // donnu about that
 				continue ;
 			}
-			printf("%s: (for architecture %s)\n", ofile->file_name,
+			if (ofile->fat_header->nfat_arch != 1)
+				printf("\n%s (for architecture %s):\n", ofile->file_name,
 				   get_cputype_name(ofile->fat_archs ? ofile->fat_archs[i].cputype
 									: ofile->fat_archs_64[i].cputype));
+			else
+				printf("%s:\n", ofile->file_name);
 			if (-1 == nm_process_obj(ofile, flags))
 				return (-1);
 			i++;

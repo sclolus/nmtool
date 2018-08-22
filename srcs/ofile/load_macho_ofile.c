@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 22:01:33 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/22 11:50:36 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/22 13:21:14 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,12 @@ int32_t	load_macho_ofile(t_ofile *ofile, void *object_addr, uint64_t object_size
 	if (ofile->must_be_swapped)
 	{
 		ofile_swap_macho_hdr(ofile);
-		ofile_swap_macho_load_commands(ofile);
+		if (-1 == ofile_swap_macho_load_commands(ofile))
+			return (-1);
 	}
 	if (-1 == ofile_check_object_integrity(ofile))
 		return (-1);
+	if (ofile->must_be_swapped)
+		ofile_swap_macho_symtab(ofile);
 	return (0);
 }

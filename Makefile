@@ -35,6 +35,7 @@ SRC_OFILE_LIB=srcs/ofile/get_ofile_type.c \
 	srcs/ofile/get_cputype_name.c \
 	srcs/ofile/ofile_swap_macho_load_commands.c \
 	srcs/ofile/ofile_swap_macho_hdr.c \
+	srcs/ofile/ofile_swap_macho_symtab.c \
 	srcs/ofile/macho_swappers/swap_lc_segment.c \
 	srcs/ofile/macho_swappers/swap_lc_segment_64.c \
 	srcs/ofile/macho_swappers/swap_lc_symtab.c \

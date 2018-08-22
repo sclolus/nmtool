@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:10:54 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/22 11:38:12 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/22 13:19:50 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,8 +129,9 @@ struct segment_command_64	**ofile_get_segments_64(t_ofile *ofile, uint32_t *retu
 int32_t					load_macho_ofile(t_ofile *ofile, void *object_addr, uint64_t size);
 void					*set_ofile_mh(t_ofile *ofile);
 struct load_command		*set_ofile_load_commands(t_ofile *ofile);
-void					ofile_swap_macho_load_commands(t_ofile *ofile);
+int32_t					ofile_swap_macho_load_commands(t_ofile *ofile);
 void					ofile_swap_macho_hdr(t_ofile *ofile);
+void					ofile_swap_macho_symtab(t_ofile *ofile);
 struct load_command		*ofile_get_n_lc(t_ofile *ofile, uint32_t n);
 struct load_command		*ofile_find_lc(t_ofile *ofile, uint32_t cmd);
 struct load_command		*ofile_find_n_lc(t_ofile *ofile, uint32_t cmd, uint32_t n);
@@ -158,6 +159,9 @@ void				swap_lc_symseg(struct load_command *lc);
 
 void				swap_section(struct section *section);
 void				swap_section_64(struct section_64 *section);
+
+void				swap_nlist(struct nlist *nlist);
+void				swap_nlist_64(struct nlist_64 *nlist_64);
 
 /*
 ** Loading functions of the fat data structures in the ofile structure
