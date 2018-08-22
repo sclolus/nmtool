@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 02:10:05 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/21 10:13:08 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/22 11:40:55 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static int32_t	nm_handle_archive(t_ofile *ofile, t_nm_flags *flags)
 	uint64_t		i;
 
 	i = 0;
-	while (i < ofile->nran)
+	while (i < ofile->nmembers)
 	{
 		if (-1 == ofile_load_narchive_member(ofile, i))
 		{

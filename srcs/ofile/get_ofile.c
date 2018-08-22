@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 21:50:03 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/21 07:07:04 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/22 11:23:03 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,11 @@ t_ofile	*get_ofile(char *filename)
 	}
 	else if (ofile->ofile_type == OFILE_ARCHIVE)
 	{
-		load_archive_file(ofile);
+		if (-1 == load_archive_file(ofile))
+		{
+			munmap_file(ofile);
+			return (NULL);
+		}
 	}
 	else if (ofile->ofile_type == OFILE_MACHO)
 	{

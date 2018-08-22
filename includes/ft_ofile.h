@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:10:54 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/21 11:24:09 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/22 11:38:12 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ typedef struct s_ofile
 	struct ranlib			*ranlibs;
 	struct ranlib_64		*ranlibs_64;
 	uint64_t				nran;
+	uint64_t				nmembers;
 	char					*string_table;
 	uint64_t				string_table_size;
 
@@ -174,7 +175,8 @@ struct fat_arch_64	*ofile_find_n_fat_arch_64(t_ofile *ofile, uint32_t narch);
 ** Loading functions of the static archive data structures in the ofile structure
 */
 
-void				load_archive_file(t_ofile *ofile);
+int32_t				load_archive_file(t_ofile *ofile);
+uint64_t			ofile_get_nmembers(t_ofile *ofile);
 void				*ofile_archive_get_member_starting_addr(t_ofile *ofile);
 int32_t				archive_parse_member_header(t_ofile *ofile);
 int32_t				ofile_load_narchive_member(t_ofile *ofile, uint64_t n_member);

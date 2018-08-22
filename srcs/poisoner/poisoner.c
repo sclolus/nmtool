@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 19:18:39 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/22 10:21:25 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/22 11:51:58 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -340,7 +340,7 @@ static t_poison_list	*handle_archive_file(t_ofile *ofile, t_gen_config *config)
 	config->actived_poisons[ARCHIVE_LEVEL_POISON] = false;
 	plist = NULL;
 	i = 0;
-	while (i < ofile->nran)
+	while (i < ofile->nmembers)
 	{
 		free_poison_list(plist);
 		if (-1 == ofile_load_narchive_member(ofile, i))

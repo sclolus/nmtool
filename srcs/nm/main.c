@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 19:39:07 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/19 17:22:32 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/22 11:23:47 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ int	main(int argc, char **argv)
 	{
 		if (!(ofile = get_ofile(nm_flags->files[i])))
 		{
-			perror(NULL);
-			return (EXIT_FAILURE);
+			i++;
+			continue ;
 		}
 		if (ofile->ofile_type == OFILE_UNKNOWN)
 			ft_error(5, (char *[]){argv[0], ": ",
@@ -36,7 +36,7 @@ int	main(int argc, char **argv)
 		nm(ofile, nm_flags);
 		if (munmap_file(ofile))
 		{
-			perror(NULL);
+			dprintf(2, "Failed to munmap file\n");
 			return (EXIT_FAILURE);
 		}
 		i++;

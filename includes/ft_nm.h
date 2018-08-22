@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 19:38:34 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/19 17:27:45 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/22 11:17:52 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@
 #include "ft_ofile.h"
 #include "libft.h"
 #include <stdio.h> // remove this
-
-
 
 /*
 ** Argument line parsing
