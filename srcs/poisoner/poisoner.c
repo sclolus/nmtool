@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 19:18:39 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/21 11:31:49 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/22 10:21:25 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,62 +140,62 @@ DEFINE_SETTER(fat_header, struct fat_header, nfat_arch)
 
 const t_poisoner			*poisoners[SUPPORTED_POISONS_TYPES] = {
 (const t_poisoner []){
-	INIT_POISONER(segment_command, struct segment_command, nsects, LC_SEGMENT, exec_lc_poisoner, finder_lc),
-	INIT_POISONER(segment_command, struct segment_command, segname, LC_SEGMENT, exec_lc_poisoner, finder_lc),
-	INIT_POISONER(segment_command, struct segment_command, fileoff, LC_SEGMENT, exec_lc_poisoner, finder_lc),
-	INIT_POISONER(segment_command, struct segment_command, filesize, LC_SEGMENT, exec_lc_poisoner, finder_lc),
-	INIT_POISONER(segment_command, struct segment_command, cmdsize, LC_SEGMENT, exec_lc_poisoner, finder_lc),
-	INIT_POISONER(segment_command_64, struct segment_command_64, nsects, LC_SEGMENT_64, exec_lc_poisoner, finder_lc),
-	INIT_POISONER(segment_command_64, struct segment_command_64, segname, LC_SEGMENT_64, exec_lc_poisoner, finder_lc),
-	INIT_POISONER(segment_command_64, struct segment_command_64, fileoff, LC_SEGMENT_64, exec_lc_poisoner, finder_lc),
-	INIT_POISONER(segment_command_64, struct segment_command_64, filesize, LC_SEGMENT_64, exec_lc_poisoner, finder_lc),
-	INIT_POISONER(segment_command_64, struct segment_command_64, cmdsize, LC_SEGMENT_64, exec_lc_poisoner, finder_lc),
-	INIT_POISONER(symtab_command, struct symtab_command, symoff, LC_SYMTAB, exec_lc_poisoner, finder_lc),
-	INIT_POISONER(symtab_command, struct symtab_command, nsyms, LC_SYMTAB, exec_lc_poisoner, finder_lc),
-	INIT_POISONER(symtab_command, struct symtab_command, stroff, LC_SYMTAB, exec_lc_poisoner, finder_lc),
-	INIT_POISONER(symtab_command, struct symtab_command, strsize, LC_SYMTAB, exec_lc_poisoner, finder_lc),
-	INIT_POISONER(load_command, struct load_command, cmdsize, 0, exec_lc_poisoner, finder_lc),
-	INIT_POISONER(load_command, struct load_command, cmd, 0, exec_lc_poisoner, finder_lc),
+	INIT_POISONER(segment_command, struct segment_command, nsects, LC_SEGMENT, exec_poisoner, finder_lc),
+	INIT_POISONER(segment_command, struct segment_command, segname, LC_SEGMENT, exec_poisoner, finder_lc),
+	INIT_POISONER(segment_command, struct segment_command, fileoff, LC_SEGMENT, exec_poisoner, finder_lc),
+	INIT_POISONER(segment_command, struct segment_command, filesize, LC_SEGMENT, exec_poisoner, finder_lc),
+	INIT_POISONER(segment_command, struct segment_command, cmdsize, LC_SEGMENT, exec_poisoner, finder_lc),
+	INIT_POISONER(segment_command_64, struct segment_command_64, nsects, LC_SEGMENT_64, exec_poisoner, finder_lc),
+	INIT_POISONER(segment_command_64, struct segment_command_64, segname, LC_SEGMENT_64, exec_poisoner, finder_lc),
+	INIT_POISONER(segment_command_64, struct segment_command_64, fileoff, LC_SEGMENT_64, exec_poisoner, finder_lc),
+	INIT_POISONER(segment_command_64, struct segment_command_64, filesize, LC_SEGMENT_64, exec_poisoner, finder_lc),
+	INIT_POISONER(segment_command_64, struct segment_command_64, cmdsize, LC_SEGMENT_64, exec_poisoner, finder_lc),
+	INIT_POISONER(symtab_command, struct symtab_command, symoff, LC_SYMTAB, exec_poisoner, finder_lc),
+	INIT_POISONER(symtab_command, struct symtab_command, nsyms, LC_SYMTAB, exec_poisoner, finder_lc),
+	INIT_POISONER(symtab_command, struct symtab_command, stroff, LC_SYMTAB, exec_poisoner, finder_lc),
+	INIT_POISONER(symtab_command, struct symtab_command, strsize, LC_SYMTAB, exec_poisoner, finder_lc),
+	INIT_POISONER(load_command, struct load_command, cmdsize, 0, exec_poisoner, finder_lc),
+	INIT_POISONER(load_command, struct load_command, cmd, 0, exec_poisoner, finder_lc),
 },
 (const t_poisoner []){
-	INIT_POISONER(fat_header, struct fat_header, magic, 0, exec_fat_level_poisoner, finder_fat_header),
-	INIT_POISONER(fat_header, struct fat_header, nfat_arch, 0, exec_fat_level_poisoner, finder_fat_header),
-	INIT_POISONER(fat_arch, struct fat_arch, offset, 0, exec_fat_level_poisoner, finder_fat_arch),
-	INIT_POISONER(fat_arch, struct fat_arch, size, 0, exec_fat_level_poisoner, finder_fat_arch),
-	INIT_POISONER(fat_arch_64, struct fat_arch_64, offset, 0, exec_fat_level_poisoner, finder_fat_arch_64),
-	INIT_POISONER(fat_arch_64, struct fat_arch_64, size, 0, exec_fat_level_poisoner, finder_fat_arch_64),
+	INIT_POISONER(fat_header, struct fat_header, magic, 0, exec_poisoner, finder_fat_header),
+	INIT_POISONER(fat_header, struct fat_header, nfat_arch, 0, exec_poisoner, finder_fat_header),
+	INIT_POISONER(fat_arch, struct fat_arch, offset, 0, exec_poisoner, finder_fat_arch),
+	INIT_POISONER(fat_arch, struct fat_arch, size, 0, exec_poisoner, finder_fat_arch),
+	INIT_POISONER(fat_arch_64, struct fat_arch_64, offset, 0, exec_poisoner, finder_fat_arch_64),
+	INIT_POISONER(fat_arch_64, struct fat_arch_64, size, 0, exec_poisoner, finder_fat_arch_64),
 },
 (const t_poisoner []){
-	INIT_POISONER(ranlib, struct ranlib, ran_un, 0, exec_archive_level_poisoner, finder_ranlib),
-	INIT_POISONER(ranlib, struct ranlib, ran_off, 0, exec_archive_level_poisoner, finder_ranlib),
-	INIT_POISONER(ranlib_64, struct ranlib_64, ran_un, 0, exec_archive_level_poisoner, finder_ranlib_64),
-	INIT_POISONER(ranlib_64, struct ranlib_64, ran_off, 0, exec_archive_level_poisoner, finder_ranlib_64),
+	INIT_POISONER(ranlib, struct ranlib, ran_un, 0, exec_poisoner, finder_ranlib),
+	INIT_POISONER(ranlib, struct ranlib, ran_off, 0, exec_poisoner, finder_ranlib),
+	INIT_POISONER(ranlib_64, struct ranlib_64, ran_un, 0, exec_poisoner, finder_ranlib_64),
+	INIT_POISONER(ranlib_64, struct ranlib_64, ran_off, 0, exec_poisoner, finder_ranlib_64),
 },
 (const t_poisoner []){
-	INIT_POISONER(section, struct section, sectname, 0, exec_sub_level_lc_poisoner, finder_section_32),
-	INIT_POISONER(section, struct section, segname, 0, exec_sub_level_lc_poisoner, finder_section_32),
-	INIT_POISONER(section, struct section, size, 0, exec_sub_level_lc_poisoner, finder_section_32),
-	INIT_POISONER(section, struct section, offset, 0, exec_sub_level_lc_poisoner, finder_section_32),
-	INIT_POISONER(section_64, struct section_64, sectname, 0, exec_sub_level_lc_poisoner, finder_section_64),
-	INIT_POISONER(section_64, struct section_64, segname, 0, exec_sub_level_lc_poisoner, finder_section_64),
-	INIT_POISONER(section_64, struct section_64, size, 0, exec_sub_level_lc_poisoner, finder_section_64),
-	INIT_POISONER(section_64, struct section_64, offset, 0, exec_sub_level_lc_poisoner, finder_section_64),
-	INIT_POISONER(nlist, struct nlist, n_un, 0, exec_sub_level_lc_poisoner, finder_nlist),
-	INIT_POISONER(nlist, struct nlist, n_type, 0, exec_sub_level_lc_poisoner, finder_nlist),
-	INIT_POISONER(nlist, struct nlist, n_sect, 0, exec_sub_level_lc_poisoner, finder_nlist),
-	INIT_POISONER(nlist, struct nlist, n_desc, 0, exec_sub_level_lc_poisoner, finder_nlist),
-	INIT_POISONER(nlist, struct nlist, n_value, 0, exec_sub_level_lc_poisoner, finder_nlist),
-	INIT_POISONER(nlist_64, struct nlist_64, n_un, 0, exec_sub_level_lc_poisoner, finder_nlist_64),
-	INIT_POISONER(nlist_64, struct nlist_64, n_type, 0, exec_sub_level_lc_poisoner, finder_nlist_64),
-	INIT_POISONER(nlist_64, struct nlist_64, n_sect, 0, exec_sub_level_lc_poisoner, finder_nlist_64),
-	INIT_POISONER(nlist_64, struct nlist_64, n_desc, 0, exec_sub_level_lc_poisoner, finder_nlist_64),
-	INIT_POISONER(nlist_64, struct nlist_64, n_value, 0, exec_sub_level_lc_poisoner, finder_nlist_64),
+	INIT_POISONER(section, struct section, sectname, 0, exec_poisoner, finder_section_32),
+	INIT_POISONER(section, struct section, segname, 0, exec_poisoner, finder_section_32),
+	INIT_POISONER(section, struct section, size, 0, exec_poisoner, finder_section_32),
+	INIT_POISONER(section, struct section, offset, 0, exec_poisoner, finder_section_32),
+	INIT_POISONER(section_64, struct section_64, sectname, 0, exec_poisoner, finder_section_64),
+	INIT_POISONER(section_64, struct section_64, segname, 0, exec_poisoner, finder_section_64),
+	INIT_POISONER(section_64, struct section_64, size, 0, exec_poisoner, finder_section_64),
+	INIT_POISONER(section_64, struct section_64, offset, 0, exec_poisoner, finder_section_64),
+	INIT_POISONER(nlist, struct nlist, n_un, 0, exec_poisoner, finder_nlist),
+	INIT_POISONER(nlist, struct nlist, n_type, 0, exec_poisoner, finder_nlist),
+	INIT_POISONER(nlist, struct nlist, n_sect, 0, exec_poisoner, finder_nlist),
+	INIT_POISONER(nlist, struct nlist, n_desc, 0, exec_poisoner, finder_nlist),
+	INIT_POISONER(nlist, struct nlist, n_value, 0, exec_poisoner, finder_nlist),
+	INIT_POISONER(nlist_64, struct nlist_64, n_un, 0, exec_poisoner, finder_nlist_64),
+	INIT_POISONER(nlist_64, struct nlist_64, n_type, 0, exec_poisoner, finder_nlist_64),
+	INIT_POISONER(nlist_64, struct nlist_64, n_sect, 0, exec_poisoner, finder_nlist_64),
+	INIT_POISONER(nlist_64, struct nlist_64, n_desc, 0, exec_poisoner, finder_nlist_64),
+	INIT_POISONER(nlist_64, struct nlist_64, n_value, 0, exec_poisoner, finder_nlist_64),
 },
 (const t_poisoner []){
-	INIT_POISONER(mach_header, struct mach_header, ncmds, 0, exec_macho_level_poisoner, finder_mach_header),
-	INIT_POISONER(mach_header, struct mach_header, sizeofcmds, 0, exec_macho_level_poisoner, finder_mach_header),
-	INIT_POISONER(mach_header_64, struct mach_header_64, ncmds, 0, exec_macho_level_poisoner, finder_mach_header_64),
-	INIT_POISONER(mach_header_64, struct mach_header_64, sizeofcmds, 0, exec_macho_level_poisoner, finder_mach_header_64),
+	INIT_POISONER(mach_header, struct mach_header, ncmds, 0, exec_poisoner, finder_mach_header),
+	INIT_POISONER(mach_header, struct mach_header, sizeofcmds, 0, exec_poisoner, finder_mach_header),
+	INIT_POISONER(mach_header_64, struct mach_header_64, ncmds, 0, exec_poisoner, finder_mach_header_64),
+	INIT_POISONER(mach_header_64, struct mach_header_64, sizeofcmds, 0, exec_poisoner, finder_mach_header_64),
 },
 };
 
@@ -218,6 +218,7 @@ void			*poisoned_zone_vm_addr = NULL;
 static void	exec_poisoners(t_ofile *ofile, t_poison_list *plist)
 {
 	t_f_poison_executor	executor;
+	void				*addr;
 	uint32_t			i;
 
 	i = 0;
@@ -225,9 +226,35 @@ static void	exec_poisoners(t_ofile *ofile, t_poison_list *plist)
 	{
 		executor = poisoners[plist->poison_commands[i].type][plist->poison_commands[i].pindex].executor;
 		if (executor)
-			executor(ofile, poisoners[plist->poison_commands[i].type] + plist->poison_commands[i].pindex, plist->poison_commands + i);
+		{
+			addr = executor(ofile, poisoners[plist->poison_commands[i].type] + plist->poison_commands[i].pindex, plist->poison_commands + i);
+			if (plist->poison_commands[i].action == POISON_ACTION_TRUNCATE && plist->truncation_addr < addr)
+				plist->truncation_addr = addr;
+		}
 		else
 			dprintf(2, "Executor not implemented for %s\n", poisoners[plist->poison_commands[i].type][plist->poison_commands[i].pindex].member_name);
+		i++;
+	}
+}
+
+static void	exec_poisoners_by_predicate(t_ofile *ofile,
+										t_poison_list *plist,
+										bool (*predicate)(t_poison_command *cmd))
+{
+	t_f_poison_executor	executor;
+	uint32_t			i;
+
+	i = 0;
+	while (i < plist->pnbr)
+	{
+		if (predicate(&plist->poison_commands[i]))
+		{
+			executor = poisoners[plist->poison_commands[i].type][plist->poison_commands[i].pindex].executor;
+			if (executor)
+				executor(ofile, poisoners[plist->poison_commands[i].type] + plist->poison_commands[i].pindex, plist->poison_commands + i);
+			else
+				dprintf(2, "Executor not implemented for %s\n", poisoners[plist->poison_commands[i].type][plist->poison_commands[i].pindex].member_name);
+		}
 		i++;
 	}
 }
@@ -254,7 +281,7 @@ static t_poison_list	*handle_fat_file(t_ofile *ofile, t_poison_generator_config 
 	assert(plist = generate_poison_list(ofile,
 										&(t_gen_config){NULL, pnbr_for_fat_level,
 											{false, true, false, false, false},
-											true, {0}}));
+												config->poison_every_archs, config->truncate, {0}}));
 	exec_poisoners(ofile, plist);
 	if (pnbr_for_fat_level == config->pnbr)
 		return (plist);
@@ -303,7 +330,7 @@ static t_poison_list	*handle_archive_file(t_ofile *ofile, t_gen_config *config)
 	assert(plist = generate_poison_list(ofile,
 										&(t_gen_config){NULL, pnbr_for_fat_level,
 											{false, false, true, false, false},
-											true, {0}}));
+											config->poison_every_archs, config->truncate, {0}}));
 	exec_poisoners(ofile, plist);
 	if (pnbr_for_fat_level == config->pnbr)
 		return (plist);
@@ -332,6 +359,7 @@ t_poison_list			*poison(t_ofile *ofile, t_gen_config *config)
 {
 	t_poison_list		*plist;
 
+	(void)exec_poisoners_by_predicate;
 	if (config->pnbr == 0)
 		return (NULL);
 	plist = NULL;

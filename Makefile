@@ -73,16 +73,13 @@ SRC_POISONER=srcs/poisoner/main.c \
 			srcs/poisoner/generate_poison_list.c \
 			srcs/poisoner/generate_poison_command.c \
 			srcs/poisoner/free_poison_list.c \
-			srcs/poisoner/exec_lc_poisoner.c \
-			srcs/poisoner/exec_sub_level_lc_poisoner.c \
-			srcs/poisoner/exec_fat_level_poisoner.c \
-			srcs/poisoner/exec_macho_level_poisoner.c \
-			srcs/poisoner/exec_archive_level_poisoner.c \
+			srcs/poisoner/exec_poisoner.c \
 			srcs/poisoner/finder.c \
 			srcs/poisoner/allocate_poisoned_zone.c \
 			srcs/poisoner/deallocate_poisoned_zone.c \
 			srcs/poisoner/map_addr_to_poisoned_zone.c \
-			srcs/poisoner/get_poisoned_file_name.c
+			srcs/poisoner/get_poisoned_file_name.c \
+			srcs/poisoner/poisoners_predicates.c
 
 HDRS= ./includes/ft_nm.h ./includes/ft_ofile.h ./includes/poisoner.h #includes/nm.h includes/otool.h
 OBJ= $(SRC:.c=.o)

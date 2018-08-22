@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 03:10:22 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/21 10:42:47 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/22 10:27:54 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,11 +202,14 @@ t_poison_list	*generate_poison_list(t_ofile *ofile, t_poison_generator_config *c
 		free_instances_count(instances_count);
 		return (NULL);
 	}
+
 	i = 0;
 	while (i < config->pnbr)
 	{
 		type = get_random_poison_type(config, instances_count);
 		plist->poison_commands[i] = generate_poison_command(type, instances_count);
+		if (config->truncate && (uint32_t)rand() % config->pnbr == 0)
+			plist->poison_commands[i].action = POISON_ACTION_TRUNCATE;
 		i++;
 	}
 	free_instances_count(instances_count);

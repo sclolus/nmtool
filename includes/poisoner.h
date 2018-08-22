@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 19:18:58 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/21 12:55:22 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/22 10:21:13 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 typedef struct s_poison_command	t_poison_command;
 typedef struct s_poisoner	t_poisoner;
 typedef void *(*t_f_poison_finder)(t_ofile *, const t_poisoner *, const t_poison_command *);
-typedef void (*t_f_poison_executor)(t_ofile *, const t_poisoner *, const t_poison_command *);
+typedef void *(*t_f_poison_executor)(t_ofile *, const t_poisoner *, const t_poison_command *);
 typedef void *(*t_f_poison_getter)(void *);
 typedef void *(*t_f_poison_setter)(void *, void *);
 
@@ -69,6 +69,7 @@ typedef struct s_poison_command
 typedef struct	s_poison_list
 {
 	t_poison_command	*poison_commands;
+	void				*truncation_addr;
 	uint32_t			pnbr;
 	uint8_t				__pad[4];
 }				t_poison_list;
@@ -79,7 +80,8 @@ typedef struct	s_poison_generator_config
 	uint32_t		pnbr;
 	bool			actived_poisons[SUPPORTED_POISONS_TYPES];
 	bool			poison_every_archs;
-	uint8_t			__pad[6];
+	bool			truncate;
+	uint8_t			__pad[5];
 }				t_poison_generator_config;
 
 typedef t_poison_generator_config	t_gen_config;
@@ -100,6 +102,12 @@ void				exec_macho_level_poisoner(t_ofile *ofile, const t_poisoner *poisoner, co
 void				exec_fat_level_poisoner(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
 void				exec_lc_poisoner(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
 
+/*
+** All the poisoners executor are dead code except this one
+*/
+
+void				*exec_poisoner(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+
 void				*finder_mach_header_64(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
 void				*finder_fat_arch_64(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
 void				*finder_mach_header(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
@@ -112,6 +120,9 @@ void				*finder_fat_arch(t_ofile *ofile, const t_poisoner *poisoner, const t_poi
 void				*finder_ranlib(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
 void				*finder_nlist(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
 void				*finder_lc(t_ofile *ofile, const t_poisoner *poisoner, const t_poison_command *cmd);
+
+bool				is_poison_cmd_high_level(t_poison_command *cmd);
+bool				is_poison_cmd_low_level(t_poison_command *cmd);
 
 # define OFFSET_OF(type, member) (uint64_t)(&((type *)0)->member)
 
