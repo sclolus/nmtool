@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 20:30:08 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/19 22:52:46 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/23 06:20:28 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int32_t	ofile_check_load_commands_integrity(t_ofile *ofile)
 		if (-1 == ofile_object_check_addr_size(ofile, cur_lc, sizeof(struct load_command))
 			|| -1 == ofile_object_check_addr_size(ofile, (uint8_t*)cur_lc, cur_lc->cmdsize))
 		{
-			dprintf(2, "Object file is malformed, the load commands would go beyond the end of the file\n");
+			ft_dprintf(2, "Object file is malformed, the load commands would go beyond the end of the file\n");
 			return (-1);
 		}
 		if (-1 == check_load_command_integrity(ofile, cur_lc))

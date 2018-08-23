@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 00:46:07 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/22 13:20:44 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/23 06:20:28 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int32_t	swap_load_command(t_ofile *ofile, struct load_command *lc)
 	if (-1 == ofile_object_check_addr_size(ofile, lc, sizeof(struct load_command))
 		|| -1 == ofile_object_check_addr_size(ofile, lc, lc->cmdsize))
 	{
-		dprintf(2, "Object file is malformed, the load commands would go beyond the end of the file\n");
+		ft_dprintf(2, "Object file is malformed, the load commands would go beyond the end of the file\n");
 		return (-1);
 	}
 	while (i < NBR_SUPPORTED_LC)

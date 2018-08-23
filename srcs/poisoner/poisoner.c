@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 19:18:39 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/22 11:51:58 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/23 06:20:28 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,7 @@ static void	exec_poisoners(t_ofile *ofile, t_poison_list *plist)
 				plist->truncation_addr = addr;
 		}
 		else
-			dprintf(2, "Executor not implemented for %s\n", poisoners[plist->poison_commands[i].type][plist->poison_commands[i].pindex].member_name);
+			ft_dprintf(2, "Executor not implemented for %s\n", poisoners[plist->poison_commands[i].type][plist->poison_commands[i].pindex].member_name);
 		i++;
 	}
 }
@@ -253,7 +253,7 @@ static void	exec_poisoners_by_predicate(t_ofile *ofile,
 			if (executor)
 				executor(ofile, poisoners[plist->poison_commands[i].type] + plist->poison_commands[i].pindex, plist->poison_commands + i);
 			else
-				dprintf(2, "Executor not implemented for %s\n", poisoners[plist->poison_commands[i].type][plist->poison_commands[i].pindex].member_name);
+				ft_dprintf(2, "Executor not implemented for %s\n", poisoners[plist->poison_commands[i].type][plist->poison_commands[i].pindex].member_name);
 		}
 		i++;
 	}
@@ -299,7 +299,7 @@ static t_poison_list	*handle_fat_file(t_ofile *ofile, t_poison_generator_config 
 			free_poison_list(plist);
 			if (-1 == ofile_load_narch(ofile, i))
 			{
-				dprintf(2, "Failed to parse fat file, aborting the poisoning...\n");
+				ft_dprintf(2, "Failed to parse fat file, aborting the poisoning...\n");
 				return (NULL);
 			}
 			assert(plist = generate_poison_list(ofile, config));
@@ -311,7 +311,7 @@ static t_poison_list	*handle_fat_file(t_ofile *ofile, t_poison_generator_config 
 	assert(plist = generate_poison_list(ofile, config));
 	if (-1 == ofile_load_narch(ofile, (uint32_t)narch_for_arch))
 	{
-		dprintf(2, "Failed to parse fat file, aborting the poisoning...\n");
+		ft_dprintf(2, "Failed to parse fat file, aborting the poisoning...\n");
 		free_poison_list(plist);
 		return (NULL);
 	}
@@ -345,7 +345,7 @@ static t_poison_list	*handle_archive_file(t_ofile *ofile, t_gen_config *config)
 		free_poison_list(plist);
 		if (-1 == ofile_load_narchive_member(ofile, i))
 		{
-			dprintf(2, "Failed to parse archive file, aborting the poisoning\n");
+			ft_dprintf(2, "Failed to parse archive file, aborting the poisoning\n");
 			return (NULL);
 		}
 		assert(plist = generate_poison_list(ofile, config));

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 06:09:39 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/18 08:49:53 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/23 06:20:28 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static inline int32_t	parse_archive_member_name(t_ofile *ofile)
 		ofile->archive_member_header.name_length = ft_atou((char *)ofile->archive_member_header_addr + sizeof(LONG_ARCHIVE_NAME_MAGIC) - 1);
 		if (ofile->archive_member_header.name_length < 0)
 		{
-			dprintf(2, "Invalid member_name size\n");
+			ft_dprintf(2, "Invalid member_name size\n");
 			return (-1);
 		}
 		ofile->archive_member_header.member_name = (uint8_t*)ofile->archive_member_header_addr + 60;
@@ -48,7 +48,7 @@ int32_t	archive_parse_member_header(t_ofile *ofile)
 	ofile->archive_member_header.st_size = ft_atoll((const char *)member_hdr_addr + 48);
 	if (ofile->archive_member_header.st_size < 0)
 	{
-		dprintf(2, "Invalid st_size in archive member\n");
+		ft_dprintf(2, "Invalid st_size in archive member\n");
 		return (-1);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 21:48:53 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/22 12:00:16 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/23 06:20:28 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	*map_file(char *filename, uint64_t *file_size)
 	if (MAP_FAILED == (map = mmap(NULL, *file_size,
 						PROT_READ | PROT_WRITE, /* MAP_SHARED */ MAP_PRIVATE, fd, 0)))
 	{
-		dprintf(2, "File does not exist or permission denied\n");
+		ft_dprintf(2, "File does not exist or permission denied\n");
 		close(fd);
 		return (NULL);
 	}

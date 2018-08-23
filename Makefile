@@ -90,7 +90,7 @@ OBJ_POISONER= $(SRC_POISONER:.c=.o)
 OBJ_OFILE_LIB= $(SRC_OFILE_LIB:.c=.o)
 HDR_PATH= ./libft/includes/
 CC= gcc
-CC_FLAGS= -v -Weverything -Wall -Werror -Wextra -g3 -Og   -fsanitize=address -fsanitize-blacklist=my_ignores.txt
+CC_FLAGS= -v -Weverything -Wall -Werror -Wextra -Ofast #-g3 -Og   -fsanitize=address -fsanitize-blacklist=my_ignores.txt
 LIBFT_PATH=./libft
 FLAGS= -L$(LIBFT_PATH) -lft -I$(HDR_PATH) -I./includes
 
@@ -108,7 +108,7 @@ $(NAME): $(OBJ) $(OBJ_OFILE_LIB)
 	$(CC) $(CC_FLAGS) -I./includes $< -c -I$(HDR_PATH) -o $@
 
 clean:
-	rm -f $(OBJ)
+	rm -f $(OBJ) $(OBJ_2) $(OBJ_POISONER) $(OBJ_OFILE_LIB)
 	make -C $(LIBFT_PATH) clean
 fclean: clean
 	rm -f $(NAME)

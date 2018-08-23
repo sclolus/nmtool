@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 19:18:58 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/22 10:21:13 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/23 03:58:25 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ typedef enum   e_poison_type
 typedef enum	e_poison_action
 {
 	POISON_ACTION_RANDOMIZE = 0,
-	POISON_ACTION_TRUNCATE, // not implemented
+	POISON_ACTION_TRUNCATE,
 	POISON_ACTION_SPECIFIC_VALUE, // not implemented
 }				t_poison_action;
 

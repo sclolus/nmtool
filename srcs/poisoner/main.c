@@ -38,7 +38,7 @@ int	main(int argc, char **argv)
 			write(poisoned_file_fd, poisoned_zone_vm_addr, ofile->file_size);
 		free_poison_list(plist);
 		assert(deallocate_poisoned_zone(ofile) == 0);
-		printf("Created file: %s\n", poisoned_filename);
+		ft_printf("Created file: %s\n", poisoned_filename);
 		free(poisoned_filename);
 		if (munmap_file(ofile))
 		{

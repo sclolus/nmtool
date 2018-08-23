@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 03:10:22 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/22 10:27:54 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/23 06:20:28 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,7 @@ t_poison_list	*generate_poison_list(t_ofile *ofile, t_poison_generator_config *c
 	plist->poison_commands = (t_poison_command *)(void *)(plist + 1);
 	if (check_type_instances(instances_count) == 0)
 	{
-		dprintf(2, "There is nothing to poison in this mach-o file\n");
+		ft_dprintf(2, "There is nothing to poison in this mach-o file\n");
 		free_instances_count(instances_count);
 		return (NULL);
 	}

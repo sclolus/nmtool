@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/17 01:15:19 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/17 06:47:46 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/23 06:20:28 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,30 +238,30 @@ void nm_print_symbol(t_symbol *sym, t_nm_process_info *nm_info, t_nm_flags *flag
 	c = nm_get_symbol_char(sym, nm_info);
 	if (!((char)-1 != c))
 	{
-		printf("Symbol name : %s\n", sym->string);
+		ft_printf("Symbol name : %s\n", sym->string);
 		assert((char)-1 != c);
 	}
 	if (!should_print_symbol(sym, nm_info, flags, c))
 		return ;
 	if (flags->flags.bits.j || flags->flags.bits.u)
-		printf("%s\n", (char *)sym->string);
+		ft_printf("%s\n", (char *)sym->string);
 	else if (c == 'u' || c == 'U')
 	{
 		if (nm_info->symtab)
-			printf("         %c %s\n", c
+			ft_printf("         %c %s\n", c
 				   , (char *)sym->string);
 
 			else
-				printf("                 %c %s\n", c
+				ft_printf("                 %c %s\n", c
 					   , (char *)sym->string);
 	}
 	else
 	{
 		if (nm_info->symtab)
-			printf("%08llx %c %s\n", sym->sym_entry.n_value, c
+			ft_printf("%08llx %c %s\n", sym->sym_entry.n_value, c
 				   , (char *)sym->string);
 			else
-				printf("%016llx %c %s\n", sym->sym_entry.n_value, c
+				ft_printf("%016llx %c %s\n", sym->sym_entry.n_value, c
 					   , (char *)sym->string);
 	}
 }

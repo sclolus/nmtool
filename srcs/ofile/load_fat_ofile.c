@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 22:55:30 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/21 07:12:59 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/23 06:20:28 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ static void	print_archs_names(t_ofile *ofile)
 	while (i < ofile->fat_header->nfat_arch)
 	{
 		if (ofile->fat_archs)
-			printf("Arch %i: %s:%d\n", i, get_cputype_name(ofile->fat_archs[i].cputype), ofile->fat_archs[i].cpusubtype);
+			ft_printf("Arch %i: %s:%d\n", i, get_cputype_name(ofile->fat_archs[i].cputype), ofile->fat_archs[i].cpusubtype);
 		else
-			printf("Arch %i: %s:%d\n", i, get_cputype_name(ofile->fat_archs_64[i].cputype), ofile->fat_archs_64[i].cpusubtype);
+			ft_printf("Arch %i: %s:%d\n", i, get_cputype_name(ofile->fat_archs_64[i].cputype), ofile->fat_archs_64[i].cpusubtype);
 		i++;
 	}
 }

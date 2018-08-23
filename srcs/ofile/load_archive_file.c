@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 02:11:25 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/22 11:37:36 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/23 06:20:28 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static inline int32_t	set_archive_symdef(t_ofile *ofile)
 	}
 	else
 	{
-		dprintf(2, "First member of archive file is not SYMDEF or SYMDEF_SORTED\n");
+		ft_dprintf(2, "First member of archive file is not SYMDEF or SYMDEF_SORTED\n");
 		return (-1);
 	}
 	return (0);

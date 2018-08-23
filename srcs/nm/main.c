@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 19:39:07 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/22 11:23:47 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/23 06:20:28 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	main(int argc, char **argv)
 		nm(ofile, nm_flags);
 		if (munmap_file(ofile))
 		{
-			dprintf(2, "Failed to munmap file\n");
+			ft_dprintf(2, "Failed to munmap file\n");
 			return (EXIT_FAILURE);
 		}
 		i++;
