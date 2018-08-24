@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 04:49:30 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/24 04:53:59 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/24 07:12:31 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	}
 	i = 1;
-	while (i < argc)
+	while ((int32_t)i < argc)
 	{
 		if (!(ofile = get_ofile(argv[i])))
 		{
@@ -32,9 +32,7 @@ int	main(int argc, char **argv)
 		}
 		if (ofile->ofile_type == OFILE_UNKNOWN)
 		{
-			ft_error(5, (char *[]){argv[0], ": ",
-						argv[i], " ",
-						ERR_UNKNOWN_FILE_FORMAT}, 0);
+			ft_printf("%s: is not an object file\n", ofile->file_name);
 			i++;
 			continue ;
 		}

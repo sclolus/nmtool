@@ -87,7 +87,12 @@ SRC_OFILE_LIB=srcs/ofile/get_ofile_type.c \
 
 SRC_2=srcs/otool/main.c \
 	srcs/otool/print_otool_usage.c \
-	srcs/otool/ft_otool.c
+	srcs/otool/ft_otool.c \
+	srcs/otool/otool_find_section.c \
+	srcs/otool/init_otool_info.c \
+	srcs/otool/otool_print_section.c \
+	srcs/otool/otool_print_section_64.c
+
 SRC_POISONER=srcs/poisoner/main.c \
 			srcs/poisoner/poisoner.c \
 			srcs/poisoner/poison_lc_segment.c \
@@ -110,11 +115,11 @@ OBJ_POISONER= $(SRC_POISONER:.c=.o)
 OBJ_OFILE_LIB= $(SRC_OFILE_LIB:.c=.o)
 HDR_PATH= ./libft/includes/
 CC= gcc
-CC_FLAGS= -v -Weverything -Wall -Werror -Wextra -g3 -Og   -fsanitize=address -fsanitize-blacklist=my_ignores.txt
+CC_FLAGS= -v -Weverything -Wall -Werror -Wextra -Ofast #-g3 -Og   -fsanitize=address -fsanitize-blacklist=my_ignores.txt
 LIBFT_PATH=./libft
 FLAGS= -L$(LIBFT_PATH) -lft -I$(HDR_PATH) -I./includes
 
-all: submodule $(NAME) poisoner
+all: submodule $(NAME) $(NAME_2) poisoner
 
 submodule:
 	@echo $(SRC_OFILE_LIB)

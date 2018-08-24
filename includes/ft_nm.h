@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 19:38:34 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/24 04:48:31 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/24 05:12:40 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,6 @@ bool	is_symbol_stab(t_symbol *sym, t_nm_process_info *nm_info);
 */
 
 # define NM_USAGE "usage: ./ft_nm ["NM_FLAGS"] <input files> " // todo
-# define ERR_UNKNOWN_FILE_FORMAT "The file was not recognized as a valid object file"
 # define NM_BAD_STRING_INDEX "bad string index"
 
 void	ft_put_nm_usage(void);

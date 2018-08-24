@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:10:54 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/24 04:48:39 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/24 05:03:05 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,5 +208,12 @@ int32_t	ofile_check_load_commands_integrity(t_ofile *ofile);
 int32_t	check_lc_segment_integrity(t_ofile *ofile, struct load_command *lc);
 int32_t	check_lc_segment_64_integrity(t_ofile *ofile, struct load_command *lc);
 int32_t	check_lc_symtab_integrity(t_ofile *ofile, struct load_command *lc);
+
+
+/*
+** Error handling
+*/
+
+# define ERR_UNKNOWN_FILE_FORMAT "The file was not recognized as a valid object file"
 
 #endif
