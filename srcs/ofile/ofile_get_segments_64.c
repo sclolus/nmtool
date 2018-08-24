@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 03:58:49 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/16 04:06:10 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/24 03:17:38 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ struct segment_command_64	**ofile_get_segments_64(t_ofile *ofile, uint32_t *retu
 	nsegs = ofile_get_nsegs_64(ofile);
 	*return_nsegs = 0;
 	if (NULL == (segs = malloc(sizeof(struct segment_command_64 *) * nsegs)))
-		return (NULL);
+		exit(EXIT_FAILURE);
 	fill_segments(segs, nsegs, ofile);
 	*return_nsegs = nsegs;
 	return (segs);

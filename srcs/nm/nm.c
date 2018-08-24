@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 02:10:05 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/23 06:20:28 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/24 03:46:10 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,15 @@ static int32_t	nm_process_obj(t_ofile *ofile, t_nm_flags *flags)
 	t_symbol			*symbols;
 
 	if (-1 == init_nm_process_info(ofile, &nm_info))
-		return (-1); // not sure about this
-	if (NULL == (symbols = nm_get_symbols(&nm_info)))
+		return (-1);
+	if (NULL == (symbols = nm_get_symbols(ofile, &nm_info)))
 		return (-1);
 	nm_sort_symbols(symbols, nm_info.st_lc->nsyms, flags);
 	i = 0;
 	while (i < nm_info.st_lc->nsyms)
 		nm_print_symbol(symbols + i++, &nm_info, flags);
 	free(symbols);
-//	cleanup_nm_process_info(&nm_info);
+	cleanup_nm_process_info(&nm_info);
 	return (0);
 }
 
@@ -48,7 +48,7 @@ static int32_t nm_handle_fat(t_ofile *ofile, t_nm_flags *flags)
 		{
 			if (-1 == ofile_load_narch(ofile, i))
 			{
-				i++; // donnu about that
+				i++;
 				continue ;
 			}
 			if (ofile->fat_header->nfat_arch != 1)

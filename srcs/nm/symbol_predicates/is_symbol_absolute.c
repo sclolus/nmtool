@@ -1,34 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_otool.h                                         :+:      :+:    :+:   */
+/*   is_symbol_absolute.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/24 04:47:51 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/24 04:52:09 by sclolus          ###   ########.fr       */
+/*   Created: 2018/08/24 04:11:01 by sclolus           #+#    #+#             */
+/*   Updated: 2018/08/24 04:11:13 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_OTOOL_H
-# define FT_OTOOL_H
+#include "ft_nm.h"
 
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdint.h>
-
-#include <sys/stat.h>
-#include <sys/mman.h>
-#include <fcntl.h>
-#include "ft_ofile.h"
-#include "libft.h"
-
-
-/*
-** Error Handling
-*/
-
-# define OTOOL_USAGE "./ft_otool <object file>" //s?
-
-#endif
+bool is_symbol_absolute(t_symbol *sym, t_nm_process_info *nm_info)
+{
+	if (is_symbol_extern(sym, nm_info))
+		return (false);
+	return (((sym->sym_entry.n_type & N_TYPE) == N_ABS));
+}

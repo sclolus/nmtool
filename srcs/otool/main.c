@@ -5,26 +5,27 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/15 19:39:07 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/24 03:13:34 by sclolus          ###   ########.fr       */
+/*   Created: 2018/08/24 04:49:30 by sclolus           #+#    #+#             */
+/*   Updated: 2018/08/24 04:53:59 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_nm.h"
-
+#include "ft_otool.h"
 
 int	main(int argc, char **argv)
 {
+	uint64_t	i;
 	t_ofile		*ofile;
-	t_nm_flags	*nm_flags;
-	uint32_t	i;
 
-	if (!(nm_flags = parse_flags(argc, argv)))
-		return (EXIT_FAILURE);
-	i = 0;
-	while (i < nm_flags->nbr_files)
+	if (argc == 1)
 	{
-		if (!(ofile = get_ofile(nm_flags->files[i])))
+		print_otool_usage();
+		exit(EXIT_FAILURE);
+	}
+	i = 1;
+	while (i < argc)
+	{
+		if (!(ofile = get_ofile(argv[i])))
 		{
 			i++;
 			continue ;
@@ -32,12 +33,12 @@ int	main(int argc, char **argv)
 		if (ofile->ofile_type == OFILE_UNKNOWN)
 		{
 			ft_error(5, (char *[]){argv[0], ": ",
-						nm_flags->files[i], " ",
+						argv[i], " ",
 						ERR_UNKNOWN_FILE_FORMAT}, 0);
 			i++;
 			continue ;
 		}
-		nm(ofile, nm_flags);
+		otool(ofile);
 		if (munmap_file(ofile))
 		{
 			ft_dprintf(2, "Failed to munmap file\n");

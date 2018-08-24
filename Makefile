@@ -9,7 +9,26 @@ SRC=srcs/nm/main.c \
 	srcs/nm/nm_find_section.c \
 	srcs/nm/nm_get_string_table_entry.c \
 	srcs/nm/nm_get_symbols.c \
-	srcs/nm/nm_print_symbol.c
+	srcs/nm/nm_print_symbol.c \
+	srcs/nm/symbol_predicates/is_symbol_absolute.c \
+	srcs/nm/symbol_predicates/is_symbol_arbitrary_sect.c \
+	srcs/nm/symbol_predicates/is_symbol_bss.c \
+	srcs/nm/symbol_predicates/is_symbol_common.c \
+	srcs/nm/symbol_predicates/is_symbol_data.c \
+	srcs/nm/symbol_predicates/is_symbol_extern.c \
+	srcs/nm/symbol_predicates/is_symbol_extern_absolute.c \
+	srcs/nm/symbol_predicates/is_symbol_extern_arbitrary_sect.c \
+	srcs/nm/symbol_predicates/is_symbol_extern_bss.c \
+	srcs/nm/symbol_predicates/is_symbol_extern_data.c \
+	srcs/nm/symbol_predicates/is_symbol_extern_indirect.c \
+	srcs/nm/symbol_predicates/is_symbol_extern_text.c \
+	srcs/nm/symbol_predicates/is_symbol_extern_undefined.c \
+	srcs/nm/symbol_predicates/is_symbol_indirect.c \
+	srcs/nm/symbol_predicates/is_symbol_local.c \
+	srcs/nm/symbol_predicates/is_symbol_stab.c \
+	srcs/nm/symbol_predicates/is_symbol_text.c \
+	srcs/nm/symbol_predicates/is_symbol_undefined.c
+
 SRC_OFILE_LIB=srcs/ofile/get_ofile_type.c \
 	srcs/ofile/get_ofile.c \
 	srcs/ofile/map_file.c \
@@ -65,8 +84,9 @@ SRC_OFILE_LIB=srcs/ofile/get_ofile_type.c \
 	srcs/ofile/integrity_checkers/check_lc_symtab_integrity.c \
 	srcs/ofile/integrity_checkers/check_lc_segment_64_integrity.c \
 	srcs/ofile/integrity_checkers/ofile_check_mach_header_integrity.c
+
 SRC_2=srcs/otool/main.c \
-	srcs/otool/map_otool_file.c \
+	srcs/otool/print_otool_usage.c \
 	srcs/otool/ft_otool.c
 SRC_POISONER=srcs/poisoner/main.c \
 			srcs/poisoner/poisoner.c \
@@ -90,7 +110,7 @@ OBJ_POISONER= $(SRC_POISONER:.c=.o)
 OBJ_OFILE_LIB= $(SRC_OFILE_LIB:.c=.o)
 HDR_PATH= ./libft/includes/
 CC= gcc
-CC_FLAGS= -v -Weverything -Wall -Werror -Wextra -Ofast #-g3 -Og   -fsanitize=address -fsanitize-blacklist=my_ignores.txt
+CC_FLAGS= -v -Weverything -Wall -Werror -Wextra -g3 -Og   -fsanitize=address -fsanitize-blacklist=my_ignores.txt
 LIBFT_PATH=./libft
 FLAGS= -L$(LIBFT_PATH) -lft -I$(HDR_PATH) -I./includes
 
@@ -102,8 +122,10 @@ submodule:
 
 $(NAME): $(OBJ) $(OBJ_OFILE_LIB)
 	$(CC) $(CC_FLAGS) $^ $(FLAGS) -o $(NAME)
-# $(NAME_2): $(OBJ_2)
-# 	$(CC) $(CC_FLAGS) $^ $(FLAGS) -o $(NAME_2)
+
+$(NAME_2): $(OBJ_2) $(OBJ_OFILE_LIB)
+	$(CC) $(CC_FLAGS) $^ $(FLAGS) -o $(NAME_2)
+
 %.o : %.c $(HDRS)
 	$(CC) $(CC_FLAGS) -I./includes $< -c -I$(HDR_PATH) -o $@
 

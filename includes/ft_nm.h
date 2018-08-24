@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 19:38:34 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/22 13:09:03 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/24 04:48:31 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 #include <fcntl.h>
 #include "ft_ofile.h"
 #include "libft.h"
-#include <stdio.h> // remove this
 
 /*
 ** Argument line parsing
@@ -106,15 +105,60 @@ typedef struct	s_symbol
 int32_t		nm(t_ofile *ofile, t_nm_flags *flags);
 
 int32_t		init_nm_process_info(t_ofile *ofile, t_nm_process_info *nm_info);
+void		cleanup_nm_process_info(t_nm_process_info *info);
 uint32_t	nm_find_section(t_nm_process_info *nm_info,
 							char *seg_name,
 							char *sec_name);
-uint8_t		*nm_get_string_table_entry(t_nm_process_info *nm_info, uint32_t index, uint32_t *returned_len);
-t_symbol	*nm_get_symbols(t_nm_process_info *nm_info);
+uint8_t		*nm_get_string_table_entry(t_ofile *ofile,
+									   t_nm_process_info *nm_info,
+									uint32_t index,
+									uint32_t *returned_len);
+t_symbol	*nm_get_symbols(t_ofile *ofile, t_nm_process_info *nm_info);
 
 void		nm_sort_symbols(t_symbol *symbols, const uint64_t symbol_nbr
 						 , const t_nm_flags *nm_info);
 void		nm_print_symbol(t_symbol *sym, t_nm_process_info *nm_info, t_nm_flags *flags);
+
+
+/*
+** Symbol Predicates
+*/
+
+typedef bool	(*t_f_print_predicate)(t_symbol *sym,
+										   t_nm_process_info *nm_info);
+
+typedef struct s_print_symbol_predicate
+{
+	t_f_print_predicate	predicate;
+	uint8_t				c;
+	uint8_t				pad[7];
+}			   t_print_symbol_predicate;
+
+# define SUPPORTED_NM_CHAR_SYMBOL_NBR 17
+# define NCHARS_SYMBOLS SUPPORTED_NM_CHAR_SYMBOL_NBR
+
+bool	is_symbol_extern(t_symbol *sym, t_nm_process_info *nm_info);
+bool	is_symbol_local(t_symbol *sym, t_nm_process_info *nm_info);
+bool	is_symbol_extern_undefined(t_symbol *sym, t_nm_process_info *nm_info);
+bool	is_symbol_undefined(t_symbol *sym, t_nm_process_info *nm_info);
+bool	is_symbol_common(t_symbol *sym, t_nm_process_info *nm_info);
+bool	is_symbol_extern_absolute(t_symbol *sym, t_nm_process_info *nm_info);
+bool	is_symbol_absolute(t_symbol *sym, t_nm_process_info *nm_info);
+bool	is_symbol_extern_text(t_symbol *sym, t_nm_process_info *nm_info);
+bool	is_symbol_text(t_symbol *sym, t_nm_process_info *nm_info);
+bool	is_symbol_data(t_symbol *sym, t_nm_process_info *nm_info);
+bool	is_symbol_extern_data(t_symbol *sym, t_nm_process_info *nm_info);
+bool	is_symbol_extern_bss(t_symbol *sym, t_nm_process_info *nm_info);
+bool	is_symbol_bss(t_symbol *sym, t_nm_process_info *nm_info);
+bool	is_symbol_arbitrary_sect(t_symbol *sym, t_nm_process_info *nm_info);
+bool	is_symbol_extern_arbitrary_sect(t_symbol *sym, t_nm_process_info *nm_info);
+bool	is_symbol_indirect(t_symbol *sym, t_nm_process_info *nm_info);
+bool	is_symbol_extern_indirect(t_symbol *sym, t_nm_process_info *nm_info);
+bool	is_symbol_stab(t_symbol *sym, t_nm_process_info *nm_info);
+
+
+
+
 
 
 /*
@@ -123,6 +167,7 @@ void		nm_print_symbol(t_symbol *sym, t_nm_process_info *nm_info, t_nm_flags *fla
 
 # define NM_USAGE "usage: ./ft_nm ["NM_FLAGS"] <input files> " // todo
 # define ERR_UNKNOWN_FILE_FORMAT "The file was not recognized as a valid object file"
+# define NM_BAD_STRING_INDEX "bad string index"
 
 void	ft_put_nm_usage(void);
 

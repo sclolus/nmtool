@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 02:54:05 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/21 04:08:35 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/24 03:17:10 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ struct section_64	**ofile_get_sections_64(t_ofile *ofile, uint32_t *return_nsect
 	*return_nsects = 0;
 	nsects = get_nsects_64(ofile);
 	if (NULL == (secs = malloc(sizeof(struct section_64 *) * nsects)))
-		return (NULL);
+		exit(EXIT_FAILURE);
 	cur_lc = ofile->load_commands;
 	while (i < nsects)
 	{
