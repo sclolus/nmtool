@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:10:54 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/24 05:03:05 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 06:35:19 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,5 +215,7 @@ int32_t	check_lc_symtab_integrity(t_ofile *ofile, struct load_command *lc);
 */
 
 # define ERR_UNKNOWN_FILE_FORMAT "The file was not recognized as a valid object file"
+# define ERR_DEF "Truncated or malformed object file"
+# define ERR_TEXT_TOO_LONG ERR_DEF " (the text section would go past the end of the file)\n"
 
 #endif

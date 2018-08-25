@@ -6,22 +6,17 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 04:49:30 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/24 07:12:31 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 06:34:18 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_otool.h"
 
-int	main(int argc, char **argv)
+static int	process_files(int argc, char **argv)
 {
 	uint64_t	i;
 	t_ofile		*ofile;
 
-	if (argc == 1)
-	{
-		print_otool_usage();
-		exit(EXIT_FAILURE);
-	}
 	i = 1;
 	while ((int32_t)i < argc)
 	{
@@ -38,11 +33,18 @@ int	main(int argc, char **argv)
 		}
 		otool(ofile);
 		if (munmap_file(ofile))
-		{
-			ft_dprintf(2, "Failed to munmap file\n");
 			return (EXIT_FAILURE);
-		}
 		i++;
 	}
 	return (0);
+}
+
+int			main(int argc, char **argv)
+{
+	if (argc == 1)
+	{
+		print_otool_usage();
+		exit(EXIT_FAILURE);
+	}
+	return (process_files(argc, argv));
 }

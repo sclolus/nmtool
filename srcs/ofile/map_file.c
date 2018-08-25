@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 21:48:53 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/23 06:20:28 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 06:33:42 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ void	*map_file(char *filename, uint64_t *file_size)
 	struct stat	stats;
 
 	if (-1 == (fd = open(filename, O_RDONLY)))
-		return (NULL);// put error message
+	{
+		ft_dprintf(2, "%s: File does not exist or permission denied\n", filename);
+		return (NULL);
+	}
 	if (-1 == (fstat(fd, &stats)))
 		return (NULL);// put error message
 	if (stats.st_size <= 0)

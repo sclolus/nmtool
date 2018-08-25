@@ -91,7 +91,8 @@ SRC_2=srcs/otool/main.c \
 	srcs/otool/otool_find_section.c \
 	srcs/otool/init_otool_info.c \
 	srcs/otool/otool_print_section.c \
-	srcs/otool/otool_print_section_64.c
+	srcs/otool/otool_print_section_64.c \
+	srcs/otool/otool_process_obj.c \
 
 SRC_POISONER=srcs/poisoner/main.c \
 			srcs/poisoner/poisoner.c \
@@ -115,7 +116,7 @@ OBJ_POISONER= $(SRC_POISONER:.c=.o)
 OBJ_OFILE_LIB= $(SRC_OFILE_LIB:.c=.o)
 HDR_PATH= ./libft/includes/
 CC= gcc
-CC_FLAGS= -v -Weverything -Wall -Werror -Wextra -Ofast #-g3 -Og   -fsanitize=address -fsanitize-blacklist=my_ignores.txt
+CC_FLAGS= -v -Weverything -Wall -Werror -Wextra  -g3 -Og   -fsanitize=address -fsanitize-blacklist=my_ignores.txt
 LIBFT_PATH=./libft
 FLAGS= -L$(LIBFT_PATH) -lft -I$(HDR_PATH) -I./includes
 
