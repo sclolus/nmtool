@@ -1,32 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_otool.c                                         :+:      :+:    :+:   */
+/*   otool_handle_archive.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/24 04:51:15 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/25 16:41:12 by sclolus          ###   ########.fr       */
+/*   Created: 2018/08/25 16:25:49 by sclolus           #+#    #+#             */
+/*   Updated: 2018/08/25 16:26:02 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_otool.h"
 
-int32_t			otool(t_ofile *ofile)
+int32_t	otool_handle_archive(t_ofile *ofile)
 {
-	if (ofile->ofile_type == OFILE_MACHO)
+	uint64_t		i;
+	bool			soft_error;
+
+	i = 0;
+	soft_error = 0;
+	while (i < ofile->nran)
 	{
-		ft_printf("%s:\n", ofile->file_name);
-		return (otool_process_obj(ofile));
+		if (-1 == ofile_load_narchive_member(ofile, i, &soft_error))
+		{
+			if (soft_error)
+				return (0);
+			i++;
+			continue ;
+		}
+		ft_printf("%s(%s):\n", ofile->file_name
+			, ofile->archive_member_header.member_name);
+		if (-1 == otool_process_obj(ofile))
+			return (-1);
+		i++;
 	}
-	else if (ofile->ofile_type == OFILE_FAT)
-	{
-		return (otool_handle_fat(ofile));
-	}
-	else if (ofile->ofile_type == OFILE_ARCHIVE)
-	{
-		ft_printf("Archive : %s\n", ofile->file_name);
-		return (otool_handle_archive(ofile));
-	}
-	return (-1);
+	return (0);
 }

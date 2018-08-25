@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 04:47:51 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/25 07:20:17 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 16:26:11 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ typedef struct	s_otool_info
 
 int32_t			otool(t_ofile *ofile);
 int32_t			otool_process_obj(t_ofile *ofile);
+int32_t			otool_handle_fat(t_ofile *ofile);
+int32_t			otool_handle_archive(t_ofile *ofile);
 uint32_t		otool_find_section(t_otool_info *otool_info,
 							char *seg_name,
 							char *sec_name);
