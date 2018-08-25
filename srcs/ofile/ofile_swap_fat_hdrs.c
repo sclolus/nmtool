@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 23:09:12 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/25 12:49:40 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/26 00:04:31 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ int32_t				ofile_swap_fat_hdrs(t_ofile *ofile)
 			&& -1 == ofile_file_check_addr_size(ofile, ofile->fat_archs_64 + i,
 												sizeof(struct fat_arch_64))))
 		{
-			ft_dprintf(2, ERR_UNKNOWN_FILE_FORMAT);
+			ft_dprintf(2, "%s: %s",
+					ofile->file_name, ERR_UNKNOWN_FILE_FORMAT);
 			return (-1);
 		}
 		swap_fat_archs_hdr(ofile, i);
