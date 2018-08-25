@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/17 01:15:19 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/24 04:26:39 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 09:15:26 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,14 @@ static inline bool	should_print_symbol(t_symbol *sym,
 	return (true);
 }
 
-void				nm_print_symbol(t_symbol *sym,
+void				nm_print_symbol(t_ofile *ofile,
+					t_symbol *sym,
 					t_nm_process_info *nm_info,
 					t_nm_flags *flags)
 {
 	char	c;
 
+	(void)ofile;
 	c = nm_get_symbol_char(sym, nm_info);
 	if (!((char)-1 != c))
 		c = '?';
@@ -68,22 +70,10 @@ void				nm_print_symbol(t_symbol *sym,
 		return ;
 	if (flags->flags.bits.j || flags->flags.bits.u)
 		ft_printf("%s\n", (char *)sym->string);
+	else if (flags->flags.bits.x)
+		print_hexdump_sym(sym, nm_info);
 	else if (c == 'u' || c == 'U')
-	{
-		if (nm_info->symtab)
-			ft_printf("         %c %s\n", c
-				   , (char *)sym->string);
-			else
-				ft_printf("                 %c %s\n", c
-					   , (char *)sym->string);
-	}
+		print_undefined_sym(sym, nm_info, c);
 	else
-	{
-		if (nm_info->symtab)
-			ft_printf("%08llx %c %s\n", sym->sym_entry.n_value, c
-				   , (char *)sym->string);
-			else
-				ft_printf("%016llx %c %s\n", sym->sym_entry.n_value, c
-					   , (char *)sym->string);
-	}
+		default_print_sym(sym, nm_info, c);
 }

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 19:38:34 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/24 05:12:40 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 09:15:15 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,25 +28,24 @@
 ** Argument line parsing
 */
 
-# define NM_FLAGS "agopruUmjxn"
-# define NM_GETOPT_FLAGS "agopruUmjxn"
+# define NM_FLAGS "agpruUjxn"
+# define NM_GETOPT_FLAGS "agpruUjxn"
 # define DEFAULT_NM_FILE "a.out"
 
 typedef struct	s_flags16
 {
 	uint16_t	a : 1; // Print all symbol table entries, debuggers' symbols included
 	uint16_t	g : 1; // Display only global (external) symbols.
-	uint16_t	o : 1; // Prepend file or archive element name to each output line, rather than only once.
 	uint16_t	p : 1; // Don't sort : 1; display in symbol-table order.
 	uint16_t	r : 1; // Sort in reverse order.
 	uint16_t	u : 1; // Display only undefined symbols.
 	uint16_t	U : 1; // Don't display undefined symbols
-	uint16_t	m : 1; //Display  the  N_SECT  type  symbols  (Mach-O symbols) as (segment_name, section_name) followed by either external or non-external and then the symbol name.
-				   // Undefined, common, absolute and indirect symbols get displayed as (undefined), (common), (absolute), and (indirect), respectively.
 	uint16_t	j : 1; // Only display symbol names
 
 	uint16_t	x : 1; // field in hexa
 	uint16_t	n : 1; // sort numerically
+	uint16_t	bits9 : 1;
+	uint16_t	bits10 : 1;
 	uint16_t	bits11 : 1;
 	uint16_t	bits12 : 1;
 	uint16_t	bits13 : 1;
@@ -117,7 +116,16 @@ t_symbol	*nm_get_symbols(t_ofile *ofile, t_nm_process_info *nm_info);
 
 void		nm_sort_symbols(t_symbol *symbols, const uint64_t symbol_nbr
 						 , const t_nm_flags *nm_info);
-void		nm_print_symbol(t_symbol *sym, t_nm_process_info *nm_info, t_nm_flags *flags);
+
+void		nm_print_symbol(t_ofile *ofile, t_symbol *sym, t_nm_process_info *nm_info, t_nm_flags *flags);
+
+void		print_hexdump_sym(t_symbol *sym,
+							  t_nm_process_info *nm_info);
+void		print_undefined_sym(t_symbol *sym,
+								t_nm_process_info *nm_info, char c);
+void		default_print_sym(t_symbol *sym, t_nm_process_info *nm_info, char c);
+
+
 
 
 /*

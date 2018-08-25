@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 09:25:05 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/24 03:42:17 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 09:20:44 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ t_symbol			*nm_get_symbols(t_ofile *ofile, t_nm_process_info *nm_info)
 		return (NULL);
 	if (NULL == (symbols = malloc(nm_info->st_lc->nsyms * sizeof(t_symbol))))
 		return (NULL);
-	nm_info->string_table[nm_info->st_lc->strsize - 1] = 0;
+	if (nm_info->st_lc->strsize)
+		nm_info->string_table[nm_info->st_lc->strsize - 1] = 0;
 	i = 0;
 	while (i < nm_info->st_lc->nsyms)
 	{

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/22 11:30:02 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/22 11:40:09 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 11:13:30 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ static uint64_t	ofile_get_nmembers_32(t_ofile *ofile)
 	{
 		if (ran_off_already_in_ranlibs(ofile, ofile->ranlibs + i, i))
 			nmembers--;
+		if (ofile->ranlibs[i].ran_off == 0)
+			abort();
 		i++;
 	}
 	return (nmembers);

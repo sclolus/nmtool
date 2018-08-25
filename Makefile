@@ -10,6 +10,9 @@ SRC=srcs/nm/main.c \
 	srcs/nm/nm_get_string_table_entry.c \
 	srcs/nm/nm_get_symbols.c \
 	srcs/nm/nm_print_symbol.c \
+	srcs/nm/print_symbols/print_hexdump_sym.c \
+	srcs/nm/print_symbols/print_undefined_sym.c \
+	srcs/nm/print_symbols/default_print_sym.c \
 	srcs/nm/symbol_predicates/is_symbol_absolute.c \
 	srcs/nm/symbol_predicates/is_symbol_arbitrary_sect.c \
 	srcs/nm/symbol_predicates/is_symbol_bss.c \
@@ -31,6 +34,7 @@ SRC=srcs/nm/main.c \
 
 SRC_OFILE_LIB=srcs/ofile/get_ofile_type.c \
 	srcs/ofile/get_ofile.c \
+	srcs/ofile/ofile_load_file.c \
 	srcs/ofile/map_file.c \
 	srcs/ofile/munmap_file.c \
 	srcs/ofile/get_macho_host_byte_sex.c \

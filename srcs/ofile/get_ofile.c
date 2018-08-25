@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 21:50:03 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/22 11:23:03 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 10:40:12 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,30 +27,10 @@ t_ofile	*get_ofile(char *filename)
 	}
 	ofile->file_name = ft_strdup(filename);
 	ofile->vm_addr = map;
-	ofile->ofile_type = get_ofile_type(ofile);
-	if (ofile->ofile_type == OFILE_FAT)
+	if (-1 == ofile_load_file(ofile, ofile->vm_addr, ofile->file_size))
 	{
-		if (-1 == load_fat_ofile(ofile))
-		{
-			munmap_file(ofile);
-			return (NULL);
-		}
-	}
-	else if (ofile->ofile_type == OFILE_ARCHIVE)
-	{
-		if (-1 == load_archive_file(ofile))
-		{
-			munmap_file(ofile);
-			return (NULL);
-		}
-	}
-	else if (ofile->ofile_type == OFILE_MACHO)
-	{
-		if (-1 == load_macho_ofile(ofile, ofile->vm_addr, ofile->file_size))
-		{
-			munmap_file(ofile);
-			return (NULL);
-		}
+		munmap_file(ofile);
+		return (NULL);
 	}
 	return (ofile);
 }

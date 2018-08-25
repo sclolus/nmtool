@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 19:18:39 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/25 06:08:59 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 11:16:33 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -343,7 +343,7 @@ static t_poison_list	*handle_archive_file(t_ofile *ofile, t_gen_config *config)
 	while (i < ofile->nmembers)
 	{
 		free_poison_list(plist);
-		if (-1 == ofile_load_narchive_member(ofile, i))
+		if (-1 == ofile_load_narchive_member(ofile, i, NULL))
 		{
 			ft_dprintf(2, "Failed to parse archive file, aborting the poisoning\n");
 			return (NULL);

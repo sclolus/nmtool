@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 04:51:15 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/25 06:46:09 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 11:16:12 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,16 @@ static int32_t	otool_handle_fat(t_ofile *ofile)
 static int32_t	otool_handle_archive(t_ofile *ofile)
 {
 	uint64_t		i;
+	bool			soft_error;
 
 	i = 0;
+	soft_error = 0;
 	while (i < ofile->nmembers)
 	{
-		if (-1 == ofile_load_narchive_member(ofile, i))
+		if (-1 == ofile_load_narchive_member(ofile, i, &soft_error))
 		{
+			if (soft_error)
+				return (0);
 			i++;
 			continue ;
 		}

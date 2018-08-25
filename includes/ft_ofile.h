@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:10:54 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/25 06:35:19 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 11:15:27 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ void				*map_file(char *filename, uint64_t *file_size);
 int					munmap_file(t_ofile *ofile);
 
 t_ofile				*get_ofile(char *filename);
+int32_t				ofile_load_file(t_ofile *ofile, void *object_addr, uint64_t object_size);
 
 t_ofile_type		get_ofile_type(t_ofile *ofile);
 const char			*get_ofile_type_name(t_ofile_type type);
@@ -178,11 +179,11 @@ struct fat_arch_64	*ofile_find_n_fat_arch_64(t_ofile *ofile, uint32_t narch);
 ** Loading functions of the static archive data structures in the ofile structure
 */
 
-int32_t				load_archive_file(t_ofile *ofile);
+int32_t				load_archive_file(t_ofile *ofile, void *archive_addr);
 uint64_t			ofile_get_nmembers(t_ofile *ofile);
 void				*ofile_archive_get_member_starting_addr(t_ofile *ofile);
 int32_t				archive_parse_member_header(t_ofile *ofile);
-int32_t				ofile_load_narchive_member(t_ofile *ofile, uint64_t n_member);
+int32_t				ofile_load_narchive_member(t_ofile *ofile, uint64_t n_member, bool *soft_error);
 
 /*
 ** Byte Sex functions
