@@ -6,6 +6,6 @@ do
 	do
 		echo "$file"; ./ft_nm $NM_FLAGS "$file" > diff.txt #2>/dev/null
 		nm $NM_FLAGS "$file" > diff_bin.txt #2>/dev/null
-		diff diff.txt diff_bin.txt
+		diff diff.txt diff_bin.txt || break
 	done
 done
