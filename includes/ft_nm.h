@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 19:38:34 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/25 09:15:15 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 11:38:05 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,21 @@
 ** Argument line parsing
 */
 
-# define NM_FLAGS "agpruUjxn"
-# define NM_GETOPT_FLAGS "agpruUjxn"
+# define NM_FLAGS "gpruUjxn"
+# define NM_GETOPT_FLAGS "gpruUjxn"
 # define DEFAULT_NM_FILE "a.out"
 
 typedef struct	s_flags16
 {
-	uint16_t	a : 1; // Print all symbol table entries, debuggers' symbols included
 	uint16_t	g : 1; // Display only global (external) symbols.
 	uint16_t	p : 1; // Don't sort : 1; display in symbol-table order.
 	uint16_t	r : 1; // Sort in reverse order.
 	uint16_t	u : 1; // Display only undefined symbols.
 	uint16_t	U : 1; // Don't display undefined symbols
 	uint16_t	j : 1; // Only display symbol names
-
 	uint16_t	x : 1; // field in hexa
 	uint16_t	n : 1; // sort numerically
+	uint16_t	bits8 : 1;
 	uint16_t	bits9 : 1;
 	uint16_t	bits10 : 1;
 	uint16_t	bits11 : 1;

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 04:51:15 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/25 11:16:12 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 11:22:49 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static int32_t	otool_handle_archive(t_ofile *ofile)
 
 	i = 0;
 	soft_error = 0;
-	while (i < ofile->nmembers)
+	while (i < ofile->nran)
 	{
 		if (-1 == ofile_load_narchive_member(ofile, i, &soft_error))
 		{
