@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 03:46:43 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/24 03:17:23 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 13:23:06 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,13 @@ static void		fill_segments(struct segment_command **segs,
 	{
 		if (cur_lc->cmd == LC_SEGMENT)
 			segs[i++] = (struct segment_command*)(void*)cur_lc;
-		cur_lc = (struct load_command *)(void *)((uint8_t*)cur_lc + cur_lc->cmdsize);
+		cur_lc = (struct load_command *)(void *)((uint8_t*)cur_lc
+												+ cur_lc->cmdsize);
 	}
 }
 
-struct segment_command	**ofile_get_segments(t_ofile *ofile, uint32_t *return_nsegs)
+struct segment_command	**ofile_get_segments(t_ofile *ofile,
+											uint32_t *return_nsegs)
 {
 	uint32_t				nsegs;
 	struct segment_command	**segs;

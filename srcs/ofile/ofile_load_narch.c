@@ -6,17 +6,48 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/17 05:34:06 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/25 10:41:53 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 13:05:43 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ofile.h"
 
-int32_t	ofile_load_narch(t_ofile *ofile, uint32_t narch)
+inline static int32_t	load_narch_32(t_ofile *ofile, uint32_t narch)
 {
 	void		*addr;
 	uint64_t	object_size;
 
+	if (-1 == ofile_file_check_addr_size(ofile, ofile->fat_archs + narch,
+										sizeof(struct fat_arch)))
+	{
+		ft_dprintf(2, ERR_FAT_HDR_TRUNC);
+		return (-1);
+	}
+	addr = (void *)((uint8_t *)ofile->vm_addr +
+					ofile->fat_archs[narch].offset);
+	object_size = ofile->fat_archs[narch].size;
+	return (ofile_load_file(ofile, addr, object_size));
+}
+
+inline static int32_t	load_narch_64(t_ofile *ofile, uint32_t narch)
+{
+	void		*addr;
+	uint64_t	object_size;
+
+	if (-1 == ofile_file_check_addr_size(ofile, ofile->fat_archs_64 + narch,
+										sizeof(struct fat_arch_64)))
+	{
+		ft_dprintf(2, ERR_FAT_HDR_TRUNC);
+		return (-1);
+	}
+	addr = (void *)((uint8_t *)ofile->vm_addr +
+					ofile->fat_archs_64[narch].offset);
+	object_size = ofile->fat_archs_64[narch].size;
+	return (ofile_load_file(ofile, addr, object_size));
+}
+
+int32_t					ofile_load_narch(t_ofile *ofile, uint32_t narch)
+{
 	assert(narch < ofile->fat_header->nfat_arch);
 	assert(ofile->fat_archs || ofile->fat_archs_64);
 	if (narch >= ofile->fat_header->nfat_arch)
@@ -30,24 +61,7 @@ int32_t	ofile_load_narch(t_ofile *ofile, uint32_t narch)
 	ofile->load_commands = NULL;
 	ofile->narch = narch;
 	if (ofile->fat_archs)
-	{
-		if (-1 == ofile_file_check_addr_size(ofile, ofile->fat_archs + narch, sizeof(struct fat_arch)))
-		{
-			ft_dprintf(2, "Malformed fat file, the fat header is truncated or would extend beyond the file\n");
-			return (-1);
-		}
-		addr = (void *)((uint8_t *)ofile->vm_addr + ofile->fat_archs[narch].offset);
-		object_size = ofile->fat_archs[narch].size;
-	}
+		return (load_narch_32(ofile, narch));
 	else
-	{
-		if (-1 == ofile_file_check_addr_size(ofile, ofile->fat_archs_64 + narch, sizeof(struct fat_arch_64)))
-		{
-			ft_dprintf(2, "Malformed fat file, the fat header is truncated or would extend beyond the file\n");
-			return (-1);
-		}
-		addr = (void *)((uint8_t *)ofile->vm_addr + ofile->fat_archs_64[narch].offset);
-		object_size = ofile->fat_archs_64[narch].size;
-	}
-	return (ofile_load_file(ofile, addr, object_size));
+		return (load_narch_64(ofile, narch));
 }

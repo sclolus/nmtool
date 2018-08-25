@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 23:58:14 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/22 13:22:03 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 13:12:43 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,41 +15,19 @@
 
 const char	*get_cputype_name(cpu_type_t type)
 {
-	static const char	*names[15] = {
-		"any",
-		"vax",
-		"MC680x0",
-		"i386",
-		"x86",
-		"x86_64",
-		"MC98000",
-		"HPPA",
-		"arm",
-		"arm64",
-		"MC88000",
-		"SPARC",
-		"i860",
-		"ppc",
-		"ppc46",
+	static const char		*names[15] = {
+		"any", "vax", "MC680x0", "i386",
+		"x86", "x86_64", "MC98000", "HPPA",
+		"arm", "arm64", "MC88000", "SPARC",
+		"i860", "ppc", "ppc46",
 	};
 	static const cpu_type_t	types[15] = {
-		CPU_TYPE_ANY,
-		CPU_TYPE_VAX,
-		CPU_TYPE_MC680x0,
-		CPU_TYPE_I386,
-		CPU_TYPE_X86,
-		CPU_TYPE_X86_64,
-		CPU_TYPE_MC98000,
-		CPU_TYPE_HPPA,
-		CPU_TYPE_ARM,
-		CPU_TYPE_ARM64,
-		CPU_TYPE_MC88000,
-		CPU_TYPE_SPARC,
-		CPU_TYPE_I860,
-		CPU_TYPE_POWERPC,
-		CPU_TYPE_POWERPC64,
+		CPU_TYPE_ANY, CPU_TYPE_VAX, CPU_TYPE_MC680x0, CPU_TYPE_I386,
+		CPU_TYPE_X86, CPU_TYPE_X86_64, CPU_TYPE_MC98000, CPU_TYPE_HPPA,
+		CPU_TYPE_ARM, CPU_TYPE_ARM64, CPU_TYPE_MC88000, CPU_TYPE_SPARC,
+		CPU_TYPE_I860, CPU_TYPE_POWERPC, CPU_TYPE_POWERPC64,
 	};
-	uint32_t	i;
+	uint32_t				i;
 
 	i = 0;
 	while (i < sizeof(types) / sizeof(*types))

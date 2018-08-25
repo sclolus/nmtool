@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 22:46:01 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/19 11:14:35 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 12:45:39 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 void	*set_ofile_mh(t_ofile *ofile)
 {
-	struct	mach_header	*mh;
+	struct mach_header	*mh;
 
 	ofile->mh = NULL;
 	ofile->mh_64 = NULL;
 	if (-1 == ofile_object_check_addr_size(ofile,
-										   ofile->object_addr,
-										   sizeof(struct mach_header_64)))
+										ofile->object_addr,
+										sizeof(struct mach_header_64)))
 		return (NULL);
 	if (ofile->object_addr == NULL)
 		return (NULL);

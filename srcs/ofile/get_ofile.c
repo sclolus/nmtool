@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 21:50:03 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/25 10:40:12 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 13:13:34 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_ofile	*get_ofile(char *filename)
 	void	*map;
 
 	if (!(ofile = malloc(sizeof(t_ofile))))
-		return (NULL); // put error_message
+		exit(EXIT_FAILURE);
 	ft_bzero(ofile, sizeof(t_ofile));
 	if (!(map = map_file(filename, &ofile->file_size)))
 	{

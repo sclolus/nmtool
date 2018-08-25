@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:10:35 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/25 10:35:28 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 13:15:36 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ static bool		is_archive(t_ofile *ofile)
 {
 	if (ofile->file_size <= sizeof(STATIC_LIB_MAGIC))
 		return (false);
-	if (!memcmp(ofile->object_addr, STATIC_LIB_MAGIC, sizeof(STATIC_LIB_MAGIC) - 1))
+	if (!memcmp(ofile->object_addr,
+				STATIC_LIB_MAGIC,
+				sizeof(STATIC_LIB_MAGIC) - 1))
 		return (true);
 	return (false);
 }
@@ -41,9 +43,11 @@ static bool		is_macho(t_ofile *ofile)
 
 	hdr = ofile->object_addr;
 	hdr_64 = ofile->object_addr;
-	if (ofile->file_size <= sizeof(hdr->magic) || ofile->file_size <= sizeof(hdr_64->magic))
+	if (ofile->file_size <= sizeof(hdr->magic)
+		|| ofile->file_size <= sizeof(hdr_64->magic))
 		return (false);
-	return (hdr->magic == MH_MAGIC || hdr->magic == MH_CIGAM || hdr_64->magic == MH_MAGIC_64 || hdr_64->magic == MH_CIGAM_64);
+	return (hdr->magic == MH_MAGIC || hdr->magic == MH_CIGAM ||
+			hdr_64->magic == MH_MAGIC_64 || hdr_64->magic == MH_CIGAM_64);
 }
 
 static bool		is_unknown(t_ofile *ofile)

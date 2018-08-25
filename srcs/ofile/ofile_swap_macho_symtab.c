@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/22 12:59:41 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/22 13:11:21 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 12:54:58 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ void	ofile_swap_macho_symtab(t_ofile *ofile)
 		return ;
 	i = 0;
 	nlist = (struct nlist *)(void *)((uint8_t*)ofile->object_addr + sc->symoff);
-	nlist_64 = (struct nlist_64*)(void *)((uint8_t*)ofile->object_addr + sc->symoff);
+	nlist_64 = (struct nlist_64*)(void *)((uint8_t*)ofile->object_addr
+										+ sc->symoff);
 	if (ofile->mh)
 		while (i < sc->nsyms)
 			swap_nlist(nlist + i++);

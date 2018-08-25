@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 02:24:47 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/21 06:54:30 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 13:13:15 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ uint32_t	get_nsects(t_ofile *ofile)
 	{
 		if (cur_lc->cmd == LC_SEGMENT)
 			nsects += ((struct segment_command*)cur_lc)->nsects;
-		cur_lc = (struct load_command *)(void *)((uint8_t*)cur_lc + cur_lc->cmdsize);
+		cur_lc = (struct load_command *)(void *)((uint8_t*)cur_lc
+												+ cur_lc->cmdsize);
 		i++;
 	}
 	return (nsects);

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 03:52:51 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/16 03:53:20 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 13:17:59 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ uint32_t	ofile_get_nsegs_64(t_ofile *ofile)
 	uint32_t			nsegs;
 	uint32_t			ncmds;
 
-
 	assert((ofile->mh || ofile->mh_64) && ofile->load_commands);
 	i = 0;
 	nsegs = 0;
@@ -29,7 +28,8 @@ uint32_t	ofile_get_nsegs_64(t_ofile *ofile)
 	{
 		if (cur_lc->cmd == LC_SEGMENT_64)
 			nsegs++;
-		cur_lc = (struct load_command *)(void *)((uint8_t*)cur_lc + cur_lc->cmdsize);
+		cur_lc = (struct load_command *)(void *)((uint8_t*)cur_lc
+												+ cur_lc->cmdsize);
 		i++;
 	}
 	return (nsegs);

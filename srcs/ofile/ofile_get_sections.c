@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 02:22:29 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/24 03:16:51 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 13:21:15 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ static uint32_t		fill_sections_from_seg(struct load_command *lc,
 	return (count);
 }
 
-struct section		**ofile_get_sections(t_ofile *ofile, uint32_t *return_nsects)
+struct section		**ofile_get_sections(t_ofile *ofile,
+										uint32_t *return_nsects)
 {
 	uint32_t			i;
 	uint32_t			nsects;
@@ -44,7 +45,8 @@ struct section		**ofile_get_sections(t_ofile *ofile, uint32_t *return_nsects)
 	{
 		if (cur_lc->cmd == LC_SEGMENT)
 			i = fill_sections_from_seg(cur_lc, secs, i);
-		cur_lc = (struct load_command *)(void *)((uint8_t*)cur_lc + cur_lc->cmdsize);
+		cur_lc = (struct load_command *)(void *)((uint8_t*)cur_lc
+												+ cur_lc->cmdsize);
 	}
 	*return_nsects = nsects;
 	return (secs);

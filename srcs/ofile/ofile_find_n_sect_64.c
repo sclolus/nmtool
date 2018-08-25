@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/21 01:40:31 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/21 01:43:31 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 13:23:56 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,11 @@ struct section_64	*ofile_find_n_sect_64(t_ofile *ofile, uint32_t n)
 			if (((struct segment_command_64*)(void *)cur_lc)->nsects + nsects < n)
 				nsects += ((struct segment_command_64*)(void *)cur_lc)->nsects;
 			else
-				return (((struct section_64 *)((struct segment_command_64*)(void *)cur_lc + 1)) + (n - nsects));
+				return (((struct section_64 *)((struct segment_command_64*)
+										(void *)cur_lc + 1)) + (n - nsects));
 		}
-		cur_lc = (struct load_command *)(void *)((uint8_t*)cur_lc + cur_lc->cmdsize);
+		cur_lc = (struct load_command *)(void *)((uint8_t*)cur_lc
+										+ cur_lc->cmdsize);
 		i++;
 	}
 	return (NULL);

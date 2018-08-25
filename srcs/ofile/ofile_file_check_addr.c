@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 11:04:05 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/22 11:46:49 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 13:20:12 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ inline int32_t	ofile_file_check_addr(t_ofile *ofile, void *addr)
 	return (-1);
 }
 
-inline int32_t	ofile_file_check_addr_size(t_ofile *ofile, void *addr, uint64_t size)
+inline int32_t	ofile_file_check_addr_size(t_ofile *ofile,
+											void *addr,
+											uint64_t size)
 {
 	if (ofile_file_check_addr(ofile, addr) == 0
 		&& (size == 0

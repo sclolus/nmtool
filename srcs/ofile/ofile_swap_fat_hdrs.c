@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 23:09:12 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/23 06:20:28 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 12:49:40 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,28 +18,38 @@ inline static void	swap_fat_hdr(struct fat_header *fat_hdr)
 	fat_hdr->nfat_arch = swap_int32(fat_hdr->nfat_arch);
 }
 
+inline static void	swap_fat_arch_32(struct fat_arch *fat_arch)
+{
+	fat_arch->cputype = (cpu_type_t)swap_int32(
+		(uint32_t)fat_arch->cputype);
+	fat_arch->cpusubtype = (cpu_subtype_t)swap_int32(
+		(uint32_t)fat_arch->cpusubtype);
+	fat_arch->offset = swap_int32(fat_arch->offset);
+	fat_arch->size = swap_int32(fat_arch->size);
+	fat_arch->align = swap_int32(fat_arch->align);
+}
+
+inline static void	swap_fat_arch_64(struct fat_arch_64 *fat_arch_64)
+{
+	fat_arch_64->cputype = (cpu_type_t)swap_int32(
+		(uint32_t)fat_arch_64->cputype);
+	fat_arch_64->cpusubtype = (cpu_subtype_t)swap_int32(
+		(uint32_t)fat_arch_64->cpusubtype);
+	fat_arch_64->offset = swap_int64(fat_arch_64->offset);
+	fat_arch_64->size = swap_int64(fat_arch_64->size);
+	fat_arch_64->align = swap_int32(fat_arch_64->align);
+	fat_arch_64->reserved = swap_int32(fat_arch_64->reserved);
+}
+
 inline static void	swap_fat_archs_hdr(t_ofile *ofile, uint32_t narch)
 {
 	assert(ofile->fat_archs || ofile->fat_archs_64);
 	assert(sizeof(ofile->fat_archs->cputype) == sizeof(int32_t));
 	assert(sizeof(ofile->fat_archs->cpusubtype) == sizeof(int32_t));
 	if (ofile->fat_archs)
-	{
-		ofile->fat_archs[narch].cputype = (cpu_type_t)swap_int32((uint32_t)ofile->fat_archs[narch].cputype);
-		ofile->fat_archs[narch].cpusubtype = (cpu_subtype_t)swap_int32((uint32_t)ofile->fat_archs[narch].cpusubtype);
-		ofile->fat_archs[narch].offset = swap_int32(ofile->fat_archs[narch].offset);
-		ofile->fat_archs[narch].size = swap_int32(ofile->fat_archs[narch].size);
-		ofile->fat_archs[narch].align = swap_int32(ofile->fat_archs[narch].align);
-	}
+		swap_fat_arch_32(&ofile->fat_archs[narch]);
 	else
-	{
-		ofile->fat_archs_64[narch].cputype = (cpu_type_t)swap_int32((uint32_t)ofile->fat_archs_64[narch].cputype);
-		ofile->fat_archs_64[narch].cpusubtype = (cpu_subtype_t)swap_int32((uint32_t)ofile->fat_archs_64[narch].cpusubtype);
-		ofile->fat_archs_64[narch].offset = swap_int64(ofile->fat_archs_64[narch].offset);
-		ofile->fat_archs_64[narch].size = swap_int64(ofile->fat_archs_64[narch].size);
-		ofile->fat_archs_64[narch].align = swap_int32(ofile->fat_archs_64[narch].align);
-		ofile->fat_archs_64[narch].reserved = swap_int32(ofile->fat_archs_64[narch].reserved);
-	}
+		swap_fat_arch_64(&ofile->fat_archs_64[narch]);
 }
 
 int32_t				ofile_swap_fat_hdrs(t_ofile *ofile)
@@ -53,11 +63,13 @@ int32_t				ofile_swap_fat_hdrs(t_ofile *ofile)
 	while (i < ofile->fat_header->nfat_arch)
 	{
 		if ((ofile->fat_archs
-			&& -1 == ofile_file_check_addr_size(ofile, ofile->fat_archs + i, sizeof(struct fat_arch)))
+			&& -1 == ofile_file_check_addr_size(ofile, ofile->fat_archs + i,
+												sizeof(struct fat_arch)))
 			|| (ofile->fat_archs_64
-			&& -1 == ofile_file_check_addr_size(ofile, ofile->fat_archs_64 + i, sizeof(struct fat_arch_64))))
+			&& -1 == ofile_file_check_addr_size(ofile, ofile->fat_archs_64 + i,
+												sizeof(struct fat_arch_64))))
 		{
-			ft_dprintf(2, "The file was not recognized as a valid object file\n");
+			ft_dprintf(2, ERR_UNKNOWN_FILE_FORMAT);
 			return (-1);
 		}
 		swap_fat_archs_hdr(ofile, i);
