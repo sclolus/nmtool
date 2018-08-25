@@ -6,29 +6,13 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/17 04:03:51 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/25 12:38:50 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 23:24:05 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_nm.h"
 
-static int		reverse_compare_syms(const void *a, const void *b)
-{
-	int	ret;
-
-	ret = -ft_strcmp((char *)((const t_symbol*)a)->string,
-					(char *)((const t_symbol*)b)->string);
-	if (ret)
-		return (ret);
-	if (((const t_symbol*)a)->sym_entry.n_value
-		< ((const t_symbol*)b)->sym_entry.n_value)
-		return (1);
-	else if ((((const t_symbol*)a)->sym_entry.n_value
-		> ((const t_symbol*)b)->sym_entry.n_value))
-		return (-1);
-	else
-		return (0);
-}
+static bool		g_r_flag = 0;
 
 static int		compare_syms(const void *a, const void *b)
 {
@@ -37,13 +21,13 @@ static int		compare_syms(const void *a, const void *b)
 	ret = ft_strcmp((char *)((const t_symbol*)a)->string,
 					(char *)((const t_symbol*)b)->string);
 	if (ret)
-		return (ret);
+		return (g_r_flag ? -ret : ret);
 	if (((const t_symbol*)a)->sym_entry.n_value
 		< ((const t_symbol*)b)->sym_entry.n_value)
-		return (-1);
+		return (g_r_flag ? 1 : -1);
 	else if ((((const t_symbol*)a)->sym_entry.n_value
 		> ((const t_symbol*)b)->sym_entry.n_value))
-		return (1);
+		return (g_r_flag ? -1 : 1);
 	else
 		return (0);
 }
@@ -52,10 +36,16 @@ static int		compare_syms_n(const void *a, const void *b)
 {
 	if (((const t_symbol*)a)->sym_entry.n_value
 		< ((const t_symbol*)b)->sym_entry.n_value)
-		return (-1);
+		return (g_r_flag ? 1 : -1);
 	else if ((((const t_symbol*)a)->sym_entry.n_value
 		> ((const t_symbol*)b)->sym_entry.n_value))
-		return (1);
+		return (g_r_flag ? -1 : 1);
+	if (((const t_symbol*)a)->sym_entry.n_type
+		< ((const t_symbol*)b)->sym_entry.n_type)
+		return (g_r_flag ? 1 : -1);
+	else if ((((const t_symbol*)a)->sym_entry.n_type
+		> ((const t_symbol*)b)->sym_entry.n_type))
+		return (g_r_flag ? -1 : 1);
 	else
 		return (compare_syms(a, b));
 }
@@ -66,14 +56,11 @@ void			nm_sort_symbols(t_symbol *symbols,
 {
 	if (nm_info->flags.bits.p)
 		return ;
-	else if (nm_info->flags.bits.r)
-	{
-		ft_sort((void*)symbols,
-			symbol_nbr,
-			sizeof(t_symbol),
-			&reverse_compare_syms);
-	}
-	else if (nm_info->flags.bits.n)
+	if (nm_info->flags.bits.r)
+		g_r_flag = 1;
+	else
+		g_r_flag = 0;
+	if (nm_info->flags.bits.n)
 		ft_sort((void *)symbols,
 			symbol_nbr,
 			sizeof(t_symbol),

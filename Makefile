@@ -47,6 +47,7 @@ SRC_OFILE_LIB=srcs/ofile/get_ofile_type.c \
 	srcs/ofile/load_fat_ofile.c \
 	srcs/ofile/ofile_file_check_addr.c \
 	srcs/ofile/load_archive_file.c \
+	srcs/ofile/ofile_archive_check_addr.c \
 	srcs/ofile/set_archive_symdef.c \
 	srcs/ofile/ofile_get_nmembers.c \
 	srcs/ofile/ofile_archive_get_member_starting_addr.c \

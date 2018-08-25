@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 02:10:05 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/25 12:43:33 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 20:22:07 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int32_t	nm_handle_archive(t_ofile *ofile, t_nm_flags *flags)
 
 	i = 0;
 	soft_error = 0;
-	while (i < ofile->nran)
+	while (42)
 	{
 		if (-1 == ofile_load_narchive_member(ofile, i, &soft_error))
 		{
@@ -54,7 +54,6 @@ int32_t	nm_handle_archive(t_ofile *ofile, t_nm_flags *flags)
 			return (-1);
 		i++;
 	}
-	return (0);
 }
 
 int32_t	nm(t_ofile *ofile, t_nm_flags *flags)

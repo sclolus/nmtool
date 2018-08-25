@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 06:09:39 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/25 13:10:26 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 20:08:53 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int32_t					archive_parse_member_header(t_ofile *ofile)
 	uint8_t			*member_hdr_addr;
 
 	member_hdr_addr = (uint8_t *)ofile->archive_member_header_addr;
+	if (-1 == ofile_archive_check_addr_size(ofile, member_hdr_addr, 60))
+		return (-1);
 	if (-1 == parse_archive_member_name(ofile))
 		return (-1);
 	ofile->archive_member_header.st_time = (uint8_t*)(member_hdr_addr + 16);

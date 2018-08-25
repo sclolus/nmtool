@@ -6,6 +6,6 @@ do
 	do
 		echo "$file"; ./ft_otool "$TARGET/$file" > diff.txt
 		otool -t "$TARGET/$file" > diff_bin.txt
-		diff diff.txt diff_bin.txt
+		diff diff.txt diff_bin.txt || break
 	done
 done

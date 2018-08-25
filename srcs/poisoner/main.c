@@ -18,8 +18,14 @@ int	main(int argc, char **argv)
 			return (EXIT_FAILURE);
 		allocate_poisoned_zone(ofile);
 		if (ofile->ofile_type == OFILE_UNKNOWN)
+		{
 			ft_error(3, (char *[]){argv[0], ": ",
 						ERR_UNKNOWN_FILE_FORMAT}, 0);
+			munmap_file(ofile);
+			i++;
+			continue ;
+		}
+		allocate_poisoned_zone(ofile);
 		if (!(plist = poison(ofile, &config)))
 			exit(EXIT_FAILURE);
 		if (NULL == (poisoned_filename = get_poisoned_file_name(argv[i], plist)))

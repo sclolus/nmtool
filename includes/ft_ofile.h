@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:10:54 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/25 15:18:41 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 20:02:30 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct				s_ofile
 	t_ofile_type			arch_ofile_type;
 
 	void					*archive_start_addr;
+	uint64_t				archive_size;
 	void					*archive_member_header_addr;
 	t_member_header			archive_member_header;
 	void					*symdef_addr;
@@ -200,7 +201,8 @@ struct fat_arch_64			*ofile_find_n_fat_arch_64(t_ofile *ofile,
 */
 
 int32_t						load_archive_file(t_ofile *ofile,
-											void *archive_addr);
+											void *archive_addr,
+											uint64_t object_size);
 int32_t						set_archive_symdef(t_ofile *ofile);
 uint64_t					ofile_get_nmembers(t_ofile *ofile);
 void						*ofile_archive_get_member_starting_addr(
@@ -209,6 +211,12 @@ int32_t						archive_parse_member_header(t_ofile *ofile);
 int32_t						ofile_load_narchive_member(t_ofile *ofile,
 												uint64_t n_member,
 												bool *soft_error);
+int32_t						ofile_archive_check_addr(t_ofile *ofile,
+													void *addr);
+int32_t						ofile_archive_check_addr_size(t_ofile *ofile,
+														void *addr,
+														uint64_t size);
+
 
 /*
 ** Byte Sex functions

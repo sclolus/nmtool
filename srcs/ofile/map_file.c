@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 21:48:53 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/25 13:21:53 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 21:56:05 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	*map_file(char *filename, uint64_t *file_size)
 		return (NULL);
 	if (stats.st_size <= 0)
 		return (NULL);
-	*file_size = (uint64_t)stats.st_size + (4096 - (stats.st_size % 4096));
+	*file_size = ((uint64_t)stats.st_size);
 	if (MAP_FAILED == (map = mmap(NULL, *file_size,
 				PROT_READ | PROT_WRITE, MAP_PRIVATE, fd, 0)))
 	{
