@@ -6,13 +6,13 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 03:58:49 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/25 13:06:37 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 13:24:45 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ofile.h"
 
-static void		fill_segments(struct segment_command_64 **segs,
+static void					fill_segments(struct segment_command_64 **segs,
 								uint32_t nsegs,
 								t_ofile *ofile)
 {

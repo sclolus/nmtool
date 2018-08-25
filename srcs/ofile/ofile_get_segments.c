@@ -6,20 +6,19 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 03:46:43 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/25 13:23:06 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 13:26:50 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ofile.h"
 
-static void		fill_segments(struct segment_command **segs,
+static void				fill_segments(struct segment_command **segs,
 								uint32_t nsegs,
 								t_ofile *ofile)
 {
 	struct load_command	*cur_lc;
 	uint32_t			i;
 	uint32_t			ncmds;
-
 
 	assert((ofile->mh || ofile->mh_64) && ofile->load_commands);
 	i = 0;

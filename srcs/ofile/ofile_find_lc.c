@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 08:50:10 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/25 13:19:46 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 13:26:01 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ struct load_command	*ofile_find_lc(t_ofile *ofile, uint32_t cmd)
 		if (-1 == ofile_object_check_addr_size(ofile, cur_lc,
 									sizeof(struct load_command))
 			|| -1 == ofile_object_check_addr_size(ofile, cur_lc,
-									 cur_lc->cmdsize))
+									cur_lc->cmdsize))
 			return (NULL);
 		if (cmd == cur_lc->cmd || (LC_REQ_DYLD | cmd) == cur_lc->cmd)
 			return (cur_lc);

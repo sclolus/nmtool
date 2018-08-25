@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/21 03:39:48 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/21 03:39:48 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 13:28:30 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,6 @@ struct nlist		*ofile_find_n_nlist(t_ofile *ofile, uint32_t n)
 		return (NULL);
 	if (sc->nsyms <= n)
 		return (NULL);
-	return ((struct nlist *)(void *)((uint8_t *)ofile->object_addr + sc->symoff) + n);
+	return ((struct nlist *)(void *)((uint8_t *)ofile->object_addr
+									+ sc->symoff) + n);
 }

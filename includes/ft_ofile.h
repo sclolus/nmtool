@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:10:54 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/25 12:57:39 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 13:33:39 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ t_ofile				*get_ofile(char *filename);
 int32_t				ofile_load_file(t_ofile *ofile, void *object_addr, uint64_t object_size);
 
 t_ofile_type		get_ofile_type(t_ofile *ofile);
-const char			*get_ofile_type_name(t_ofile_type type);
 
 struct section				*ofile_find_n_sect(t_ofile *ofile, uint32_t n);
 struct section_64			*ofile_find_n_sect_64(t_ofile *ofile, uint32_t n);

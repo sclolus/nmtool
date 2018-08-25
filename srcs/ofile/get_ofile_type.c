@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:10:35 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/25 13:15:36 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 13:33:28 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,33 +55,6 @@ static bool		is_unknown(t_ofile *ofile)
 	(void)ofile;
 	return (true);
 }
-
-const char			*get_ofile_type_name(t_ofile_type type)
-{
-	static const t_ofile_type	types[SUPPORTED_OFILE_TYPES] = {
-		OFILE_ARCHIVE,
-		OFILE_FAT,
-		OFILE_MACHO,
-		OFILE_UNKNOWN,
-	};
-	static const char			*names[SUPPORTED_OFILE_TYPES] = {
-		"Archive",
-		"Fat",
-		"Macho_File",
-		"Unknown",
-	};
-	uint32_t					i;
-
-	i = 0;
-	while (i < SUPPORTED_OFILE_TYPES)
-	{
-		if (type == types[i])
-			return (names[i]);
-		i++;
-	}
-	return (names[SUPPORTED_OFILE_TYPES - 1]);
-}
-
 
 t_ofile_type	get_ofile_type(t_ofile *ofile)
 {

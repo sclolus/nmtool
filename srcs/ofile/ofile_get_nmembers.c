@@ -6,15 +6,15 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/22 11:30:02 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/25 11:13:30 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 13:28:04 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ofile.h"
 
 static bool		ran_off_already_in_ranlibs(t_ofile *ofile,
-										   struct ranlib *ranlib,
-										   uint64_t index)
+										struct ranlib *ranlib,
+										uint64_t index)
 {
 	uint64_t	i;
 
@@ -29,10 +29,9 @@ static bool		ran_off_already_in_ranlibs(t_ofile *ofile,
 	return (false);
 }
 
-
 static bool		ran_off_already_in_ranlibs_64(t_ofile *ofile,
-										   struct ranlib_64 *ranlib,
-										   uint64_t index)
+											struct ranlib_64 *ranlib,
+											uint64_t index)
 {
 	uint64_t	i;
 
@@ -58,8 +57,6 @@ static uint64_t	ofile_get_nmembers_32(t_ofile *ofile)
 	{
 		if (ran_off_already_in_ranlibs(ofile, ofile->ranlibs + i, i))
 			nmembers--;
-		if (ofile->ranlibs[i].ran_off == 0)
-			abort();
 		i++;
 	}
 	return (nmembers);
