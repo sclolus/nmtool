@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/22 16:06:35 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/23 05:49:20 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 15:04:00 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <stdlib.h>
 # include "libft.h"
 # include <stdio.h>
-# include <assert.h>
 
 # define SUPPORTED_CONVERSIONS (sizeof(PRINTF_CONVERSION_FLAGS) - 1)
 # define PRINTF_CONVERSION_FLAGS "diouxXcspn%"

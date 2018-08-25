@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/25 06:38:03 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/25 06:41:42 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 15:17:11 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ static int32_t	otool_process_obj_32(t_ofile *ofile, t_otool_info *otool_info)
 	cleanup_otool_info(otool_info);
 	if (ret == -1)
 	{
-		ft_dprintf(2, ERR_TEXT_TOO_LONG);
+		ft_dprintf(2, "Truncated or malformed object file "
+				"(the text section would go past the end of the file)\n");
 		return (-1);
 	}
 	return (0);
@@ -34,7 +35,8 @@ static int32_t	otool_process_obj_64(t_ofile *ofile, t_otool_info *otool_info)
 	cleanup_otool_info(otool_info);
 	if (ret == -1)
 	{
-		ft_dprintf(2, ERR_TEXT_TOO_LONG);
+		ft_dprintf(2, "Truncated or malformed object file "
+			"(the text section would go past the end of the file)\n");
 		return (-1);
 	}
 	return (0);
