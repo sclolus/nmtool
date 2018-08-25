@@ -2,6 +2,7 @@ NAME= ft_nm
 NAME_2=ft_otool
 SRC=srcs/nm/main.c \
 	srcs/nm/nm.c \
+	srcs/nm/nm_handle_fat.c \
 	srcs/nm/parse_flags.c \
 	srcs/nm/ft_put_usage_nm.c \
 	srcs/nm/nm_sort_symbols.c \

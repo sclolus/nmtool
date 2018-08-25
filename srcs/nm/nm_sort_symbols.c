@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/17 04:03:51 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/25 07:47:06 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 11:51:03 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,19 +68,19 @@ void			nm_sort_symbols(t_symbol *symbols,
 		return ;
 	else if (nm_info->flags.bits.r)
 	{
-		qsort((void*)symbols,
+		ft_sort((void*)symbols,
 			symbol_nbr,
 			sizeof(t_symbol),
 			&reverse_compare_syms); // change this
 	}
 	else if (nm_info->flags.bits.n)
-		qsort((void *)symbols,
+		ft_sort((void *)symbols,
 			  symbol_nbr,
 			  sizeof(t_symbol),
 			  &compare_syms_n);
 	else
 	{
-		qsort((void*)symbols,
+		ft_sort((void*)symbols,
 			symbol_nbr,
 			sizeof(t_symbol),
 			&compare_syms); // change this

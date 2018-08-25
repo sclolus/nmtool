@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/17 03:15:49 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/17 03:18:17 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 11:41:21 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,7 @@ t_nm_flags	*parse_flags(int argc, char **argv)
 	while ((parsed_opt = (char)ft_getopt(argc, argv, NM_GETOPT_FLAGS)) != -1)
 	{
 		if (parsed_opt == GETOPT_ERR_CHAR)
-		{
-			ft_put_nm_usage();
 			return (NULL);
-		}
 		nm_info.flags.flags |= 1U << (int)(ft_strchr(NM_FLAGS, parsed_opt)
 										- NM_FLAGS);
 	}
@@ -36,7 +33,7 @@ t_nm_flags	*parse_flags(int argc, char **argv)
 	{
 		nm_info.nbr_files = 1;
 		if (!(nm_info.files = malloc(sizeof(char *))))
-			return (NULL);
+			exit(EXIT_FAILURE);
 		nm_info.files[0] = DEFAULT_NM_FILE;
 	}
 	return (&nm_info);

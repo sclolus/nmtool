@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 19:38:34 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/25 11:38:05 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 11:47:27 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,10 @@ typedef struct	s_symbol
 }				t_symbol;
 
 int32_t		nm(t_ofile *ofile, t_nm_flags *flags);
+int32_t		nm_process_obj(t_ofile *ofile, t_nm_flags *flags);
+int32_t		nm_handle_fat(t_ofile *ofile, t_nm_flags *flags);
+int32_t		nm_handle_archive(t_ofile *ofile, t_nm_flags *flags);
+int32_t		nm_current_arch(t_ofile *ofile, t_nm_flags *flags);
 
 int32_t		init_nm_process_info(t_ofile *ofile, t_nm_process_info *nm_info);
 void		cleanup_nm_process_info(t_nm_process_info *info);
