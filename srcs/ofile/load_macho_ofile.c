@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 22:01:33 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/23 06:20:28 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 12:34:23 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,7 @@ int32_t	load_macho_ofile(t_ofile *ofile, void *object_addr, uint64_t object_size
 	ofile->object_addr = object_addr;
 	ofile->object_size = object_size;
 	if (-1 == ofile_file_check_addr_size(ofile, ofile->object_addr, ofile->object_size))
-	{
-		ft_dprintf(2, "Object file is malformed\n"); // change all of this
 		return (-1);
-	}
 	ofile->obj_byte_sex = get_macho_byte_sex(((struct mach_header *)ofile->object_addr));
 	if (ofile->obj_byte_sex == UNKNOWN_BYTE_SEX)
 	{

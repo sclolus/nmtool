@@ -6,13 +6,13 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 04:11:01 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/24 04:11:13 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 12:38:11 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_nm.h"
 
-bool is_symbol_absolute(t_symbol *sym, t_nm_process_info *nm_info)
+bool	is_symbol_absolute(t_symbol *sym, t_nm_process_info *nm_info)
 {
 	if (is_symbol_extern(sym, nm_info))
 		return (false);
