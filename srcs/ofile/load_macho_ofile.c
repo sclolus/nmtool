@@ -6,19 +6,16 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 22:01:33 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/25 12:34:23 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 14:54:09 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ofile.h"
 
-int32_t	load_macho_ofile(t_ofile *ofile, void *object_addr, uint64_t object_size) // change the return type
+static int32_t	set_ofile_mh_values(t_ofile *ofile)
 {
-	ofile->object_addr = object_addr;
-	ofile->object_size = object_size;
-	if (-1 == ofile_file_check_addr_size(ofile, ofile->object_addr, ofile->object_size))
-		return (-1);
-	ofile->obj_byte_sex = get_macho_byte_sex(((struct mach_header *)ofile->object_addr));
+	ofile->obj_byte_sex = get_macho_byte_sex(
+		((struct mach_header *)ofile->object_addr));
 	if (ofile->obj_byte_sex == UNKNOWN_BYTE_SEX)
 	{
 		ft_dprintf(2, "Unknown endian found for mach-o object, aborting...\n");
@@ -30,7 +27,8 @@ int32_t	load_macho_ofile(t_ofile *ofile, void *object_addr, uint64_t object_size
 		ofile->must_be_swapped = false;
 	if (set_ofile_mh(ofile) == NULL)
 	{
-		ft_dprintf(2, "Malformed object file, the mach-o header is truncated or non-existant\n");
+		ft_dprintf(2, "Malformed object file, "
+				"the mach-o header is truncated or non-existant\n");
 		return (-1);
 	}
 	if (set_ofile_load_commands(ofile) == NULL)
@@ -38,6 +36,21 @@ int32_t	load_macho_ofile(t_ofile *ofile, void *object_addr, uint64_t object_size
 		ft_dprintf(2, "Malformed object file, there are no load commands\n");
 		return (-1);
 	}
+	return (0);
+}
+
+int32_t			load_macho_ofile(t_ofile *ofile,
+						void *object_addr,
+						uint64_t object_size)
+{
+	ofile->object_addr = object_addr;
+	ofile->object_size = object_size;
+	if (-1 == ofile_file_check_addr_size(ofile,
+										ofile->object_addr,
+										ofile->object_size))
+		return (-1);
+	if (-1 == set_ofile_mh_values(ofile))
+		return (-1);
 	if (ofile->must_be_swapped)
 	{
 		ofile_swap_macho_hdr(ofile);

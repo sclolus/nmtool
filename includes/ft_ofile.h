@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:10:54 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/25 13:33:39 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 14:21:20 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,15 @@ int32_t					ofile_object_check_addr_size(t_ofile *ofile, void *addr, uint64_t si
 ** ** Mach-o load command swapper functions
 */
 
+typedef void	(*t_f_lc_swap_callback)(struct load_command *);
+
+typedef struct	s_lc_swapper
+{
+	t_f_lc_swap_callback	callback;
+	uint32_t				cmd;
+	uint32_t				pad;
+}				t_lc_swapper;
+
 void				swap_lc_segment(struct load_command *lc);
 void				swap_lc_segment_64(struct load_command *lc);
 void				swap_lc_symtab(struct load_command *lc);
@@ -179,6 +188,7 @@ struct fat_arch_64	*ofile_find_n_fat_arch_64(t_ofile *ofile, uint32_t narch);
 */
 
 int32_t				load_archive_file(t_ofile *ofile, void *archive_addr);
+int32_t				set_archive_symdef(t_ofile *ofile);
 uint64_t			ofile_get_nmembers(t_ofile *ofile);
 void				*ofile_archive_get_member_starting_addr(t_ofile *ofile);
 int32_t				archive_parse_member_header(t_ofile *ofile);
@@ -201,6 +211,17 @@ const char	*get_cputype_name(cpu_type_t type);
 /*
 ** Mach-o Integrity checks
 */
+
+
+typedef int32_t	(*t_f_lc_integrity_check)(t_ofile *ofile
+										, struct load_command *);
+
+typedef struct	s_lc_integrity_check
+{
+	t_f_lc_integrity_check	callback;
+	uint32_t				cmd;
+	uint32_t				pad;
+}				t_lc_integrity_check;
 
 int32_t	ofile_check_object_integrity(t_ofile *ofile);
 int32_t	ofile_check_mach_header_integrity(t_ofile *ofile);

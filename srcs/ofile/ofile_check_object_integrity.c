@@ -6,30 +6,34 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 20:30:08 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/23 06:20:28 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 14:20:01 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ofile.h"
 
-typedef int32_t	(*t_f_lc_integrity_check)(t_ofile *ofile, struct load_command *);
+#define INTEGRITY_NBR_SUPPORTED_LC 3
 
-typedef struct	s_lc_integrity_check
+static inline int32_t	check_lc_bound(t_ofile *ofile,
+									struct load_command *cur_lc)
 {
-	t_f_lc_integrity_check	callback;
-	uint32_t				cmd;
-	uint32_t				pad;
-}				t_lc_integrity_check;
+	if (-1 == ofile_object_check_addr_size(ofile, cur_lc,
+									sizeof(struct load_command))
+		|| -1 == ofile_object_check_addr_size(ofile, cur_lc,
+									cur_lc->cmdsize))
+		return (-1);
+	return (0);
+}
 
-# define INTEGRITY_NBR_SUPPORTED_LC 3 /* 48 */
-static int32_t	check_load_command_integrity(t_ofile *ofile, struct load_command *lc)
+static int32_t			check_load_command_integrity(t_ofile *ofile,
+										struct load_command *lc)
 {
 	static const t_lc_integrity_check	checkers[INTEGRITY_NBR_SUPPORTED_LC] = {
 		{check_lc_segment_integrity, LC_SEGMENT, 0},
 		{check_lc_segment_64_integrity, LC_SEGMENT_64, 0},
 		{check_lc_symtab_integrity, LC_SYMTAB, 0},
 	};
-	uint32_t	i;
+	uint32_t							i;
 
 	i = 0;
 	while (i < INTEGRITY_NBR_SUPPORTED_LC)
@@ -44,12 +48,11 @@ static int32_t	check_load_command_integrity(t_ofile *ofile, struct load_command 
 	return (0);
 }
 
-int32_t	ofile_check_load_commands_integrity(t_ofile *ofile)
+int32_t					ofile_check_load_commands_integrity(t_ofile *ofile)
 {
 	uint32_t					i;
 	struct mach_header			*hdr;
 	struct load_command			*cur_lc;
-
 
 	i = 0;
 	if (ofile->mh)
@@ -59,21 +62,22 @@ int32_t	ofile_check_load_commands_integrity(t_ofile *ofile)
 	cur_lc = ofile->load_commands;
 	while (i < hdr->ncmds)
 	{
-		if (-1 == ofile_object_check_addr_size(ofile, cur_lc, sizeof(struct load_command))
-			|| -1 == ofile_object_check_addr_size(ofile, (uint8_t*)cur_lc, cur_lc->cmdsize))
+		if (-1 == check_lc_bound(ofile, cur_lc))
 		{
-			ft_dprintf(2, "Object file is malformed, the load commands would go beyond the end of the file\n");
+			ft_dprintf(2, "Object file is malformed "
+				"(the load commands would go beyond the end of the file)\n");
 			return (-1);
 		}
 		if (-1 == check_load_command_integrity(ofile, cur_lc))
 			return (-1);
-		cur_lc = (struct load_command *)(void *)((uint8_t*)cur_lc + cur_lc->cmdsize);
+		cur_lc = (struct load_command *)(void *)((uint8_t*)cur_lc
+												+ cur_lc->cmdsize);
 		i++;
 	}
 	return (0);
 }
 
-int32_t	ofile_check_object_integrity(t_ofile *ofile)
+int32_t					ofile_check_object_integrity(t_ofile *ofile)
 {
 	if (-1 == ofile_check_mach_header_integrity(ofile)
 		|| -1 == ofile_check_load_commands_integrity(ofile))

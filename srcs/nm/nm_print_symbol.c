@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/17 01:15:19 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/25 11:39:11 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/25 14:56:20 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static inline bool	should_print_symbol(t_symbol *sym,
 		return (false);
 	if (flags->flags.bits.u && !(c == 'u' || c == 'U'))
 		return (false);
-	if (flags->flags.bits.U && (c == 'u' || c == 'U'))
+	if (flags->flags.bits.capital_u && (c == 'u' || c == 'U'))
 		return (false);
 	return (true);
 }
