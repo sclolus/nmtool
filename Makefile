@@ -103,25 +103,10 @@ SRC_2=srcs/otool/main.c \
 	srcs/otool/otool_handle_fat.c \
 	srcs/otool/otool_handle_archive.c
 
-SRC_POISONER=srcs/poisoner/main.c \
-			srcs/poisoner/poisoner.c \
-			srcs/poisoner/poison_lc_segment.c \
-			srcs/poisoner/poison_lc_symtab.c \
-			srcs/poisoner/generate_poison_list.c \
-			srcs/poisoner/generate_poison_command.c \
-			srcs/poisoner/free_poison_list.c \
-			srcs/poisoner/exec_poisoner.c \
-			srcs/poisoner/finder.c \
-			srcs/poisoner/allocate_poisoned_zone.c \
-			srcs/poisoner/deallocate_poisoned_zone.c \
-			srcs/poisoner/map_addr_to_poisoned_zone.c \
-			srcs/poisoner/get_poisoned_file_name.c \
-			srcs/poisoner/poisoners_predicates.c
 
-HDRS= ./includes/ft_nm.h ./includes/ft_ofile.h ./includes/poisoner.h #includes/nm.h includes/otool.h
+HDRS= ./includes/ft_nm.h ./includes/ft_ofile.h #includes/nm.h includes/otool.h
 OBJ= $(SRC:.c=.o)
 OBJ_2= $(SRC_2:.c=.o)
-OBJ_POISONER= $(SRC_POISONER:.c=.o)
 OBJ_OFILE_LIB= $(SRC_OFILE_LIB:.c=.o)
 HDR_PATH= ./libft/includes/
 CC= gcc
@@ -129,7 +114,7 @@ CC_FLAGS= -v -Weverything -Wall -Werror -Wextra -Ofast #  -g3 -Og   -fsanitize=a
 LIBFT_PATH=./libft
 FLAGS= -L$(LIBFT_PATH) -lft -I$(HDR_PATH) -I./includes
 
-all: submodule $(NAME) $(NAME_2) poisoner
+all: submodule $(NAME) $(NAME_2)
 
 submodule:
 	@make -C libft/
@@ -144,13 +129,10 @@ $(NAME_2): $(OBJ_2) $(OBJ_OFILE_LIB)
 	$(CC) $(CC_FLAGS) -I./includes $< -c -I$(HDR_PATH) -o $@
 
 clean:
-	rm -f $(OBJ) $(OBJ_2) $(OBJ_POISONER) $(OBJ_OFILE_LIB)
+	rm -f $(OBJ) $(OBJ_2) $(OBJ_OFILE_LIB)
 	make -C $(LIBFT_PATH) clean
 fclean: clean
 	rm -f $(NAME)
 	make -C $(LIBFT_PATH) fclean
 
 re: fclean all
-
-poisoner: $(OBJ_POISONER) $(OBJ_OFILE_LIB)
-	$(CC) $(CC_FLAGS) $^ $(FLAGS) -o poisoner
