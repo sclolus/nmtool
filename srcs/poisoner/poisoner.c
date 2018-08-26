@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 19:18:39 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/25 11:16:33 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/26 15:30:49 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,7 +263,8 @@ static int32_t			find_current_host_narch(t_ofile *ofile)
 {
 	const NXArchInfo	*host_arch;
 
-	assert((host_arch = NXGetLocalArchInfo()));
+	host_arch = NXGetLocalArchInfo();
+	assert(host_arch);
 	return (ofile_fat_find_arch(ofile,
 				host_arch->cputype | CPU_ARCH_ABI64, host_arch->cpusubtype));
 }
@@ -278,10 +279,11 @@ static t_poison_list	*handle_fat_file(t_ofile *ofile, t_poison_generator_config 
 
 	pnbr_for_fat_level = (uint32_t)rand() % (config->pnbr + 1);
 	assert(ofile->fat_header && (ofile->fat_archs || ofile->fat_archs_64));
-	assert(plist = generate_poison_list(ofile,
+	plist = generate_poison_list(ofile,
 										&(t_gen_config){NULL, pnbr_for_fat_level,
 											{false, true, false, false, false},
-												config->poison_every_archs, config->truncate, {0}}));
+										 config->poison_every_archs, config->truncate, {0}});
+	assert(plist);
 	exec_poisoners(ofile, plist);
 	if (pnbr_for_fat_level == config->pnbr)
 		return (plist);
@@ -327,10 +329,11 @@ static t_poison_list	*handle_archive_file(t_ofile *ofile, t_gen_config *config)
 
 	pnbr_for_fat_level = (uint32_t)rand() % (config->pnbr + 1);
 	assert(ofile->archive_start_addr && ofile->symdef_addr);
-	assert(plist = generate_poison_list(ofile,
+	plist = generate_poison_list(ofile,
 										&(t_gen_config){NULL, pnbr_for_fat_level,
 											{false, false, true, false, false},
-											config->poison_every_archs, config->truncate, {0}}));
+										 config->poison_every_archs, config->truncate, {0}});
+	assert(plist);
 	exec_poisoners(ofile, plist);
 	if (pnbr_for_fat_level == config->pnbr)
 		return (plist);

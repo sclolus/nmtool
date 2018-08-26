@@ -1,13 +1,16 @@
 #!/bin/bash
 
-make
-echo "$DIR_TARGET" | while IFS= read -r -d ':' file
+make -C $PROJECT_PATH
+echo "$DIR_TARGET" | while IFS= read -r -d ':' dir_target
 do
-	export i=0;
-	while [ $i -ne $MAX_POISON ]
+	for file in `find "$dir_target" -type f -print`
 	do
-		echo "Poisoning $TARGET...";
-		$PROJECT_DIR/poisoner $file
-		i=$((i + 1))
+		export i=0;
+		while [ $i -ne $MAX_POISON ]
+		do
+			echo "Poisoning $file...";
+			$PROJECT_PATH/poisoner $file
+			i=$((i + 1))
+		done
 	done
 done

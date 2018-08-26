@@ -125,14 +125,13 @@ OBJ_POISONER= $(SRC_POISONER:.c=.o)
 OBJ_OFILE_LIB= $(SRC_OFILE_LIB:.c=.o)
 HDR_PATH= ./libft/includes/
 CC= gcc
-CC_FLAGS= -v -Weverything -Wall -Werror -Wextra  -g3 -Og   -fsanitize=address -fsanitize-blacklist=my_ignores.txt
+CC_FLAGS= -v -Weverything -Wall -Werror -Wextra -Ofast #  -g3 -Og   -fsanitize=address -fsanitize-blacklist=my_ignores.txt
 LIBFT_PATH=./libft
 FLAGS= -L$(LIBFT_PATH) -lft -I$(HDR_PATH) -I./includes
 
 all: submodule $(NAME) $(NAME_2) poisoner
 
 submodule:
-	@echo $(SRC_OFILE_LIB)
 	@make -C libft/
 
 $(NAME): $(OBJ) $(OBJ_OFILE_LIB)

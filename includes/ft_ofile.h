@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:10:54 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/26 14:39:45 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/26 15:29:04 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@
 # include <sys/mman.h>
 # include <fcntl.h>
 # include "libft.h"
-# include <assert.h> // remove this
+
+# define NDEBUG
+# include <assert.h>
 
 # define STATIC_LIB_MAGIC "!<arch>\x0a"
 # define LONG_ARCHIVE_NAME_MAGIC "#1/"

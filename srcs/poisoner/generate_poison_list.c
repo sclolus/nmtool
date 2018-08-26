@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 03:10:22 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/23 06:20:28 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/26 15:22:22 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,14 +139,15 @@ static inline int32_t			check_type_instances_to_poison(uint32_t **instances_coun
 	return (0);
 }
 
-static inline int32_t			check_type_instances(uint32_t **instances_count)
+static inline int32_t			check_type_instances(uint32_t **instances_count, t_gen_config *config)
 {
 	uint32_t	i;
 
 	i = 0;
 	while (i < SUPPORTED_POISONS_TYPES)
 	{
-		if (check_type_instances_to_poison(instances_count, i))
+		if (check_type_instances_to_poison(instances_count, i)
+			&& config->actived_poisons[i] == true)
 			return (1);
 		i++;
 	}
@@ -196,7 +197,7 @@ t_poison_list	*generate_poison_list(t_ofile *ofile, t_poison_generator_config *c
 	count_data_instances(ofile, instances_count);
 	plist->pnbr = config->pnbr;
 	plist->poison_commands = (t_poison_command *)(void *)(plist + 1);
-	if (check_type_instances(instances_count) == 0)
+	if (check_type_instances(instances_count, config) == 0)
 	{
 		ft_dprintf(2, "There is nothing to poison in this mach-o file\n");
 		free_instances_count(instances_count);
