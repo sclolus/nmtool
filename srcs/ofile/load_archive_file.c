@@ -6,15 +6,15 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 02:11:25 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/25 20:11:38 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/26 14:42:25 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ofile.h"
 
 int32_t	load_archive_file(t_ofile *ofile,
-						  void *archive_addr,
-						  uint64_t object_size)
+						void *archive_addr,
+						uint64_t object_size)
 {
 	ofile->archive_start_addr = archive_addr;
 	ofile->archive_size = object_size;
