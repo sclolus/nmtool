@@ -132,7 +132,7 @@ clean:
 	rm -f $(OBJ) $(OBJ_2) $(OBJ_OFILE_LIB)
 	make -C $(LIBFT_PATH) clean
 fclean: clean
-	rm -f $(NAME)
+	rm -f $(NAME) $(NAME_2)
 	make -C $(LIBFT_PATH) fclean
 
 re: fclean all
