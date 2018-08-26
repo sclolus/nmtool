@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/25 16:24:25 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/25 16:41:46 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/26 14:38:24 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int32_t	otool_process_every_arch(t_ofile *ofile)
 	return (0);
 }
 
-int32_t	otool_handle_fat(t_ofile *ofile)
+int32_t			otool_handle_fat(t_ofile *ofile)
 {
 	int32_t				narch_for_arch;
 	const NXArchInfo	*host_arch;

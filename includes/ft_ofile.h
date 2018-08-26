@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:10:54 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/25 20:02:30 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/26 14:39:45 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,7 +216,6 @@ int32_t						ofile_archive_check_addr(t_ofile *ofile,
 int32_t						ofile_archive_check_addr_size(t_ofile *ofile,
 														void *addr,
 														uint64_t size);
-
 
 /*
 ** Byte Sex functions
