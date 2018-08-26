@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 04:47:51 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/25 16:26:11 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/26 15:44:40 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int32_t			otool_print_section_64(t_ofile *ofile
 ** Error Handling
 */
 
-# define OTOOL_USAGE "./ft_otool <object file>"
+# define OTOOL_USAGE "./ft_otool <object file>\n"
 
 void			print_otool_usage(void);
 

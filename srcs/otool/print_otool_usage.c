@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/24 04:50:29 by sclolus           #+#    #+#             */
-/*   Updated: 2018/08/24 05:02:01 by sclolus          ###   ########.fr       */
+/*   Updated: 2018/08/26 15:47:32 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 void	print_otool_usage(void)
 {
-	ft_error(1, (char*[]){OTOOL_USAGE}, 0);
+	ft_dprintf(2, "ft_otool: %s", OTOOL_USAGE);
 }
